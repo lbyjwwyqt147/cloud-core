@@ -1,0 +1,42 @@
+#   测试环境：java -jar file-server.jar --spring.profiles.active=test
+#   开发环境：java -jar flie-server.jar --spring.profiles.active=dev
+#   生产环境：java -jar file-server.jar --spring.profiles.active=prod
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+  application:
+    name: cloud-core
+
+  jpa.:
+    open-in-view: true
+    database: MYSQL
+    generate-ddl: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+      # update：表示自动根据model对象来更新表结构，启动 hibernate 时会自动检查数据库，如果缺少表则自动建表；缺少列则自动添加列；
+      # create： 启动hibernate时，自动删除原来的表，新建所有的表，所以每次启动后的以前数据都会丢失。
+      # create-drop：应用停下来的时候，自动会把表和数据删掉、
+      # none： 什么也不做；
+      # validate：会验证类里的属性和表字段是否一致，不一致，则会报错；
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy    #　策略会有大小写区别 在进行领域映射时,首字母小写，大写字母变为下划线加小写 自动根据实体类重新生成表时（实体类即使配置了@Table 如果大小写不匹配也会生成表） 表名和字段都为小写
+
+  servlet:
+      multipart:
+        enabled: true
+        max-file-size: 20MB      # 设置上传文件最大大小
+        max-request-size: 600MB  # 设置上传文件总大小
+
+
+
+
+  # 使用 swagger 如果字段的类型为Long或是int类型 后台会报java.lang.NumberFormatException: For input string: ""；忽略这个错误
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
