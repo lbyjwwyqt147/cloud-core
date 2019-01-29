@@ -50,4 +50,11 @@ public interface SystemAuthorizationService extends BaseService<SystemAuthorizat
      * @return true:有权限   false:无权限
      */
     Boolean authCheck(String systemCode, String signature);
+
+    /**
+     * 根据sysCode 批量删除
+     * @param sysCodes
+     * @return
+     */
+    ResultInfo deleteAllBySysCodeIn(List<String> sysCodes);
 }

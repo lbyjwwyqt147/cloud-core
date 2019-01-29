@@ -28,6 +28,6 @@ public class IndexController {
 
     @GetMapping(value = "/")
     public ResultInfo index() {
-        return ResultUtil.resultInfo(200, indexView, null, true);
+        return ResultUtil.info(200, indexView, null, true);
     }
 }

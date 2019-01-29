@@ -72,7 +72,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
     public ResultInfo startUploading(List<MultipartFile> files, FileDataDto fileData) {
         //判断文件是否为空
         if (files.isEmpty()) {
-            return ResultUtil.resultInfo(ErrorCodeEnum.PARAMS.getCode(), "缺少上传文件", null, false);
+            return ResultUtil.params("缺少上传文件");
         }
         List<FileManagement> recordList = new CopyOnWriteArrayList<>();
         for (MultipartFile file : files) {
@@ -122,9 +122,9 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
         ResultInfo resultInfo = null;
         List<FileDataVo> fileDataVos = this.fileManagementService.saveFileData(recordList);
         if (CollectionUtils.isEmpty(fileDataVos)) {
-            resultInfo = ResultUtil.restfulInfo(false, fileDataVos);
+            resultInfo = ResultUtil.info(false, fileDataVos);
         } else {
-            resultInfo = ResultUtil.restfulInfo(true, fileDataVos);
+            resultInfo = ResultUtil.info(true, fileDataVos);
             resultInfo.setExtend(explain);
         }
         return resultInfo;

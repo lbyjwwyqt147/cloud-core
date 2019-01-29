@@ -55,7 +55,7 @@ public class DictionariesServiceImpl implements DictionariesService {
     public ResultInfo saveRecord(DictionariesDto record) {
         List<Dictionaries> exists = this.dictionariesElasticsearchRepository.findBySystemCodeAndPidAndAndDictCode(record.getSystemCode(), record.getPid(), record.getDictCode());
         if (!CollectionUtils.isEmpty(exists)){
-            return ResultUtil.resultInfo(ErrorCodeEnum.FAIL.getCode(), "字典代码重复,请重新输入.", null, false);
+            return ResultUtil.params("字典代码重复,请重新输入.");
         }
         Dictionaries dictionaries = DozerBeanMapperUtil.copyProperties(record, Dictionaries.class);
         Dictionaries saveObj = this.dictionariesRepository.save(dictionaries);

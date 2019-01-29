@@ -50,7 +50,14 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
     @Query("delete from SystemAuthorization u where u.id in (?1)")
     int deleteAllByIdIn(List<Long> ids);
 
-
+    /**
+     * 根据sysCode 批量删除
+     * @param sysCodes
+     * @return
+     */
+    @Modifying
+    @Query("delete from SystemAuthorization u where u.sysCode in (?1)")
+    int deleteAllBySysCodeIn(List<String> sysCodes);
 
 
 

@@ -42,6 +42,10 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
 
     @Override
     public ResultInfo saveRecord(SystemAuthorizationDto record) {
+        Object object = this.redisUtil.hget(RedisKeys.SYSTEM_AUTH, record.getSysCode());
+        if (object != null) {
+            return ResultUtil.params("系统代码重复,请重新输入!");
+        }
         String sign =  DigestUtils.md5DigestAsHex(DateTimeUtils.getCurrentDateTimeAsString().getBytes());
         record.setSignature(sign);
         if (record.getExpireTime() == null) {
@@ -100,6 +104,18 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
             }
         }
         return result;
+    }
+
+    @Override
+    public ResultInfo deleteAllBySysCodeIn(List<String> sysCodes) {
+        int count = this.systemAuthorizationRepository.deleteAllBySysCodeIn(sysCodes);
+        boolean success = false;
+        if (count > 0) {
+            String[] sysCodeArray = new String[sysCodes.size()];
+            this.redisUtil.hdel(RedisKeys.SYSTEM_AUTH, sysCodes.toArray(sysCodeArray));
+            success = true;
+        }
+        return ResultUtil.info(success);
     }
 
     @Override
