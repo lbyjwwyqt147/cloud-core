@@ -9,6 +9,7 @@ public final class  Constant {
     public static final Byte DISABLE_STATUS = 1;
     /** 启用状态 */
     public static final Byte ENABLE_STATUS = 0;
+    public static final String DATA_GRID_MESSAGE = "无数据";
 
 
     /**

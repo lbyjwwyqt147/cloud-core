@@ -1,6 +1,7 @@
 package pers.liujunyi.cloud.core.service.authorization.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -12,8 +13,10 @@ import pers.liujunyi.cloud.core.util.Constant;
 import pers.liujunyi.cloud.core.util.RedisKeys;
 import pers.liujunyi.common.dto.BaseQuery;
 import pers.liujunyi.common.redis.RedisUtil;
+import pers.liujunyi.common.repository.BaseRepository;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
+import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DateTimeUtils;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
 
@@ -33,12 +36,16 @@ import java.util.Map;
  * @author ljy
  */
 @Service
-public class SystemAuthorizationServiceImpl implements SystemAuthorizationService {
+public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthorization, Long> implements SystemAuthorizationService {
 
     @Autowired
     private SystemAuthorizationRepository systemAuthorizationRepository;
     @Autowired
     private RedisUtil redisUtil;
+
+    public SystemAuthorizationServiceImpl(BaseRepository<SystemAuthorization, Long> baseRepository) {
+        super(baseRepository);
+    }
 
     @Override
     public ResultInfo saveRecord(SystemAuthorizationDto record) {
@@ -67,7 +74,8 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         if (number > 0) {
             sysCodes.stream().forEach(item -> {
                 Object object = redisUtil.hget(RedisKeys.SYSTEM_AUTH, item);
-                SystemAuthorizationDto systemAuthorization = JSON.parseObject(JSON.toJSONString(object), SystemAuthorizationDto.class);
+                JSONObject json = JSONObject.parseObject(object.toString());
+                SystemAuthorizationDto systemAuthorization = JSON.toJavaObject(json,SystemAuthorizationDto.class);
                 systemAuthorization.setStatus(status);
                 this.redisUtil.hset(RedisKeys.SYSTEM_AUTH, item, JSON.toJSONString(systemAuthorization));
             });
@@ -83,12 +91,16 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         Map<String, Object> map = this.redisUtil.hgetAll(RedisKeys.SYSTEM_AUTH);
         List<SystemAuthorizationDto> dataList = new LinkedList<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            SystemAuthorizationDto systemAuthorization = JSON.parseObject(JSON.toJSONString(entry.getValue()), SystemAuthorizationDto.class);
+            JSONObject json = JSONObject.parseObject(entry.getValue().toString());
+            SystemAuthorizationDto systemAuthorization = JSON.toJavaObject(json,SystemAuthorizationDto.class);
             dataList.add(systemAuthorization);
         }
         int size = dataList.size();
         long total = size;
         ResultInfo result =  ResultUtil.success(dataList);
+        if (total == 0) {
+            result.setMessage(Constant.DATA_GRID_MESSAGE);
+        }
         result.setTotal(total);
         return result;
     }
@@ -98,7 +110,8 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         boolean result = false;
         Object object = redisUtil.hget(RedisKeys.SYSTEM_AUTH, systemCode);
         if (object != null) {
-            SystemAuthorizationDto systemAuthorization = JSON.parseObject(JSON.toJSONString(object), SystemAuthorizationDto.class);
+            JSONObject json = JSONObject.parseObject(object.toString());
+            SystemAuthorizationDto systemAuthorization = JSON.toJavaObject(json,SystemAuthorizationDto.class);
             if (systemAuthorization != null && systemAuthorization.getStatus().byteValue() == Constant.ENABLE_STATUS.byteValue() && systemAuthorization.getSignature().equals(signature)) {
                 result = true;
             }
@@ -116,22 +129,5 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
             success = true;
         }
         return ResultUtil.info(success);
-    }
-
-    @Override
-    public Boolean deleteAllByIdIn(List<Long> ids) {
-        int count = this.systemAuthorizationRepository.deleteAllByIdIn(ids);
-        return count > 0 ? true : false;
-    }
-
-    @Override
-    public Boolean deleteById(Long id) {
-        this.systemAuthorizationRepository.deleteById(id);
-        return true;
-    }
-
-    @Override
-    public List<SystemAuthorization> findByIdIn(List<Long> ids) {
-        return this.systemAuthorizationRepository.findByIdIn(ids);
     }
 }

@@ -8,9 +8,10 @@ import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasticsearchRepository;
 import pers.liujunyi.cloud.core.repository.jpa.dict.DictionariesRepository;
 import pers.liujunyi.cloud.core.service.dict.DictionariesService;
-import pers.liujunyi.common.exception.ErrorCodeEnum;
+import pers.liujunyi.common.repository.BaseRepository;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
+import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
 
 import java.util.List;
@@ -27,29 +28,17 @@ import java.util.List;
  * @author ljy
  */
 @Service
-public class DictionariesServiceImpl implements DictionariesService {
+public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long> implements DictionariesService {
 
     @Autowired
     private DictionariesRepository dictionariesRepository;
     @Autowired
     private DictionariesElasticsearchRepository dictionariesElasticsearchRepository;
 
-    @Override
-    public Boolean deleteAllByIdIn(List<Long> ids) {
-       int count = this.dictionariesRepository.deleteAllByIdIn(ids);
-        return count > 0 ? true : false;
+    public DictionariesServiceImpl(BaseRepository<Dictionaries, Long> baseRepository) {
+        super(baseRepository);
     }
 
-    @Override
-    public Boolean deleteById(Long id) {
-        this.dictionariesRepository.deleteById(id);
-        return true;
-    }
-
-    @Override
-    public List<Dictionaries> findByIdIn(List<Long> ids) {
-        return this.dictionariesRepository.findByIdIn(ids);
-    }
 
     @Override
     public ResultInfo saveRecord(DictionariesDto record) {
