@@ -138,7 +138,7 @@ spring:
     host: 101.132.136.225
     port: 6379
     password:
-    database: 3
+    database: 1
     jedis:
       pool:
         #最大连接数
