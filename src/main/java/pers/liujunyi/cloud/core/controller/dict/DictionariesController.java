@@ -15,7 +15,6 @@ import pers.liujunyi.common.annotation.ApiVersion;
 import pers.liujunyi.common.controller.BaseController;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.util.SystemUtils;
 
 import javax.validation.Valid;
 
@@ -68,7 +67,7 @@ public class DictionariesController extends BaseController {
     @DeleteMapping(value = "dict/delete")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid @RequestBody IdParamDto param) {
-        this.dictionariesService.deleteById(Long.getLong(param.getId()));
+        this.dictionariesService.deleteById(param.getId());
         return ResultUtil.success();
     }
 
@@ -85,7 +84,7 @@ public class DictionariesController extends BaseController {
     @DeleteMapping(value = "dict/batchDelete")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid @RequestBody IdParamDto param) {
-        if (this.dictionariesService.deleteAllByIdIn(SystemUtils.getIds(param.getId()))) {
+        if (this.dictionariesService.deleteAllByIdIn(param.getIdList())) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

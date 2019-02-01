@@ -8,6 +8,8 @@ import pers.liujunyi.cloud.core.entity.file.FileManagement;
 import pers.liujunyi.cloud.core.repository.jpa.file.FileManagementRepository;
 import pers.liujunyi.cloud.core.service.file.FileManagementService;
 import pers.liujunyi.cloud.core.util.FileUtil;
+import pers.liujunyi.common.repository.BaseRepository;
+import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.ThreadPoolExecutorFactory;
 import pers.liujunyi.common.vo.file.FileDataVo;
 
@@ -29,11 +31,15 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Slf4j
 @Service
-public class FileManagementServiceImpl implements FileManagementService {
+public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, Long> implements FileManagementService {
     private ThreadPoolExecutor threadPoolExecutor = ThreadPoolExecutorFactory.getThreadPoolExecutor();
 
     @Autowired
     private FileManagementRepository fileManagementRepository;
+
+    public FileManagementServiceImpl(BaseRepository<FileManagement, Long> baseRepository) {
+        super(baseRepository);
+    }
 
     @Override
     public Long insert(FileManagement record) {
@@ -97,10 +103,6 @@ public class FileManagementServiceImpl implements FileManagementService {
         return true;
     }
 
-    @Override
-    public List<FileManagement> findByIdIn(List<Long> ids) {
-        return this.fileManagementRepository.findByIdIn(ids);
-    }
 
     /**
      * 删除 磁盘上的文件

@@ -16,7 +16,6 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 
 /***
  * 文件名称: SystemAuthorizationController.java
@@ -48,7 +47,7 @@ public class SystemAuthorizationController extends BaseController {
     })
     @PostMapping(value = "system/authorization/save")
     @ApiVersion(1)
-    public ResultInfo saveRecord(@Valid @RequestBody SystemAuthorizationDto param) {
+    public ResultInfo saveRecord(@Valid SystemAuthorizationDto param) {
         return this.systemAuthorizationService.saveRecord(param);
     }
 
@@ -64,8 +63,8 @@ public class SystemAuthorizationController extends BaseController {
     })
     @DeleteMapping(value = "system/authorization/delete")
     @ApiVersion(1)
-    public ResultInfo singleDelete(@Valid @RequestBody IdParamDto param) {
-        this.systemAuthorizationService.deleteById(Long.getLong(param.getId()));
+    public ResultInfo singleDelete(@Valid IdParamDto param) {
+        this.systemAuthorizationService.deleteById(param.getId());
         return ResultUtil.success();
     }
 
@@ -81,8 +80,8 @@ public class SystemAuthorizationController extends BaseController {
     })
     @DeleteMapping(value = "system/authorization/batchDelete")
     @ApiVersion(1)
-    public ResultInfo batchDelete(@Valid @RequestBody IdParamDto param) {
-        return this.systemAuthorizationService.deleteAllBySysCodeIn(Arrays.asList(param.getId().split(",")));
+    public ResultInfo batchDelete(@Valid IdParamDto param ) {
+        return this.systemAuthorizationService.deleteAllBySysCodeIn(param.getCodeList());
     }
 
     /**
@@ -101,4 +100,20 @@ public class SystemAuthorizationController extends BaseController {
         return this.systemAuthorizationService.dataGrid(query);
     }
 
+
+    /**
+     *  修改数据状态
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/system/authorization/status")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+    })
+    @PutMapping(value = "system/authorization/status")
+    @ApiVersion(1)
+    public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
+        return this.systemAuthorizationService.updateStatus(param.getStatus(), param.getCodeList());
+    }
 }

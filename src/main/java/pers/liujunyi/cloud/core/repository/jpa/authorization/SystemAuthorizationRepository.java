@@ -2,6 +2,7 @@ package pers.liujunyi.cloud.core.repository.jpa.authorization;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.core.entity.authorization.SystemAuthorization;
 import pers.liujunyi.common.repository.BaseRepository;
 
@@ -26,6 +27,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param ids
      * @return
      */
+    @Transactional
     @Modifying
     @Query("update SystemAuthorization u set u.status = ?1 where u.id in (?2)")
     int setStatusByIds(Byte status, List<Long> ids);
@@ -37,6 +39,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param sysCodes
      * @return
      */
+    @Transactional
     @Modifying
     @Query("update SystemAuthorization u set u.status = ?1 where u.sysCode in (?2)")
     int setStatusBySysCode(Byte status, List<String> sysCodes);
@@ -46,6 +49,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param ids
      * @return
      */
+    @Transactional
     @Modifying
     @Query("delete from SystemAuthorization u where u.id in (?1)")
     int deleteAllByIdIn(List<Long> ids);
@@ -55,6 +59,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param sysCodes
      * @return
      */
+    @Transactional
     @Modifying
     @Query("delete from SystemAuthorization u where u.sysCode in (?1)")
     int deleteAllBySysCodeIn(List<String> sysCodes);
