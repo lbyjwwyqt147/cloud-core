@@ -13,7 +13,7 @@ import pers.liujunyi.cloud.core.util.Constant;
 import pers.liujunyi.cloud.core.util.RedisKeys;
 import pers.liujunyi.common.dto.BaseQuery;
 import pers.liujunyi.common.redis.RedisUtil;
-import pers.liujunyi.common.repository.BaseRepository;
+import pers.liujunyi.common.repository.jpa.BaseRepository;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;

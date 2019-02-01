@@ -4,9 +4,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.core.entity.authorization.SystemAuthorization;
-import pers.liujunyi.common.repository.BaseRepository;
+import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 import java.util.List;
+
+;
 
 /***
  * 文件名称: SystemAuthorizationRepository.java

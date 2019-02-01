@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.core.repository.jpa.dict;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
-import pers.liujunyi.common.repository.BaseRepository;
+import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 import java.util.List;
 

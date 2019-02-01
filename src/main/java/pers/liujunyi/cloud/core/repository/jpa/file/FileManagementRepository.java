@@ -2,7 +2,7 @@ package pers.liujunyi.cloud.core.repository.jpa.file;
 
 import org.springframework.stereotype.Repository;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
-import pers.liujunyi.common.repository.BaseRepository;
+import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 
 /***

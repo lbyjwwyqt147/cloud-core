@@ -8,7 +8,7 @@ import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasticsearchRepository;
 import pers.liujunyi.cloud.core.repository.jpa.dict.DictionariesRepository;
 import pers.liujunyi.cloud.core.service.dict.DictionariesService;
-import pers.liujunyi.common.repository.BaseRepository;
+import pers.liujunyi.common.repository.jpa.BaseRepository;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;
