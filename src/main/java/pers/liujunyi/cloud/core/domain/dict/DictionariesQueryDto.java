@@ -9,6 +9,7 @@ import pers.liujunyi.common.dto.BaseQuery;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /***
  * 文件名称: DictionariesQueryDto.java
@@ -37,7 +38,8 @@ public class DictionariesQueryDto extends BaseQuery {
     private String dictName;
 
     /** 上级ID */
-    @NotBlank(message = "pid 必须填写")
+    @ApiModelProperty(value = "pid")
+    @NotNull(message = "pid 必须填写")
     @Min(value = 0, message = "pid 必须是数字类型")
     private Long pid;
 

@@ -81,10 +81,10 @@ public class DictionariesElasticsearchServiceImpl implements DictionariesElastic
         Pageable pageable = PageRequest.of(query.getPageNumber() - 1, query.getPageSize(), sort);
         // 条件过滤
         BoolQueryBuilder filter = QueryBuilders.boolQuery();
-        filter.must(QueryBuilders.matchQuery("dictCode", query.getDictCode()));
+      //  filter.must(QueryBuilders.matchQuery("dictCode", query.getDictCode()));
         filter.must(QueryBuilders.fuzzyQuery("systemCode", query.getSystemCode()));
         filter.must(QueryBuilders.matchQuery("pid", query.getPid()));
-        filter.must(QueryBuilders.matchQuery("dictName", query.getDictName()));
+       // filter.must(QueryBuilders.matchQuery("dictName", query.getDictName()));
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
                 .withQuery(filter).build();
         // 查询数据

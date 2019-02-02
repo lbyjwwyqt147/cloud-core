@@ -50,7 +50,7 @@ public class DictionariesController extends BaseController {
     })
     @PostMapping(value = "dict/save")
     @ApiVersion(1)
-    public ResultInfo saveRecord(@Valid @RequestBody DictionariesDto param) {
+    public ResultInfo saveRecord(@Valid DictionariesDto param) {
         return this.dictionariesService.saveRecord(param);
     }
 
@@ -66,7 +66,7 @@ public class DictionariesController extends BaseController {
     })
     @DeleteMapping(value = "dict/delete")
     @ApiVersion(1)
-    public ResultInfo singleDelete(@Valid @RequestBody IdParamDto param) {
+    public ResultInfo singleDelete(@Valid IdParamDto param) {
         this.dictionariesService.deleteById(param.getId());
         return ResultUtil.success();
     }
@@ -83,7 +83,7 @@ public class DictionariesController extends BaseController {
     })
     @DeleteMapping(value = "dict/batchDelete")
     @ApiVersion(1)
-    public ResultInfo batchDelete(@Valid @RequestBody IdParamDto param) {
+    public ResultInfo batchDelete(@Valid IdParamDto param) {
         if (this.dictionariesService.deleteAllByIdIn(param.getIdList())) {
             return ResultUtil.success();
         }
@@ -102,7 +102,7 @@ public class DictionariesController extends BaseController {
     })
     @GetMapping(value = "dict/grid")
     @ApiVersion(1)
-    public ResultInfo findPageGrid(@Valid @RequestBody DictionariesQueryDto query) {
+    public ResultInfo findPageGrid(@Valid  DictionariesQueryDto query) {
         return this.dictionariesElasticsearchService.findPageGird(query);
     }
 
@@ -125,21 +125,18 @@ public class DictionariesController extends BaseController {
 
 
     /**
-     * 根据　一组　id　获取信息
+     *  修改数据状态
      *
-     * @param id 多个id 用 , 隔开
+     * @param param
      * @return
      */
-    @ApiOperation(value = "根据文件id获取信息", notes = "适用于根据文件id获取信息 请求示例：127.0.0.1:18080/api/v1/file/details/11,12")
+    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/status")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
-            @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "dict/details/{id}")
+    @PutMapping(value = "dict/status")
     @ApiVersion(1)
-    public ResultInfo findAllById(@PathVariable(value = "id") String id) {
-        return ResultUtil.success();
+    public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
+        return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList());
     }
-
-
 }

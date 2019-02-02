@@ -2,6 +2,7 @@ package pers.liujunyi.cloud.core.repository.jpa.dict;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.common.repository.jpa.BaseRepository;
 
@@ -25,7 +26,19 @@ public interface DictionariesRepository extends BaseRepository<Dictionaries, Lon
      * @param ids
      * @return
      */
+    @Transactional
     @Modifying
     @Query("delete from Dictionaries dict where dict.id in (?1)")
     int deleteAllByIdIn(List<Long> ids);
+
+    /**
+     * 修改状态
+     * @param status  0:启动 1：禁用
+     * @param ids
+     * @return
+     */
+    @Transactional
+    @Modifying
+    @Query("update Dictionaries u set u.status = ?1 where u.id in (?2)")
+    int setStatusByIds(Byte status, List<Long> ids);
 }

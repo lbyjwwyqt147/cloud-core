@@ -55,4 +55,13 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         return ResultUtil.success();
     }
 
+    @Override
+    public ResultInfo updateStatus(Byte status, List<Long> ids) {
+        int count = this.dictionariesRepository.setStatusByIds(status, ids);
+        if (count > 0) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
 }

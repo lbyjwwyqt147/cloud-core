@@ -45,7 +45,4 @@ public class SystemAuthorizationDto extends BaseDto {
     /** 签名（用于访问权限认证） */
     private String signature;
 
-    /** 0: 启动 1：禁用  */
-    private Byte status = 0;
-
 }
