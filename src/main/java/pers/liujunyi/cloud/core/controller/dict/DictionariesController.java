@@ -15,8 +15,10 @@ import pers.liujunyi.common.annotation.ApiVersion;
 import pers.liujunyi.common.controller.BaseController;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
+import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /***
  * 文件名称: DictionariesController.java
@@ -109,7 +111,7 @@ public class DictionariesController extends BaseController {
     /**
      * 字典tree 结构数据
      *
-     * @param pid
+     * @param param
      * @return
      */
     @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/dict/tree")
@@ -119,8 +121,25 @@ public class DictionariesController extends BaseController {
     })
     @GetMapping(value = "dict/tree")
     @ApiVersion(1)
-    public ResultInfo dictTree(Long pid) {
-        return this.dictionariesElasticsearchService.dictZtree(pid);
+    public ResultInfo dictTree(@Valid IdParamDto param ) {
+        return this.dictionariesElasticsearchService.dictZtree(param.getId(), param.getSystemCode());
+    }
+
+    /**
+     * 字典tree 结构数据
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/dict/tree")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "pid", value = "pid",  required = true, dataType = "Long")
+    })
+    @PostMapping(value = "dict/ztree")
+    @ApiVersion(1)
+        public List<ZTreeNode> dictZTree(@Valid IdParamDto param ) {
+        return this.dictionariesElasticsearchService.dictTree(param.getId(), param.getSystemCode());
     }
 
 

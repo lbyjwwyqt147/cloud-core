@@ -30,7 +30,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @return
      */
     @Transactional
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update SystemAuthorization u set u.status = ?1 where u.id in (?2)")
     int setStatusByIds(Byte status, List<Long> ids);
 
@@ -42,7 +42,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @return
      */
     @Transactional
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update SystemAuthorization u set u.status = ?1 where u.sysCode in (?2)")
     int setStatusBySysCode(Byte status, List<String> sysCodes);
 

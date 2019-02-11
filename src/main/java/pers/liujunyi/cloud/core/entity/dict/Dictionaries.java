@@ -12,9 +12,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /***
  * 文件名称: Dictionaries.java
@@ -36,14 +33,11 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Document(indexName = "cloud_core", type = "Dictionaries", shards = 1, replicas = 0)
+@Document(indexName = "cloud_core", type = "dictionaries", shards = 1, replicas = 0)
 @DynamicInsert
 @DynamicUpdate
 public class Dictionaries extends BaseEntity {
     private static final long serialVersionUID = 4273145793432055139L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     /** 字典代码 */
     private String dictCode;
@@ -70,4 +64,7 @@ public class Dictionaries extends BaseEntity {
 
     /** 0: 启动 1：禁用  */
     private Byte status;
+
+    /** 叶子  0:存在叶子节点  1： 不存在 */
+    private Byte leaf = 1;
 }

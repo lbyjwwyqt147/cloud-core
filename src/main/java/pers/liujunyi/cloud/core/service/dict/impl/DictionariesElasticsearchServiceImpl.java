@@ -15,10 +15,13 @@ import pers.liujunyi.cloud.core.domain.dict.DictionariesQueryDto;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasticsearchRepository;
 import pers.liujunyi.cloud.core.service.dict.DictionariesElasticsearchService;
+import pers.liujunyi.cloud.core.util.Constant;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.vo.tree.AbstractZTreeComponent;
+import pers.liujunyi.common.vo.tree.ZTreeBuilder;
 import pers.liujunyi.common.vo.tree.ZTreeComposite;
+import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -41,11 +44,11 @@ public class DictionariesElasticsearchServiceImpl implements DictionariesElastic
     private DictionariesElasticsearchRepository dictionariesElasticsearchRepository;
 
     @Override
-    public ResultInfo dictZtree(Long pid) {
+    public ResultInfo dictZtree(Long pid, String systemCode) {
         List<AbstractZTreeComponent> treeList = new LinkedList<>();
         byte type = 0;
         // 获取 第一级 数据
-        List<Dictionaries> firstChildren = this.dictionariesElasticsearchRepository.findByPid(0L);
+        List<Dictionaries> firstChildren = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(0L, systemCode, (byte)0, Constant.ENABLE_STATUS);
         if (!CollectionUtils.isEmpty(firstChildren)){
             // 根据 获取父级下的所有数据
             firstChildren.stream().forEach(item -> {
@@ -58,6 +61,19 @@ public class DictionariesElasticsearchServiceImpl implements DictionariesElastic
         }
         ResultInfo result = ResultUtil.success(treeList);
         return result;
+    }
+
+    @Override
+    public List<ZTreeNode> dictTree(Long pid, String systemCode) {
+        List<ZTreeNode> treeNodes = new LinkedList<>();
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusOrderByIdAsc(pid, systemCode, Constant.ENABLE_STATUS);
+        if (!CollectionUtils.isEmpty(list)){
+            list.stream().forEach(item -> {
+                ZTreeNode zTreeNode = new ZTreeNode(item.getId(), item.getPid(), item.getDictName());
+                treeNodes.add(zTreeNode);
+            });
+        }
+        return ZTreeBuilder.buildListToTree(treeNodes);
     }
 
     /**

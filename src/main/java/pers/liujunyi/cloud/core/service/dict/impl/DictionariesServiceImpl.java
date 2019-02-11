@@ -8,13 +8,16 @@ import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasticsearchRepository;
 import pers.liujunyi.cloud.core.repository.jpa.dict.DictionariesRepository;
 import pers.liujunyi.cloud.core.service.dict.DictionariesService;
+import pers.liujunyi.cloud.core.util.Constant;
 import pers.liujunyi.common.repository.jpa.BaseRepository;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /***
  * 文件名称: DictionariesServiceImpl.java
@@ -42,26 +45,84 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
 
     @Override
     public ResultInfo saveRecord(DictionariesDto record) {
-        List<Dictionaries> exists = this.dictionariesElasticsearchRepository.findBySystemCodeAndPidAndAndDictCode(record.getSystemCode(), record.getPid(), record.getDictCode());
-        if (!CollectionUtils.isEmpty(exists)){
+        if (checkRepetition(record.getSystemCode(), record.getId(), record.getPid(), record.getDictCode())){
             return ResultUtil.params("字典代码重复,请重新输入.");
         }
         Dictionaries dictionaries = DozerBeanMapperUtil.copyProperties(record, Dictionaries.class);
+        if (record.getPid() == 0) {
+            dictionaries.setLeaf((byte)0);
+        }
+        dictionaries.setStatus(Constant.ENABLE_STATUS);
         Dictionaries saveObj = this.dictionariesRepository.save(dictionaries);
         if (saveObj == null || saveObj.getId() == null) {
             return ResultUtil.fail();
         }
+        if (this.dictionariesElasticsearchRepository.existsById(record.getPid())) {
+            this.dictionariesRepository.setLeafById((byte)0, new Date(), record.getPid());
+        }
         this.dictionariesElasticsearchRepository.save(saveObj);
+        Optional<Dictionaries> optional = this.dictionariesElasticsearchRepository.findById(record.getPid());
+        if (optional.isPresent()) {
+            Dictionaries dictionaries1 = optional.get();
+            dictionaries1.setLeaf((byte)0);
+            this.dictionariesElasticsearchRepository.save(dictionaries1);
+        }
         return ResultUtil.success();
     }
 
     @Override
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
-        int count = this.dictionariesRepository.setStatusByIds(status, ids);
+        int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();
     }
 
+    /**
+     * 检查字典代码是否重复
+     * @param sysCode
+     * @param id
+     * @param pid
+     * @param dictCode
+     * @return
+     */
+    private Boolean checkRepetition(String sysCode, Long id, Long pid, String dictCode) {
+        if (id == null) {
+           return this.checkDictCodeData(sysCode, pid, dictCode);
+        }
+        Dictionaries dictionaries = this.selectById(id);
+        if (dictionaries != null && !dictionaries.getDictCode().equals(dictCode)) {
+            return this.checkDictCodeData(sysCode, pid, dictCode);
+        }
+        return false;
+    }
+
+    /**
+     * 检查中是否存在dictCode 数据
+     * @param sysCode
+     * @param pid
+     * @param dictCode
+     * @return
+     */
+    private Boolean checkDictCodeData (String sysCode, Long pid, String dictCode) {
+        List<Dictionaries> exists = this.dictionariesElasticsearchRepository.findBySystemCodeAndPidAndAndDictCode(sysCode, pid, dictCode);
+        if (CollectionUtils.isEmpty(exists)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 根据主键ID 获取数据
+     * @param id
+     * @return
+     */
+    private Dictionaries selectById(Long id) {
+        Optional<Dictionaries> optional = this.dictionariesElasticsearchRepository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
 }

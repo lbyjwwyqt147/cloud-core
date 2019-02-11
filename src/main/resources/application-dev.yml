@@ -18,7 +18,7 @@ spring:
       master:
         #  主库 JDBC 配置
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://101.132.136.225:3306/file_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
+        url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
         username: root
         password: root@123
         # 连接池配置
@@ -71,7 +71,7 @@ spring:
       slave:
         #  从库 JDBC 配置
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://101.132.136.225:3306/file_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+        url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
         username: root
         password: root@123
         # 连接池配置

@@ -20,12 +20,25 @@ import java.util.List;
 @Repository
 public interface DictionariesElasticsearchRepository extends ElasticsearchRepository<Dictionaries, Long> {
 
+
     /**
-     * 根据pid 获取数据
+     *  获取 存在 叶子节点的 字典数据
      * @param pid
+     * @param systemCode
+     * @param leaf    叶子  0:存在叶子节点  1： 不存在
+     * @param status   0: 启动 1：禁用
      * @return
      */
-    List<Dictionaries> findByPid(Long pid);
+    List<Dictionaries> findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(Long pid, String systemCode, Byte leaf, Byte status);
+
+    /**
+     *  获取 存在 叶子节点的 字典数据
+     * @param pid
+     * @param systemCode
+     * @param status   0: 启动 1：禁用
+     * @return
+     */
+    List<Dictionaries> findByPidAndSystemCodeAndStatusOrderByIdAsc(Long pid, String systemCode, Byte status);
 
     /**
      *  根据 systemCode  pid  dictCode 获取数据

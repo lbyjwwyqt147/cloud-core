@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.common.repository.jpa.BaseRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -38,7 +39,18 @@ public interface DictionariesRepository extends BaseRepository<Dictionaries, Lon
      * @return
      */
     @Transactional
-    @Modifying
-    @Query("update Dictionaries u set u.status = ?1 where u.id in (?2)")
-    int setStatusByIds(Byte status, List<Long> ids);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update dictionaries dict set dict.status = ?1, dict.update_time = ?2   where dict.id in (?3)", nativeQuery = true)
+    int setStatusByIds(Byte status,Date updateTime,List<Long> ids);
+
+    /**
+     *  修改  leaf
+     * @param id
+     * @param leaf   叶子  0:存在叶子节点  1： 不存在
+     * @return
+     */
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update dictionaries dict set dict.leaf = ?1, dict.update_time = ?2  where dict.id = ?3", nativeQuery = true)
+    int setLeafById(Byte leaf, Date updateTime, Long id);
 }
