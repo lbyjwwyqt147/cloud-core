@@ -1,8 +1,8 @@
 package pers.liujunyi.cloud.core.repository.elasticsearch.dict;
 
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
+import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @author ljy
  */
 @Repository
-public interface DictionariesElasticsearchRepository extends ElasticsearchRepository<Dictionaries, Long> {
+public interface DictionariesElasticsearchRepository extends BaseElasticsearchRepository<Dictionaries, Long> {
 
 
     /**

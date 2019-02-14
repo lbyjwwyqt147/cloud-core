@@ -45,7 +45,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
 
     @Override
     public ResultInfo saveRecord(DictionariesDto record) {
-        if (checkRepetition(record.getSystemCode(), record.getId(), record.getPid(), record.getDictCode())){
+        if (this.checkRepetition(record.getSystemCode(), record.getId(), record.getPid(), record.getDictCode())){
             return ResultUtil.params("字典代码重复,请重新输入.");
         }
         Dictionaries dictionaries = DozerBeanMapperUtil.copyProperties(record, Dictionaries.class);
@@ -57,27 +57,43 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (saveObj == null || saveObj.getId() == null) {
             return ResultUtil.fail();
         }
-        if (this.dictionariesElasticsearchRepository.existsById(record.getPid())) {
-            this.dictionariesRepository.setLeafById((byte)0, new Date(), record.getPid());
-        }
         this.dictionariesElasticsearchRepository.save(saveObj);
-        Optional<Dictionaries> optional = this.dictionariesElasticsearchRepository.findById(record.getPid());
-        if (optional.isPresent()) {
-            Dictionaries dictionaries1 = optional.get();
-            dictionaries1.setLeaf((byte)0);
-            this.dictionariesElasticsearchRepository.save(dictionaries1);
+        Dictionaries exists = this.selectById(record.getPid());
+        if (exists != null) {
+            this.dictionariesRepository.setLeafById((byte)0, new Date(), record.getPid());
+            exists.setLeaf((byte)0);
+            this.dictionariesElasticsearchRepository.save(exists);
         }
-        return ResultUtil.success();
+        return ResultUtil.success(saveObj.getId());
     }
 
     @Override
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
         int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
+            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids);
+            if (!CollectionUtils.isEmpty(dictionaries)) {
+                dictionaries.stream().forEach(dict -> {
+                    dict.setStatus(status);
+                    dict.setUpdateTime(new Date());
+                });
+                this.dictionariesElasticsearchRepository.saveAll(dictionaries);
+            }
             return ResultUtil.success();
         }
         return ResultUtil.fail();
     }
+
+    @Override
+    public ResultInfo batchDeletes(List<Long> ids) {
+        int count = this.dictionariesRepository.deleteAllByIdIn(ids);
+        if (count > 0) {
+            this.dictionariesElasticsearchRepository.deleteByIdIn(ids);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
 
     /**
      * 检查字典代码是否重复

@@ -86,10 +86,7 @@ public class DictionariesController extends BaseController {
     @DeleteMapping(value = "dict/batchDelete")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
-        if (this.dictionariesService.deleteAllByIdIn(param.getIdList())) {
-            return ResultUtil.success();
-        }
-        return ResultUtil.fail();
+        return this.dictionariesService.batchDeletes(param.getIdList());
     }
 
     /**

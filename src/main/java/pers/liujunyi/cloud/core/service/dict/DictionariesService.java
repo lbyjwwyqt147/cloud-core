@@ -34,4 +34,11 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
      * @return
      */
     ResultInfo updateStatus(Byte status, List<Long> ids);
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    ResultInfo batchDeletes(List<Long> ids);
 }

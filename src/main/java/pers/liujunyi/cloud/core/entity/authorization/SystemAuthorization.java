@@ -34,9 +34,6 @@ import java.util.Date;
 public class SystemAuthorization extends BaseEntity {
 
     private static final long serialVersionUID = 1475322943977844667L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     /** 系统编码 */
     private String sysCode;
