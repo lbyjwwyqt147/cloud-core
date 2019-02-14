@@ -53,7 +53,7 @@ public class DictionariesElasticsearchServiceImpl implements DictionariesElastic
             // 根据 获取父级下的所有数据
             firstChildren.stream().forEach(item -> {
                 AbstractZTreeComponent firstTree = new ZTreeComposite(item.getId(), item.getDictName(),"");
-                firstTree.setParent(true);
+                firstTree.setIsParent(true);
                 firstTree.setPid(item.getPid());
                 AbstractZTreeComponent leafTree = this.findTreeChildren(firstTree, firstChildren);
                 treeList.add(leafTree);
