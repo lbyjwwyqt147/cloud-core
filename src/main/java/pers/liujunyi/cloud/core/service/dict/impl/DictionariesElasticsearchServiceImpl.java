@@ -86,6 +86,14 @@ public class DictionariesElasticsearchServiceImpl implements DictionariesElastic
      *  fuzzyQuery("key"，value)  模糊查询
      *  matchAllQuery();         匹配所有文件
      *
+     *  must 相当于 与 & =
+     *
+     * must not 相当于 非 ~   ！=
+     *
+     * should 相当于 或  |   or
+     *
+     * filter  过滤
+     *
      * @param query
      * @return
      */
@@ -98,9 +106,9 @@ public class DictionariesElasticsearchServiceImpl implements DictionariesElastic
         // 条件过滤
         BoolQueryBuilder filter = QueryBuilders.boolQuery();
       //  filter.must(QueryBuilders.matchQuery("dictCode", query.getDictCode()));
-        filter.must(QueryBuilders.fuzzyQuery("systemCode", query.getSystemCode()));
-        filter.must(QueryBuilders.matchQuery("pid", query.getPid()));
-       // filter.must(QueryBuilders.matchQuery("dictName", query.getDictName()));
+        filter.must(QueryBuilders.termQuery("systemCode", query.getSystemCode()));
+        filter.must(QueryBuilders.termQuery("pid", query.getPid()));
+       // filter.must(QueryBuilders.fuzzyQuery("dictName", query.getDictName()));
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
                 .withQuery(filter).build();
         // 查询数据
