@@ -5,6 +5,7 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import java.util.List;
+import java.util.Map;
 
 /***
  * 文件名称: DictionariesElasticsearchService.java
@@ -19,13 +20,6 @@ import java.util.List;
  */
 public interface DictionariesElasticsearchService {
 
-    /**
-     * 符合 ztree 结构的数据
-     * @param pid
-     * @param systemCode
-     * @return
-     */
-    ResultInfo dictZtree(Long pid, String systemCode);
 
     /**
      * 符合 ztree 结构的数据
@@ -42,4 +36,20 @@ public interface DictionariesElasticsearchService {
      */
     ResultInfo findPageGird(DictionariesQueryDto query);
 
+    /**
+     * 字典 Combox
+     * @param systemCode
+     * @param dictCode
+     * @return
+     */
+    List<Map<String, String>> dictCombox(String systemCode, String dictCode);
+
+    /**
+     * 根据字典代码 获取字典值
+     * @param systemCode
+     * @param pidDictCode  父级 dict code
+     * @param dictCode
+     * @return
+     */
+    String getDictName(String systemCode, String pidDictCode, String dictCode);
 }

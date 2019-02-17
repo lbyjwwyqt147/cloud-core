@@ -19,6 +19,7 @@ import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /***
  * 文件名称: DictionariesController.java
@@ -105,22 +106,6 @@ public class DictionariesController extends BaseController {
         return this.dictionariesElasticsearchService.findPageGird(query);
     }
 
-    /**
-     * 字典tree 结构数据
-     *
-     * @param param
-     * @return
-     */
-    @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/dict/tree")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
-            @ApiImplicitParam(name = "pid", value = "pid",  required = true, dataType = "Long")
-    })
-    @GetMapping(value = "dict/tree")
-    @ApiVersion(1)
-    public ResultInfo dictTree(@Valid IdParamDto param ) {
-        return this.dictionariesElasticsearchService.dictZtree(param.getId(), param.getSystemCode());
-    }
 
     /**
      * 字典tree 结构数据
@@ -154,5 +139,48 @@ public class DictionariesController extends BaseController {
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList());
+    }
+
+
+    /**
+     *  字典 Combox
+     * @param systemCode
+     * @param credential
+     * @param dictCode
+     * @return
+     */
+    @ApiOperation(value = "字典 Combox", notes = "适用于下拉框选择 请求示例：127.0.0.1:18080/api/v1/dict/combox")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
+            @ApiImplicitParam(name = "credential", value = "凭证",  required = true),
+            @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true)
+    })
+    @GetMapping(value = "dict/combox")
+    @ApiVersion(1)
+    public List<Map<String, String>> dictCombox(String systemCode, String credential, String dictCode) {
+        return this.dictionariesElasticsearchService.dictCombox(systemCode, dictCode);
+    }
+
+    /**
+     *  字典代码转换为字典值
+     * @param systemCode
+     * @param credential
+     * @param dictCode
+     * @param  pidDictCode
+     * @return
+     */
+    @ApiOperation(value = "字典代码转换为字典值", notes = "适用于字典代码转换为字典值 请求示例：127.0.0.1:18080/api/v1/dict/dictName")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
+            @ApiImplicitParam(name = "credential", value = "凭证",  required = true),
+            @ApiImplicitParam(name = "pidDictCode", value = "父级字典代码",  required = true),
+            @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true)
+    })
+    @GetMapping(value = "dict/dictName")
+    @ApiVersion(1)
+    public String dictName(String systemCode, String credential, String pidDictCode, String dictCode) {
+        return this.dictionariesElasticsearchService.getDictName(systemCode, pidDictCode, dictCode);
     }
 }

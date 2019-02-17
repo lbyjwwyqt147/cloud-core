@@ -5,7 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import pers.liujunyi.common.dto.BaseQuery;
+import pers.liujunyi.common.query.elasticsearch.BaseEsQuery;
+import pers.liujunyi.common.query.jpa.annotation.MatchType;
+import pers.liujunyi.common.query.jpa.annotation.QueryCondition;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -25,28 +27,32 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DictionariesQueryDto extends BaseQuery {
+public class DictionariesQueryDto extends BaseEsQuery {
 
     /** 字典代码 */
     @ApiModelProperty(value = "字典代码")
     @Length(min = 0, max = 32, message = "字典代码 最大长度为32个字符")
+    @QueryCondition()
     private String dictCode;
 
     /** 字典名称 */
     @ApiModelProperty(value = "字典名称")
     @Length(min = 0, max = 32, message = "字典名称 最大长度为32个字符")
+    @QueryCondition(func =  MatchType.like)
     private String dictName;
 
     /** 上级ID */
     @ApiModelProperty(value = "pid")
     @NotNull(message = "pid 必须填写")
     @Min(value = 0, message = "pid 必须是数字类型")
+    @QueryCondition()
     private Long pid;
 
     /** 所属系统编码  例如：1001 相册管理系统 */
     @ApiModelProperty(value = "系统编码")
     @NotBlank(message = "systemCode 必须填写")
     @Length(min = 1, max = 10, message = "systemCode 最大长度为10个字符")
+    @QueryCondition()
     private String systemCode;
 
     /** 标签标注 */
@@ -59,4 +65,5 @@ public class DictionariesQueryDto extends BaseQuery {
     @NotBlank(message = "credential 必须填写")
     @Length(min = 0, max = 64, message = "credential 最大长度为64个字符")
     private String credential;
+
 }

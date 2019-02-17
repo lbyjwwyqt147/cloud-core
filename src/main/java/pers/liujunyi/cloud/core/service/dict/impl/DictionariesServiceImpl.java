@@ -86,6 +86,10 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
 
     @Override
     public ResultInfo batchDeletes(List<Long> ids) {
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.page);
+        if (!CollectionUtils.isEmpty(list)) {
+            return ResultUtil.params("无法被删除.");
+        }
         int count = this.dictionariesRepository.deleteAllByIdIn(ids);
         if (count > 0) {
             this.dictionariesElasticsearchRepository.deleteByIdIn(ids);

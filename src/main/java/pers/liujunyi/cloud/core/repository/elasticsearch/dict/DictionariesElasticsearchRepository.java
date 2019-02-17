@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.core.repository.elasticsearch.dict;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
@@ -27,26 +28,35 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * @param systemCode
      * @param leaf    叶子  0:存在叶子节点  1： 不存在
      * @param status   0: 启动 1：禁用
-     * @return
+     * @param  pageable
+     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    List<Dictionaries> findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(Long pid, String systemCode, Byte leaf, Byte status);
+    List<Dictionaries> findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(Long pid, String systemCode, Byte leaf, Byte status, Pageable pageable);
+
 
     /**
      *  获取 存在 叶子节点的 字典数据
      * @param pid
-     * @param systemCode
-     * @param status   0: 启动 1：禁用
-     * @return
+     * @param  pageable
+     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    List<Dictionaries> findByPidAndSystemCodeAndStatusOrderByIdAsc(Long pid, String systemCode, Byte status);
+    List<Dictionaries> findByPidIn(List<Long> pid, Pageable pageable);
 
     /**
      *  根据 systemCode  pid  dictCode 获取数据
      * @param systemCode
      * @param pid
      * @param dictCode
-     * @return
+     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
     List<Dictionaries> findBySystemCodeAndPidAndAndDictCode(String systemCode, Long pid, String dictCode);
 
+    /**
+     * 根据 systemCode  dictCode status   获取 第一条 数据
+     * @param systemCode
+     * @param dictCode
+     * @param status
+     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
+     */
+    Dictionaries findFirstBySystemCodeAndDictCodeAndAndStatus(String systemCode, String dictCode, Byte status);
 }
