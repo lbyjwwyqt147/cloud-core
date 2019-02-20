@@ -8,8 +8,6 @@ import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 import java.util.List;
 
-;
-
 /***
  * 文件名称: SystemAuthorizationRepository.java
  * 文件描述: 系统授权 Repository
@@ -29,7 +27,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param ids
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
     @Query("update SystemAuthorization u set u.status = ?1 where u.id in (?2)")
     int setStatusByIds(Byte status, List<Long> ids);
@@ -41,7 +39,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param sysCodes
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
     @Query("update SystemAuthorization u set u.status = ?1 where u.sysCode in (?2)")
     int setStatusBySysCode(Byte status, List<String> sysCodes);
@@ -51,7 +49,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param ids
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying
     @Query("delete from SystemAuthorization u where u.id in (?1)")
     int deleteAllByIdIn(List<Long> ids);
@@ -61,7 +59,7 @@ public interface SystemAuthorizationRepository extends BaseRepository<SystemAuth
      * @param sysCodes
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying
     @Query("delete from SystemAuthorization u where u.sysCode in (?1)")
     int deleteAllBySysCodeIn(List<String> sysCodes);

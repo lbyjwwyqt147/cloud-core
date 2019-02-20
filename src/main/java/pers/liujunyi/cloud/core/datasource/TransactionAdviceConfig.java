@@ -40,13 +40,13 @@ public class TransactionAdviceConfig {
     /**
      * 事物超时时间  (秒)
      */
-    @Value("${spring.datasource.druid.master.transaction-threshold-millis}")
+    @Value("${spring.datasource.druid.transaction-threshold-millis}")
     private Integer transactionTimeOut;
 
     /**
-     * 定义切点变量：拦截pers.liujunyi.cloud.core包下所有类的所有方法,返回值类型任意的方法
+     * 定义切点变量：拦截pers.liujunyi.cloud.core.service包下所有类的所有方法,返回值类型任意的方法
      */
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* pers.liujunyi.cloud.core.service.*.*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* pers.liujunyi.cloud.core.service.*.*.*(..))";
 
     @Autowired
     private PlatformTransactionManager transactionManager;
