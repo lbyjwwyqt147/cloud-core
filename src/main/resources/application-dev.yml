@@ -32,7 +32,7 @@ spring:
       min-evictable-idle-time-millis: 300000
       # max-evictable-idle-time-millis: 600000
       max-open-prepared-statements: 60000
-      max-pool-prepared-statement-per-connection-size: 10
+      max-pool-prepared-statement-per-connection-size: 20
       max-wait: 60000
       pool-prepared-statements: true
       test-on-borrow: false
