@@ -44,9 +44,9 @@ public class TransactionAdviceConfig {
     private Integer transactionTimeOut;
 
     /**
-     * 定义切点变量：拦截pers.liujunyi.files.service包下所有类的所有方法,返回值类型任意的方法
+     * 定义切点变量：拦截pers.liujunyi.cloud.core包下所有类的所有方法,返回值类型任意的方法
      */
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* pers.liujunyi.files.service.*.*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* pers.liujunyi.cloud.core.service.*.*(..))";
 
     @Autowired
     private PlatformTransactionManager transactionManager;
