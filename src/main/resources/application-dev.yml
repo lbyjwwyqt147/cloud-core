@@ -15,109 +15,65 @@ data:
 
 spring:
   datasource:
+    # 使用阿里的Druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    # JDBC 配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
+    username: root
+    password: root@123
     druid:
-      master:
-        #  主库 JDBC 配置
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
-        username: root
-        password: root@123
-        # 连接池配置
-        initial-size: 10
-        max-active: 20
-      #  min-evictable-idle-time-millis: 30000
-       # max-evictable-idle-time-millis: 30000
-        max-open-prepared-statements: 60000
-        max-pool-prepared-statement-per-connection-size: 10
-        max-wait: 60000
-        min-idle: 5
-        pool-prepared-statements: true
-        test-on-borrow: false
-        test-on-return: false
-        test-while-idle: true
-        time-between-eviction-runs-millis: 60000
-        validation-query: SELECT 1 FROM DUAL
-        validation-query-timeout: 60000
-        transaction-threshold-millis: 60000
-        remove-abandoned-timeout-millis: 30000
-        filters: stat,wall,log4j2  # 配置监控统计拦截的filters,采用log4j2作为日志实现
-        # 监控配置　WebStatFilter配置
-        web-stat-filter:
+      # 连接池配置
+      # 初始化大小，最小，最大
+      initial-size: 10
+      min-idle: 10
+      max-active: 20
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # max-evictable-idle-time-millis: 600000
+      max-open-prepared-statements: 60000
+      max-pool-prepared-statement-per-connection-size: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 60000
+      transaction-threshold-millis: 60000
+      remove-abandoned-timeout-millis: 30000
+      filters: stat,wall,log4j2  # 配置监控统计拦截的filters,采用log4j2作为日志实现
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 监控配置　WebStatFilter配置
+      web-stat-filter:
+        enabled: true
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+        principal-cookie-name: admin
+        principal-session-name: admin
+        profile-enable: true
+        session-stat-enable: false
+        session-stat-max-count: 1000
+        url-pattern: '/*'
+      stat-view-servlet:
+        # IP 白名单
+        allow: 127.0.0.1
+        #  IP黑名单(共同存在时，deny优先于allow)
+        deny: 192.168.0.10
+        enabled: true
+        # 控制台用户名和密码
+        login-password: admin
+        login-username: admin
+        reset-enable: false
+        url-pattern: '/druid/*'
+      # 配置日志输出
+      filter:
+        slf4j:
           enabled: true
-          exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-          principal-cookie-name: admin
-          principal-session-name: admin
-          profile-enable: true
-          session-stat-enable: false
-          session-stat-max-count: 1000
-          url-pattern: '/*'
-        stat-view-servlet:
-          allow: 127.0.0.1  # IP 白名单
-          deny: 192.168.0.10 #  IP黑名单(共同存在时，deny优先于allow)
-          enabled: true
-          login-password: admin  # 控制台用户名和密码
-          login-username: admin
-          reset-enable: false
-          url-pattern: '/druid/*'
-        # 配置日志输出
-        filter:
-          slf4j:
-            enabled: true
-            statement-create-after-log-enabled: false
-            statement-close-after-log-enabled: false
-            result-set-open-after-log-enabled: false
-
-
-
-      slave:
-        #  从库 JDBC 配置
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
-        username: root
-        password: root@123
-        # 连接池配置
-        initial-size: 10
-        max-active: 20
-       # min-evictable-idle-time-millis: 30000
-       # max-evictable-idle-time-millis: 60000
-        max-open-prepared-statements: 60000
-        max-pool-prepared-statement-per-connection-size: 10
-        max-wait: 60000
-        min-idle: 5
-        pool-prepared-statements: true
-        test-on-borrow: false
-        test-on-return: false
-        test-while-idle: true
-        time-between-eviction-runs-millis: 60000
-        validation-query: SELECT 1 FROM DUAL
-        validation-query-timeout: 60000
-        transaction-threshold-millis: 60000
-        remove-abandoned-timeout-millis: 30000
-        filters: stat,wall,log4j2  # 配置监控统计拦截的filters,采用log4j2作为日志实现
-        # 监控配置　WebStatFilter配置
-        web-stat-filter:
-          enabled: true
-          exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-          principal-cookie-name: admin
-          principal-session-name: admin
-          profile-enable: true
-          session-stat-enable: false
-          session-stat-max-count: 1000
-          url-pattern: '/*'
-        stat-view-servlet:
-          allow: 127.0.0.1  # IP 白名单
-          deny: 192.168.0.10 #  IP黑名单(共同存在时，deny优先于allow)
-          enabled: true
-          login-password: admin  # 控制台用户名和密码
-          login-username: admin
-          reset-enable: false
-          url-pattern: '/druid/*'
-        filter:
-          slf4j:
-            enabled: true
-            statement-create-after-log-enabled: false
-            statement-close-after-log-enabled: false
-            result-set-open-after-log-enabled: false
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
 
   # elasticsearch 配置
   data:
