@@ -182,4 +182,12 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
         filePatchBuffer.append("/").append(localDate.getDayOfMonth());
         return filePatchBuffer.toString();
     }
+
+    /**
+     * 添加水印
+     * @param dataFile
+     */
+    private void addWatermark(File dataFile) {
+
+    }
 }

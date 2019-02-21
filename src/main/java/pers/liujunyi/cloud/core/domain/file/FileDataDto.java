@@ -89,4 +89,12 @@ public class FileDataDto implements Serializable {
 
     @ApiModelProperty(value = "是否需要重命名上传文件名称 默认：true")
     private Boolean rename = true;
+
+    @ApiModelProperty(value = "水印名称")
+    @Length(min = 0, max = 15, message = "watermark 最多可以输入15个字符")
+    private System watermark;
+
+    @ApiModelProperty(value = "是否添加水印 默认：false")
+    private Boolean addWatermark = false;
+
 }
