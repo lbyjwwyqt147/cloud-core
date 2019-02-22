@@ -57,4 +57,10 @@ public interface SystemAuthorizationService extends BaseService<SystemAuthorizat
      * @return
      */
     ResultInfo deleteAllBySysCodeIn(List<String> sysCodes);
+
+    /**
+     * 同步数据到redis 中
+     * @return
+     */
+    ResultInfo syncDataToRedis();
 }

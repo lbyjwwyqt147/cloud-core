@@ -42,6 +42,14 @@ public class SystemAuthorizationDto extends BaseDto {
     @Length(min = 0, max = 10, message = "系统编码 最多可以输入10个字符")
     private String sysCode;
 
+    /**  client_id 第三方应用ID */
+    @ApiModelProperty(value = "client_id 第三方应用ID")
+    private String appId;
+
+    /**  appkey */
+    @ApiModelProperty(value = "appKey")
+    private String appKey;
+
     /** 签名（用于访问权限认证） */
     private String signature;
 

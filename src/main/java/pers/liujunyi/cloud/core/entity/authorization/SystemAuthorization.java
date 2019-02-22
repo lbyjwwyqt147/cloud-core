@@ -41,6 +41,12 @@ public class SystemAuthorization extends BaseEntity {
     /** 系统名称 */
     private String sysName;
 
+    /**  client_id 第三方应用ID */
+    private String appId;
+
+    /**  appkey */
+    private String appKey;
+
     /** 签名（用于访问权限认证） */
     private String signature;
 

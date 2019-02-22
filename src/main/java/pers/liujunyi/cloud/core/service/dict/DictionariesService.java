@@ -41,4 +41,10 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
      * @return
      */
     ResultInfo batchDeletes(List<Long> ids);
+
+    /**
+     * 同步数据到es中
+     * @return
+     */
+    ResultInfo syncDataToElasticsearch();
 }

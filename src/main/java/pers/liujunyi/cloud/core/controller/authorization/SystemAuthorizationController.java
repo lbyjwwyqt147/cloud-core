@@ -116,4 +116,20 @@ public class SystemAuthorizationController extends BaseController {
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.systemAuthorizationService.updateStatus(param.getStatus(), param.getCodeList());
     }
+
+    /**
+     *  同步数据到redis 中
+     *
+     * @return
+     */
+    @ApiOperation(value = "同步数据", notes = "适用于同步数据 请求示例：127.0.0.1:18080/api/v1/system/authorization/sync")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+    })
+    @PostMapping(value = "system/authorization/sync")
+    @ApiVersion(1)
+    public ResultInfo syncDataToRedis() {
+        return this.systemAuthorizationService.syncDataToRedis();
+    }
+
 }

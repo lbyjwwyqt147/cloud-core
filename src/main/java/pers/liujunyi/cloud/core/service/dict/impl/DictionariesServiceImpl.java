@@ -1,6 +1,7 @@
 package pers.liujunyi.cloud.core.service.dict.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesDto;
@@ -71,7 +72,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
         int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
-            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids);
+            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, page);
             if (!CollectionUtils.isEmpty(dictionaries)) {
                 dictionaries.stream().forEach(dict -> {
                     dict.setStatus(status);
@@ -96,6 +97,37 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
             return ResultUtil.success();
         }
         return ResultUtil.fail();
+    }
+
+    @Override
+    public ResultInfo syncDataToElasticsearch() {
+        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        List<Dictionaries> list = this.dictionariesRepository.findAll(sort);
+        if (!CollectionUtils.isEmpty(list)) {
+            this.dictionariesElasticsearchRepository.deleteAll();
+            // 限制条数
+            int pointsDataLimit = 1000;
+            int size = list.size();
+            //判断是否有必要分批
+            if(pointsDataLimit < size){
+                //分批数
+                int part = size/pointsDataLimit;
+                for (int i = 0; i < part; i++) {
+                    //1000条
+                    List<Dictionaries> partList = list.subList(0, pointsDataLimit);
+                    //剔除
+                    list.subList(0, pointsDataLimit).clear();
+                    this.dictionariesElasticsearchRepository.saveAll(partList);
+                }
+                //表示最后剩下的数据
+                if (!CollectionUtils.isEmpty(list)) {
+                    this.dictionariesElasticsearchRepository.saveAll(list);
+                }
+            } else {
+                this.dictionariesElasticsearchRepository.saveAll(list);
+            }
+        }
+        return ResultUtil.success();
     }
 
 

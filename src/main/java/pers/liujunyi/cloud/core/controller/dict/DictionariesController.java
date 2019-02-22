@@ -145,7 +145,6 @@ public class DictionariesController extends BaseController {
     /**
      *  字典 Combox
      * @param systemCode
-     * @param credential
      * @param dictCode
      * @return
      */
@@ -158,14 +157,13 @@ public class DictionariesController extends BaseController {
     })
     @GetMapping(value = "dict/combox")
     @ApiVersion(1)
-    public List<Map<String, String>> dictCombox(String systemCode, String credential, String dictCode) {
+    public List<Map<String, String>> dictCombox(String systemCode,  String dictCode) {
         return this.dictionariesElasticsearchService.dictCombox(systemCode, dictCode);
     }
 
     /**
      *  字典代码转换为字典值
      * @param systemCode
-     * @param credential
      * @param dictCode
      * @param  pidDictCode
      * @return
@@ -174,13 +172,27 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
-            @ApiImplicitParam(name = "credential", value = "凭证",  required = true),
             @ApiImplicitParam(name = "pidDictCode", value = "父级字典代码",  required = true),
             @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true)
     })
     @GetMapping(value = "dict/dictName")
     @ApiVersion(1)
-    public String dictName(String systemCode, String credential, String pidDictCode, String dictCode) {
+    public String dictName(String systemCode, String pidDictCode, String dictCode) {
         return this.dictionariesElasticsearchService.getDictName(systemCode, pidDictCode, dictCode);
+    }
+
+    /**
+     *  同步数据到es中
+     * @param
+     * @return
+     */
+    @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18080/api/v1/dict/sync")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+    })
+    @PostMapping(value = "dict/sync")
+    @ApiVersion(1)
+    public ResultInfo syncDataToElasticsearch() {
+        return this.dictionariesService.syncDataToElasticsearch();
     }
 }

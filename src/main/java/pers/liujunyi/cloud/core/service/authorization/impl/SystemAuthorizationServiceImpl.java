@@ -3,7 +3,9 @@ package pers.liujunyi.cloud.core.service.authorization.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 import pers.liujunyi.cloud.core.domain.authorization.SystemAuthorizationDto;
 import pers.liujunyi.cloud.core.entity.authorization.SystemAuthorization;
@@ -19,10 +21,12 @@ import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DateTimeUtils;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
+import pers.liujunyi.common.util.SystemUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /***
  * 文件名称: SystemAuthorizationService.java
@@ -52,8 +56,9 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
         if (this.checkRepetition(record.getSysCode(), record.getId())) {
             return ResultUtil.params("系统代码重复,请重新输入!");
         }
-        String sign =  DigestUtils.md5DigestAsHex(DateTimeUtils.getCurrentDateTimeAsString().getBytes());
-        record.setSignature(sign);
+        record.setAppId(String.valueOf(System.currentTimeMillis()));
+        record.setAppKey(SystemUtils.uuid());
+        record.setSignature(generateSign(record.getAppId(), record.getAppKey()));
         if (record.getExpireTime() == null) {
             record.setExpireTime(DateTimeUtils.additionalYear(10));
         }
@@ -124,6 +129,21 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
         return ResultUtil.info(success);
     }
 
+    @Override
+    public ResultInfo syncDataToRedis() {
+        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        List<SystemAuthorization>  list = this.systemAuthorizationRepository.findAll(sort);
+        if (!CollectionUtils.isEmpty(list)) {
+            this.redisUtil.del(RedisKeys.SYSTEM_AUTH);
+            Map<String, Object> map = new ConcurrentHashMap<>();
+            list.stream().forEach(item -> {
+                map.put(item.getSysCode(), item);
+            });
+            this.redisUtil.hmset(RedisKeys.SYSTEM_AUTH, map);
+        }
+        return ResultUtil.success();
+    }
+
     /**
      * 检查系统代码是否重复
      * @param sysCode
@@ -164,5 +184,21 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
             return systemAuthorization;
         }
         return null;
+    }
+
+    /**
+     * 生成签名
+     * @param appId
+     * @param appKey
+     * @return
+     */
+    private String generateSign(String appId, String appKey) {
+        long time = System.currentTimeMillis();
+        StringBuffer signParam = new StringBuffer();
+        signParam.append("appid=").append(appId).append("&");
+        signParam.append("appkey=").append(appKey).append("&");
+        signParam.append("time=").append(String.valueOf(time));
+        String sign =  DigestUtils.md5DigestAsHex(signParam.toString().getBytes());
+        return sign;
     }
 }
