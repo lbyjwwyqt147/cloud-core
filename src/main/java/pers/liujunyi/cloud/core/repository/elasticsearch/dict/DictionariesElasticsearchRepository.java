@@ -52,6 +52,13 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
     List<Dictionaries> findBySystemCodeAndPidAndAndDictCode(String systemCode, Long pid, String dictCode);
 
     /**
+     * 根据   pid   获取数据
+     * @param pid
+     * @return
+     */
+    List<Dictionaries> findByPid(Long pid);
+
+    /**
      * 根据 systemCode  dictCode status   获取 第一条 数据
      * @param systemCode
      * @param dictCode

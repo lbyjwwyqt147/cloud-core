@@ -70,6 +70,12 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
 
     @Override
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
+        if (status.byteValue() == 1) {
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.page);
+            if (!CollectionUtils.isEmpty(list)) {
+                return ResultUtil.params("无法被禁用.");
+            }
+        }
         int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
             List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, page);
