@@ -92,7 +92,7 @@ public class FileDataDto implements Serializable {
 
     @ApiModelProperty(value = "水印名称")
     @Length(min = 0, max = 15, message = "watermark 最多可以输入15个字符")
-    private System watermark;
+    private String watermark;
 
     @ApiModelProperty(value = "是否添加水印 默认：false")
     private Boolean addWatermark = false;

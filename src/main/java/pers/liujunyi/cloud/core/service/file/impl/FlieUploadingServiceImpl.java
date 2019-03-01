@@ -105,7 +105,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 // 组织文件数据入库
                 FileManagement fileRecord = DozerBeanMapperUtil.copyProperties(fileData, FileManagement.class);
                 fileRecord.setUploadTime(new Date());
-                fileRecord.setFileInitialName(newFileName);
+                fileRecord.setFileInitialName(fileName);
                 fileRecord.setFileName(newFileName);
                 fileRecord.setFilePath(path);
                 fileRecord.setFileCallAddress(requestUrl);

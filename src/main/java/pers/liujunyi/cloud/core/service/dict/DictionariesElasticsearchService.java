@@ -1,7 +1,9 @@
 package pers.liujunyi.cloud.core.service.dict;
 
 import pers.liujunyi.cloud.core.domain.dict.DictionariesQueryDto;
+import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.common.restful.ResultInfo;
+import pers.liujunyi.common.service.BaseElasticsearchService;
 import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.Map;
  * @version 1.0
  * @author ljy
  */
-public interface DictionariesElasticsearchService {
+public interface DictionariesElasticsearchService extends BaseElasticsearchService<Dictionaries, Long> {
 
 
     /**
