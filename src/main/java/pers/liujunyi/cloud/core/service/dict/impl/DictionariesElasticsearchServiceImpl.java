@@ -161,9 +161,9 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
      * @return
      */
     private List<Dictionaries> findBySystemCodeAndDictCodeAndAndStatus(String systemCode, String dictCode) {
-        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndDictCodeAndAndStatus(systemCode, dictCode, Constant.ENABLE_STATUS);
+        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndDictCodeAndStatus(systemCode, dictCode, Constant.ENABLE_STATUS);
         if (dictionaries != null) {
-            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(dictionaries.getPid(), systemCode, null, Constant.ENABLE_STATUS, super.page);
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(dictionaries.getId(), systemCode, null, Constant.ENABLE_STATUS, super.page);
             return list;
         }
         return null;

@@ -65,5 +65,5 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * @param status
      * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    Dictionaries findFirstBySystemCodeAndDictCodeAndAndStatus(String systemCode, String dictCode, Byte status);
+    Dictionaries findFirstBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode, Byte status);
 }
