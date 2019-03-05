@@ -1,5 +1,7 @@
 server:
   port: 18080
+  tomcat:
+    uri-encoding: utf-8
 
 #配置外部访问文件（把上传的文件放到E盘下的fileUpload文件夹下）
 data:
