@@ -35,7 +35,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString()
 @EqualsAndHashCode(callSuper = false)
-@Document(indexName = "cloud_core", type = "Area", shards = 1, replicas = 0)
+@Document(indexName = "cloud_core_area", type = "area", shards = 1, replicas = 0)
 @DynamicInsert
 @DynamicUpdate
 public class Area implements Serializable {
