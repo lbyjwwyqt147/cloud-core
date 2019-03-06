@@ -177,8 +177,8 @@ public class DictionariesController extends BaseController {
     })
     @GetMapping(value = "dict/dictName")
     @ApiVersion(1)
-    public String dictName(String systemCode, String pidDictCode, String dictCode) {
-        return this.dictionariesElasticsearchService.getDictName(systemCode, pidDictCode, dictCode);
+    public ResultInfo dictName(String systemCode, String pidDictCode, String dictCode) {
+        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictName(systemCode, pidDictCode, dictCode));
     }
 
     /**
