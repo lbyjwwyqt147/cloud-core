@@ -15,6 +15,8 @@ data:
   indexView: '请访问：http://localhost:18080/swagger-ui.html  查看API文档'
   # 数据字典地址
   dictUrl: http://localhost:18080/api/v1/dict/dictName
+  # cloud_core 地址
+  cloudUrl: http://127.0.0.1:18080/api/v1
   # 授权访问核心系统的 code
   coreSystemCode: 1000
   # 授权访问核心系统的 appId
