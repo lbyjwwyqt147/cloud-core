@@ -6,7 +6,7 @@ server:
 #配置外部访问文件（把上传的文件放到E盘下的fileUpload文件夹下）
 data:
   file:
-    dir: /opt/fileUpload/cloue_core
+    dir: /opt/uploadWorkspace
   # 配置系统访问url
   hostName: http://101.132.136.225:18080/
   # 域名设置 跨域
@@ -14,7 +14,9 @@ data:
   # 直接访问 http://101.132.136.225:18080 时 返回信息设置
   indexView: '请访问：http://101.132.136.225:18080/swagger-ui.html  查看API文档'
   # 数据字典地址
-  dictUrl: http://101.132.136.225:18080/api/v1/dict/dictName
+  dictUrl: http://127.0.0.1:18080/api/v1/dict/dictName
+  # cloud_core 地址
+  cloudUrl: http://127.0.0.1:18080/api/v1
   # 授权访问核心系统的 code
   coreSystemCode: 1000
   # 授权访问核心系统的 appId
@@ -30,7 +32,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # JDBC 配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
+    url: jdbc:mysql://127.0.0.1:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
     username: root
     password: root@123
     druid:
@@ -90,7 +92,7 @@ spring:
   data:
     elasticsearch:
       #节点的地址 注意api模式下端口号是9300，千万不要写成9200
-      cluster-nodes: 101.132.136.225:9300
+      cluster-nodes: 127.0.0.1:9300
       # elasticsearch集群名称，默认的是elasticsearch
       cluster-name: docker-cluster
       properties:
@@ -103,7 +105,7 @@ spring:
 
   # redis 配置
   redis:
-    host: 101.132.136.225
+    host: 127.0.0.1
     port: 6379
     password:
     database: 1
@@ -119,3 +121,7 @@ spring:
         min-idle: 0
     #连接超时时间
     timeout: 60000ms
+
+logging:
+  config: classpath:log4j2-spring-prod.xml
+

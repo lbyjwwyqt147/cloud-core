@@ -99,8 +99,8 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
             try {
                 //上传文件到本地磁盘
                 file.transferTo(dataFile);
-                // 请求访问文件的 url 地址 url="http://域名/项目名/images/所属系统编码/所属系统用户ID/所属系统业务编码/年份/月份/日/上传的文件名/"
-                // http://localhost:18080/images/1001/10/11111111/2019/1/20/48c634fc413c4d07b303926130fd510b.jpg
+                // 请求访问文件的 url 地址 url="http://域名/项目名/images/所属系统编码/所属系统业务编码/年份/月份/日/上传的文件名/"
+                // http://localhost:18080/images/1001/10/2019/1/20/48c634fc413c4d07b303926130fd510b.jpg
                 String requestUrl = this.getFileRequestUrl(fileDirectory, newFileName);
                 // 组织文件数据入库
                 FileManagement fileRecord = DozerBeanMapperUtil.copyProperties(fileData, FileManagement.class);
@@ -163,16 +163,14 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
      *
      * @param prefix
      * @param fileData
-     * @return images/10001/1/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
+     * @return images/10001/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
      */
     private String getFileDirectoryNew(String prefix, FileDataDto fileData) {
         StringBuffer filePatchBuffer = new StringBuffer(prefix);
         if (StringUtils.isNotBlank(fileData.getSystemCode())) {
             filePatchBuffer.append("/").append(fileData.getSystemCode());
         }
-        if (fileData.getUploaderId() != null) {
-            filePatchBuffer.append("/").append(fileData.getUploaderId());
-        }
+
         if (StringUtils.isNotBlank(fileData.getBusinessCode())) {
             filePatchBuffer.append("/").append(fileData.getBusinessCode());
         }

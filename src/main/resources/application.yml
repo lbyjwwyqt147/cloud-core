@@ -8,7 +8,7 @@ spring:
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   profiles:
-    active: prod
+    active: dev
   application:
     name: cloud-core
 
@@ -31,8 +31,8 @@ spring:
   servlet:
       multipart:
         enabled: true
-        max-file-size: 21MB      # 设置上传文件最大大小
-        max-request-size: 800MB  # 设置上传文件总大小
+        max-file-size: 25MB      # 设置上传文件最大大小
+        max-request-size: 1024MB  # 设置上传文件总大小
 
 
 
