@@ -8,7 +8,7 @@ spring:
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   profiles:
-    active: dev
+    active: prod
   application:
     name: cloud-core
 

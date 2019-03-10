@@ -48,7 +48,6 @@ public class Area implements Serializable {
     private Long pid;
 
     /** 名称 */
-    @Field(type = FieldType.Auto, index = false)
     private String name;
 
     /** 全名称 */
@@ -82,6 +81,7 @@ public class Area implements Serializable {
     private String jianPin;
 
     /** 第一个字符 */
+    @Field(type = FieldType.Auto, index = false)
     private String firstChar;
 
     /** 经度 */
@@ -96,6 +96,7 @@ public class Area implements Serializable {
     @Field(type = FieldType.Auto, index = false)
     private String remarks;
 
-    /**  */
+    /**  更新时间 */
+    @Field(type = FieldType.Auto, index = false)
     private Date updateTime;
 }
