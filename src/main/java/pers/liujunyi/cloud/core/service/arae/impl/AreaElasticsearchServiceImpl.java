@@ -57,7 +57,7 @@ public class AreaElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<A
             emptyMap.put("text", "-请选择-");
             result.add(emptyMap);
         }
-        List<Area> list = this.areaElasticsearchRepository.findByPid(pid, super.page);
+        List<Area> list = this.areaElasticsearchRepository.findByPid(pid, super.allPageable);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {
                 Map<String, Object> map = new ConcurrentHashMap<>();

@@ -50,7 +50,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     @Override
     public List<ZTreeNode> dictTree(Long pid, String systemCode) {
         List<ZTreeNode> treeNodes = new LinkedList<>();
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(pid, systemCode, null, Constant.ENABLE_STATUS, super.page);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(pid, systemCode, null, Constant.ENABLE_STATUS, super.allPageable);
         if (!CollectionUtils.isEmpty(list)){
             list.stream().forEach(item -> {
                 ZTreeNode zTreeNode = new ZTreeNode(item.getId(), item.getPid(), item.getDictName());
@@ -169,7 +169,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     private List<Dictionaries> findBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode) {
         Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndDictCodeAndStatus(systemCode, dictCode, Constant.ENABLE_STATUS);
         if (dictionaries != null) {
-            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(dictionaries.getId(), systemCode, null, Constant.ENABLE_STATUS, super.page);
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(dictionaries.getId(), systemCode, null, Constant.ENABLE_STATUS, super.allPageable);
             return list;
         }
         return null;

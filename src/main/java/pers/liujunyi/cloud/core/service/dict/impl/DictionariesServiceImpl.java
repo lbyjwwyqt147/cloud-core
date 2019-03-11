@@ -72,14 +72,14 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     @Override
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
         if (status.byteValue() == 1) {
-            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.page);
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.getPageable(ids.size()));
             if (!CollectionUtils.isEmpty(list)) {
                 return ResultUtil.params("无法被禁用.");
             }
         }
         int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
-            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, super.page);
+            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, super.getPageable(ids.size()));
             if (!CollectionUtils.isEmpty(dictionaries)) {
                 dictionaries.stream().forEach(dict -> {
                     dict.setStatus(status);
@@ -94,7 +94,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
 
     @Override
     public ResultInfo batchDeletes(List<Long> ids) {
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.page);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.getPageable(ids.size()));
         if (!CollectionUtils.isEmpty(list)) {
             return ResultUtil.params("无法被删除.");
         }
