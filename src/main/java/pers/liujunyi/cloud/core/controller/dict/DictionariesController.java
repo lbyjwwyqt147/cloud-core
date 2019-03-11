@@ -146,6 +146,7 @@ public class DictionariesController extends BaseController {
      *  字典 Combox
      * @param systemCode
      * @param dictCode
+     * @param empty
      * @return
      */
     @ApiOperation(value = "字典 Combox", notes = "适用于下拉框选择 请求示例：127.0.0.1:18080/api/v1/dict/combox")
@@ -153,12 +154,13 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
             @ApiImplicitParam(name = "credential", value = "凭证",  required = true),
-            @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true)
+            @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true),
+            @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
     })
     @GetMapping(value = "dict/combox")
     @ApiVersion(1)
-    public List<Map<String, String>> dictCombox(String systemCode,  String dictCode) {
-        return this.dictionariesElasticsearchService.dictCombox(systemCode, dictCode);
+    public List<Map<String, String>> dictCombox(String systemCode,  String dictCode, Boolean empty) {
+        return this.dictionariesElasticsearchService.dictCombox(systemCode, dictCode, empty);
     }
 
     /**

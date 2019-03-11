@@ -42,9 +42,10 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * 字典 Combox
      * @param systemCode
      * @param dictCode
+     * @param empty
      * @return
      */
-    List<Map<String, String>> dictCombox(String systemCode, String dictCode);
+    List<Map<String, String>> dictCombox(String systemCode, String dictCode, Boolean empty);
 
     /**
      * 根据字典代码 获取字典值

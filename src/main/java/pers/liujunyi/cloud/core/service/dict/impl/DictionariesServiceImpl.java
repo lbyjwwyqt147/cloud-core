@@ -17,6 +17,7 @@ import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +79,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         }
         int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
-            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, page);
+            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, super.page);
             if (!CollectionUtils.isEmpty(dictionaries)) {
                 dictionaries.stream().forEach(dict -> {
                     dict.setStatus(status);
@@ -120,7 +121,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
                 int part = size/pointsDataLimit;
                 for (int i = 0; i < part; i++) {
                     //1000条
-                    List<Dictionaries> partList = list.subList(0, pointsDataLimit);
+                    List<Dictionaries> partList = new LinkedList<>(list.subList(0, pointsDataLimit));
                     //剔除
                     list.subList(0, pointsDataLimit).clear();
                     this.dictionariesElasticsearchRepository.saveAll(partList);

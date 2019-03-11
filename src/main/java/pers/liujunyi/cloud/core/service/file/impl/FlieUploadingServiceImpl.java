@@ -53,6 +53,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
         explain.put("fileName", "文件上传后的名称");
         explain.put("fileCallAddress", "文件访问http路径");
         explain.put("fileSize", "文件大小");
+        explain.put("fileCategory", "文件分类 0：图片 1：文档  2：视频  5：其他");
     }
 
     /**

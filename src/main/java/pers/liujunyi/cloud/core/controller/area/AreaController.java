@@ -17,6 +17,8 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Map;
 
 /***
  * 文件名称: AreaController.java
@@ -37,6 +39,25 @@ public class AreaController extends BaseController {
     private AreaService areaService;
     @Autowired
     private AreaElasticsearchService areaElasticsearchService;
+
+
+    /**
+     *  行政区划 Combox
+     * @param pid
+     * @param empty
+     * @return
+     */
+    @ApiOperation(value = "行政区划 Combox", notes = "适用于下拉框选择 请求示例：127.0.0.1:18080/api/v1/area/combox")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "pid", value = "pid", required = true),
+            @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
+    })
+    @GetMapping(value = "area/combox")
+    @ApiVersion(1)
+    public List<Map<String, Object>> araeCombox(Long pid, Boolean empty) {
+        return this.areaElasticsearchService.areaCombox(pid, empty);
+    }
 
     /**
      *  根据ID获取名称
@@ -80,7 +101,7 @@ public class AreaController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "area/all")
+    @GetMapping(value = "area/all")
     @ApiVersion(1)
     public ResultInfo findAll() {
         return ResultUtil.success(this.areaElasticsearchService.findAll());

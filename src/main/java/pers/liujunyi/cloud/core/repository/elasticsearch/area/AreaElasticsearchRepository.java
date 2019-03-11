@@ -1,8 +1,11 @@
 package pers.liujunyi.cloud.core.repository.elasticsearch.area;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import pers.liujunyi.cloud.core.entity.area.Area;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
+
+import java.util.List;
 
 /***
  * 文件名称: AreaElasticsearchRepository.java
@@ -18,4 +21,11 @@ import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository
 @Repository
 public interface AreaElasticsearchRepository extends BaseElasticsearchRepository<Area, Long> {
 
+
+    /**
+     * 根据pid 获取数据
+     * @param pid
+     * @return
+     */
+    List<Area> findByPid(Long pid, Pageable pageable);
 }

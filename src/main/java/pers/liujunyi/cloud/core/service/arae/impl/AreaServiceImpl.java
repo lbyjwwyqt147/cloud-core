@@ -13,6 +13,7 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /***
@@ -54,7 +55,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
                 int part = size/pointsDataLimit;
                 for (int i = 0; i < part; i++) {
                     //1000条
-                    List<Area> partList = list.subList(0, pointsDataLimit);
+                    List<Area> partList = new LinkedList<>(list.subList(0, pointsDataLimit));
                     //剔除
                     list.subList(0, pointsDataLimit).clear();
                     this.areaElasticsearchRepository.saveAll(partList);

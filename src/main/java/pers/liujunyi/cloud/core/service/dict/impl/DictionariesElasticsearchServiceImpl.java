@@ -108,9 +108,15 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public List<Map<String, String>> dictCombox(String systemCode, String dictCode) {
+    public List<Map<String, String>> dictCombox(String systemCode, String dictCode, Boolean empty) {
         List<Map<String, String>> result  = new LinkedList<>();
-        List<Dictionaries> list = this.findBySystemCodeAndDictCodeAndAndStatus(systemCode, dictCode);
+        if (empty != null && empty == true) {
+            Map<String, String> emptyMap = new ConcurrentHashMap<>();
+            emptyMap.put("id", "");
+            emptyMap.put("text", "-请选择-");
+            result.add(emptyMap);
+        }
+        List<Dictionaries> list = this.findBySystemCodeAndDictCodeAndStatus(systemCode, dictCode);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {
                 Map<String, String> map = new ConcurrentHashMap<>();
@@ -125,7 +131,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     @Override
     public String getDictName(String systemCode, String pidDictCode, String dictCode) {
         String result = "";
-        List<Dictionaries> list = this.findBySystemCodeAndDictCodeAndAndStatus(systemCode, pidDictCode);
+        List<Dictionaries> list = this.findBySystemCodeAndDictCodeAndStatus(systemCode, pidDictCode);
         if (!CollectionUtils.isEmpty(list)) {
             Dictionaries dictionaries = list.stream().filter(o -> o.getDictCode().trim().equals(dictCode.trim())).findAny().orElse(null);
             if (dictionaries != null) {
@@ -160,7 +166,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
      * @param dictCode
      * @return
      */
-    private List<Dictionaries> findBySystemCodeAndDictCodeAndAndStatus(String systemCode, String dictCode) {
+    private List<Dictionaries> findBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode) {
         Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndDictCodeAndStatus(systemCode, dictCode, Constant.ENABLE_STATUS);
         if (dictionaries != null) {
             List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(dictionaries.getId(), systemCode, null, Constant.ENABLE_STATUS, super.page);
