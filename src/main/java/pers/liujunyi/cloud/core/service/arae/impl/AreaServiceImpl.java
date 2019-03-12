@@ -45,6 +45,18 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         Sort sort =  new Sort(Sort.Direction.ASC, "id");
         List<Area> list = this.areaRepoitory.findAll(sort);
         if (!CollectionUtils.isEmpty(list)) {
+            list.stream().forEach(item -> {
+                String oldName = item.getMergerName();
+                String newName = null;
+                int index = oldName.indexOf("中国,");
+                if (index != -1) {
+                    newName = oldName.substring(3).replaceAll(",", "-");
+                } else {
+                    newName = oldName.replaceAll(",", "-");
+                }
+                item.setMergerName(newName);
+            });
+
             this.areaElasticsearchRepository.deleteAll();
             // 限制条数
             int pointsDataLimit = 1000;
