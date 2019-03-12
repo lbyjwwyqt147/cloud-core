@@ -24,6 +24,9 @@ public class IdParamDto implements Serializable {
     @ApiModelProperty(value = "id")
     private Long id;
 
+    @ApiModelProperty(value = "pid")
+    private Long pid;
+
     @ApiModelProperty(value = "ids")
     private String ids;
 

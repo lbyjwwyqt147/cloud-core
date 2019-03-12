@@ -16,6 +16,7 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /***
  * 文件名称: SystemAuthorizationController.java
@@ -54,17 +55,19 @@ public class SystemAuthorizationController extends BaseController {
     /**
      * 根据ID单条删除数据
      *
-     * @param param
+     * @param id
      * @return
      */
     @ApiOperation(value = "根据ID单条删除数据", notes = "适用于根据ID单条删除数据 请求示例：127.0.0.1:18080/api/v1/system/authorization/delete")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
     })
     @DeleteMapping(value = "system/authorization/delete")
     @ApiVersion(1)
-    public ResultInfo singleDelete(@Valid IdParamDto param) {
-        this.systemAuthorizationService.deleteById(param.getId());
+    public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
+                                       @RequestParam(name = "id", required = true) Long id) {
+        this.systemAuthorizationService.deleteById(id);
         return ResultUtil.success();
     }
 
@@ -76,7 +79,8 @@ public class SystemAuthorizationController extends BaseController {
      */
     @ApiOperation(value = "根据sysCode删除多条数据", notes = "适用于根据sysCode批量删除数据 请求示例：127.0.0.1:18080/api/v1/system/authorization/batchDelete")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String")
     })
     @DeleteMapping(value = "system/authorization/batchDelete")
     @ApiVersion(1)
@@ -102,14 +106,16 @@ public class SystemAuthorizationController extends BaseController {
 
 
     /**
-     *  修改数据状态
+     *  根据sysCode 修改数据状态
      *
      * @param param
      * @return
      */
-    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/system/authorization/status")
+    @ApiOperation(value = "根据sysCode 修改数据状态", notes = "适用于根据sysCode 修改数据状态 请求示例：127.0.0.1:18080/api/v1/system/authorization/status")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer")
     })
     @PutMapping(value = "system/authorization/status")
     @ApiVersion(1)

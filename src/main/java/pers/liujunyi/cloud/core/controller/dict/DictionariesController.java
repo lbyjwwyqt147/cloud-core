@@ -18,6 +18,8 @@ import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -60,17 +62,19 @@ public class DictionariesController extends BaseController {
     /**
      * 单条删除数据
      *
-     * @param param
+     * @param id
      * @return
      */
     @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/dict/delete")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
     })
     @DeleteMapping(value = "dict/delete")
     @ApiVersion(1)
-    public ResultInfo singleDelete(@Valid IdParamDto param) {
-        this.dictionariesService.deleteById(param.getId());
+    public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
+                                       @RequestParam(name = "id", required = true) Long id) {
+        this.dictionariesService.deleteById(id);
         return ResultUtil.success();
     }
 
@@ -82,7 +86,8 @@ public class DictionariesController extends BaseController {
      */
     @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/dict/batchDelete")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String")
     })
     @DeleteMapping(value = "dict/batchDelete")
     @ApiVersion(1)
@@ -121,7 +126,7 @@ public class DictionariesController extends BaseController {
     @PostMapping(value = "dict/ztree")
     @ApiVersion(1)
         public List<ZTreeNode> dictZTree(@Valid IdParamDto param ) {
-        return this.dictionariesElasticsearchService.dictTree(param.getId(), param.getSystemCode());
+        return this.dictionariesElasticsearchService.dictTree(param.getPid(), param.getSystemCode());
     }
 
 
@@ -133,7 +138,9 @@ public class DictionariesController extends BaseController {
      */
     @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/status")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer")
     })
     @PutMapping(value = "dict/status")
     @ApiVersion(1)
@@ -153,13 +160,14 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
-            @ApiImplicitParam(name = "credential", value = "凭证",  required = true),
             @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true),
             @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
     })
     @GetMapping(value = "dict/combox")
     @ApiVersion(1)
-    public List<Map<String, String>> dictCombox(String systemCode,  String dictCode, Boolean empty) {
+    public List<Map<String, String>> dictCombox(@Valid @NotBlank(message = "systemCode 必须填写")
+                                                    @RequestParam(name = "systemCode", required = true) String systemCode, @NotBlank(message = "dictCode 必须填写")
+    @RequestParam(name = "dictCode", required = true)  String dictCode, Boolean empty) {
         return this.dictionariesElasticsearchService.dictCombox(systemCode, dictCode, empty);
     }
 
@@ -179,7 +187,10 @@ public class DictionariesController extends BaseController {
     })
     @GetMapping(value = "dict/dictName")
     @ApiVersion(1)
-    public ResultInfo dictName(String systemCode, String pidDictCode, String dictCode) {
+    public ResultInfo dictName(@Valid @NotBlank(message = "systemCode 必须填写")
+                                   @RequestParam(name = "systemCode", required = true) String systemCode,  @NotBlank(message = "pidDictCode 必须填写")
+    @RequestParam(name = "pidDictCode", required = true) String pidDictCode,  @NotBlank(message = "dictCode 必须填写")
+    @RequestParam(name = "dictCode", required = true)  String dictCode) {
         return  ResultUtil.success(this.dictionariesElasticsearchService.getDictName(systemCode, pidDictCode, dictCode));
     }
 

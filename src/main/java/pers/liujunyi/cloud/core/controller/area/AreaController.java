@@ -16,6 +16,7 @@ import pers.liujunyi.common.controller.BaseController;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,8 @@ public class AreaController extends BaseController {
     })
     @GetMapping(value = "area/combox")
     @ApiVersion(1)
-    public List<Map<String, Object>> araeCombox(Long pid, Boolean empty) {
+    public List<Map<String, Object>> araeCombox(@Valid @NotNull(message = "pid 必须填写")
+                                                    @RequestParam(name = "pid", required = true) Long pid, Boolean empty) {
         return this.areaElasticsearchService.areaCombox(pid, empty);
     }
 
@@ -66,11 +68,12 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "根据ID获取名称", notes = "适用于根据ID获取名称 请求示例：127.0.0.1:18080/api/v1/area/name")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long")
     })
     @GetMapping(value = "area/name")
     @ApiVersion(1)
-    public ResultInfo getAreaName(@NotNull(message = "id 必须填写")
+    public ResultInfo getAreaName(@Valid @NotNull(message = "id 必须填写")
                                       @RequestParam(name = "id", required = true) Long id) {
         return this.areaElasticsearchService.getAreaName(id);
     }
