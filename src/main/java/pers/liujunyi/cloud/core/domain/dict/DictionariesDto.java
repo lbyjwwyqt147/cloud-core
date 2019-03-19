@@ -62,6 +62,21 @@ public class DictionariesDto extends BaseDto {
 
     /** 描述信息 */
     @ApiModelProperty(value = "描述信息")
-    @Length(min = 0, max = 45, message = "描述信息 最多可以输入45个字符")
+    @Length(min = 0, max = 50, message = "描述信息 最多可以输入50个字符")
     private String description;
+
+    /** 预留字段1 */
+    @ApiModelProperty(value = "attributeOne")
+    @Length(min = 0, max = 45, message = "attributeOne 最多可以输入45个字符")
+    private String attributeOne;
+
+    /** 预留字段2 */
+    @ApiModelProperty(value = "attributeTwo")
+    @Length(min = 0, max = 65, message = "attributeTwo 最多可以输入65个字符")
+    private String attributeTwo;
+
+    /** 预留字段3 */
+    @ApiModelProperty(value = "attributeThree")
+    @Length(min = 0, max = 100, message = "attributeThree 最多可以输入100个字符")
+    private String attributeThree;
 }

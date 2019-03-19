@@ -23,15 +23,14 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
 
 
     /**
-     *  获取 存在 叶子节点的 字典数据
+     *  根据 pid 获取字典数据
      * @param pid
      * @param systemCode
-     * @param leaf    叶子  0:存在叶子节点  1： 不存在
      * @param status   0: 启动 1：禁用
      * @param  pageable
      * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    List<Dictionaries> findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(Long pid, String systemCode, Byte leaf, Byte status, Pageable pageable);
+    List<Dictionaries> findByPidAndSystemCodeAndStatusOrderByPriorityAsc(Long pid, String systemCode, Byte status, Pageable pageable);
 
 
     /**

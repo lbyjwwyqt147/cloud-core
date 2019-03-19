@@ -14,7 +14,7 @@ import pers.liujunyi.cloud.core.service.authorization.SystemAuthorizationService
 import pers.liujunyi.cloud.core.util.Constant;
 import pers.liujunyi.cloud.core.util.RedisKeys;
 import pers.liujunyi.common.dto.BaseQuery;
-import pers.liujunyi.common.redis.RedisUtil;
+import pers.liujunyi.common.redis.RedisTemplateUtils;
 import pers.liujunyi.common.repository.jpa.BaseRepository;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
@@ -45,7 +45,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
     @Autowired
     private SystemAuthorizationRepository systemAuthorizationRepository;
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisTemplateUtils redisTemplateUtils;
 
     public SystemAuthorizationServiceImpl(BaseRepository<SystemAuthorization, Long> baseRepository) {
         super(baseRepository);
@@ -66,7 +66,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
         SystemAuthorization saveObj =  this.systemAuthorizationRepository.save(systemAuthorization);
         if (saveObj != null && saveObj.getId() != null) {
             record.setId(saveObj.getId());
-            this.redisUtil.hset(RedisKeys.SYSTEM_AUTH, saveObj.getSysCode(), JSON.toJSONString(record));
+            this.redisTemplateUtils.hset(RedisKeys.SYSTEM_AUTH, saveObj.getSysCode(), JSON.toJSONString(record));
             return ResultUtil.success();
         }
         return ResultUtil.fail();
@@ -80,7 +80,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
                 SystemAuthorizationDto systemAuthorization = this.jsonToObject(item);
                 if (systemAuthorization != null) {
                     systemAuthorization.setStatus(status);
-                    this.redisUtil.hset(RedisKeys.SYSTEM_AUTH, item, JSON.toJSONString(systemAuthorization));
+                    this.redisTemplateUtils.hset(RedisKeys.SYSTEM_AUTH, item, JSON.toJSONString(systemAuthorization));
                 }
             });
             return  ResultUtil.success();
@@ -90,7 +90,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
 
     @Override
     public ResultInfo dataGrid(BaseQuery query) {
-        Map<String, Object> map = this.redisUtil.hgetAll(RedisKeys.SYSTEM_AUTH);
+        Map<String, Object> map = this.redisTemplateUtils.hgetAll(RedisKeys.SYSTEM_AUTH);
         List<SystemAuthorizationDto> dataList = new LinkedList<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             JSONObject json = JSONObject.parseObject(entry.getValue().toString());
@@ -123,7 +123,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
         boolean success = false;
         if (count > 0) {
             String[] sysCodeArray = new String[sysCodes.size()];
-            this.redisUtil.hdel(RedisKeys.SYSTEM_AUTH, sysCodes.toArray(sysCodeArray));
+            this.redisTemplateUtils.hdel(RedisKeys.SYSTEM_AUTH, sysCodes.toArray(sysCodeArray));
             success = true;
         }
         return ResultUtil.info(success);
@@ -134,12 +134,14 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
         Sort sort =  new Sort(Sort.Direction.ASC, "id");
         List<SystemAuthorization>  list = this.systemAuthorizationRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(list)) {
-            this.redisUtil.del(RedisKeys.SYSTEM_AUTH);
+            this.redisTemplateUtils.del(RedisKeys.SYSTEM_AUTH);
             Map<String, Object> map = new ConcurrentHashMap<>();
             list.stream().forEach(item -> {
                 map.put(item.getSysCode(), item);
             });
-            this.redisUtil.hmset(RedisKeys.SYSTEM_AUTH, map);
+            this.redisTemplateUtils.hmset(RedisKeys.SYSTEM_AUTH, map);
+        } else {
+            this.redisTemplateUtils.del(RedisKeys.SYSTEM_AUTH);
         }
         return ResultUtil.success();
     }
@@ -168,7 +170,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
      * @return
      */
     private Boolean checkRedisData (String sysCode) {
-        return this.redisUtil.hexists(RedisKeys.SYSTEM_AUTH, sysCode);
+        return this.redisTemplateUtils.hexists(RedisKeys.SYSTEM_AUTH, sysCode);
     }
 
     /**
@@ -177,7 +179,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
      * @return
      */
     private SystemAuthorizationDto jsonToObject(String sysCode){
-        Object object = this.redisUtil.hget(RedisKeys.SYSTEM_AUTH, sysCode);
+        Object object = this.redisTemplateUtils.hget(RedisKeys.SYSTEM_AUTH, sysCode);
         if (object != null) {
             JSONObject json = JSONObject.parseObject(object.toString());
             SystemAuthorizationDto systemAuthorization = JSON.toJavaObject(json,SystemAuthorizationDto.class);

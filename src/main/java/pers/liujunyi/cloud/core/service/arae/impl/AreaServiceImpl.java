@@ -79,6 +79,8 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
             } else {
                 this.areaElasticsearchRepository.saveAll(list);
             }
+        } else {
+            this.areaElasticsearchRepository.deleteAll();
         }
         return ResultUtil.success();
     }

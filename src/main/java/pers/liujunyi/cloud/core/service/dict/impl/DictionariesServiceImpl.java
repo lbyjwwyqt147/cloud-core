@@ -15,11 +15,10 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
+import pers.liujunyi.common.util.UserUtils;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /***
  * 文件名称: DictionariesServiceImpl.java
@@ -39,6 +38,8 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     private DictionariesRepository dictionariesRepository;
     @Autowired
     private DictionariesElasticsearchRepository dictionariesElasticsearchRepository;
+    @Autowired
+    private UserUtils userUtils;
 
     public DictionariesServiceImpl(BaseRepository<Dictionaries, Long> baseRepository) {
         super(baseRepository);
@@ -54,7 +55,22 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (record.getPid() == 0) {
             dictionaries.setLeaf((byte)0);
         }
-        dictionaries.setStatus(Constant.ENABLE_STATUS);
+        if (record.getPriority() == null) {
+            dictionaries.setPriority(10);
+        }
+        if (record.getStatus() == null) {
+            dictionaries.setStatus(Constant.ENABLE_STATUS);
+        }
+        if (record.getId() != null) {
+            dictionaries.setUpdateTime(new Date());
+            dictionaries.setUpdateUserId(this.userUtils.getPresentLoginUserId());
+        }
+        if (record.getPid().longValue() > 0) {
+            Dictionaries parent = this.selectById(record.getPid());
+            dictionaries.setFullParent(parent.getFullParent() + ":"  + parent.getId());
+        } else {
+            dictionaries.setFullParent("0");
+        }
         Dictionaries saveObj = this.dictionariesRepository.save(dictionaries);
         if (saveObj == null || saveObj.getId() == null) {
             return ResultUtil.fail();
@@ -79,14 +95,15 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         }
         int count = this.dictionariesRepository.setStatusByIds(status, new Date(), ids);
         if (count > 0) {
-            List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findByIdIn(ids, super.getPageable(ids.size()));
-            if (!CollectionUtils.isEmpty(dictionaries)) {
-                dictionaries.stream().forEach(dict -> {
-                    dict.setStatus(status);
-                    dict.setUpdateTime(new Date());
-                });
-                this.dictionariesElasticsearchRepository.saveAll(dictionaries);
-            }
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("status", status);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            ids.stream().forEach(item -> {
+                sourceMap.put(String.valueOf(item), docDataMap);
+            });
+            // 更新 Elasticsearch 中的数据
+            super.updateBatchElasticsearchData(sourceMap);
             return ResultUtil.success();
         }
         return ResultUtil.fail();
@@ -133,6 +150,8 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
             } else {
                 this.dictionariesElasticsearchRepository.saveAll(list);
             }
+        } else {
+            this.dictionariesElasticsearchRepository.deleteAll();
         }
         return ResultUtil.success();
     }

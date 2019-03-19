@@ -17,6 +17,8 @@ data:
   dictUrl: http://127.0.0.1:18080/api/v1/dict/dictName
   # cloud_core 地址
   cloudUrl: http://127.0.0.1:18080/api/v1
+  # redis 是否默填充application name 作为redis key 的前缀   true 填充 false 不填充   例如：photo_album:user    photo_album:为自动填充
+  redisPrefixion: true
   # 授权访问核心系统的 code
   coreSystemCode: 1000
   # 授权访问核心系统的 appId
@@ -38,9 +40,9 @@ spring:
     druid:
       # 连接池配置
       # 初始化大小，最小，最大
-      initial-size: 10
+      initial-size: 50
       min-idle: 10
-      max-active: 20
+      max-active: 100
       # 配置一个连接在池中最小生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 300000
       # max-evictable-idle-time-millis: 600000
@@ -112,13 +114,13 @@ spring:
     jedis:
       pool:
         #最大连接数
-        max-active: 8
+        max-active: 500
         #最大空闲
-        max-idle: 8
+        max-idle: 20
         #最大阻塞等待时间(负数表示没限制)
-        max-wait: -1ms
+        max-wait: 50000ms
         #最小空闲
-        min-idle: 0
+        min-idle: 10
     #连接超时时间
     timeout: 60000ms
 

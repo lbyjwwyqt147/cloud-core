@@ -9,7 +9,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
 import pers.liujunyi.common.entity.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 /***
@@ -56,4 +58,13 @@ public class SystemAuthorization extends BaseEntity {
 
     /** 0: 启动 1：禁用  */
     private Byte status = 0;
+
+    /** 描述信息 */
+    private String description;
+
+    /** 预留字段1 */
+    private String attributeOne;
+
+    /** 预留字段2 */
+    private String attributeTwo;
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import pers.liujunyi.cloud.core.domain.dict.DictZtreeDto;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesQueryDto;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasticsearchRepository;
@@ -16,10 +17,8 @@ import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseElasticsearchServiceImpl;
-import pers.liujunyi.common.vo.tree.AbstractZTreeComponent;
-import pers.liujunyi.common.vo.tree.ZTreeBuilder;
-import pers.liujunyi.common.vo.tree.ZTreeComposite;
-import pers.liujunyi.common.vo.tree.ZTreeNode;
+import pers.liujunyi.common.vo.tree.ZtreeBuilder;
+import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,16 +47,26 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public List<ZTreeNode> dictTree(Long pid, String systemCode) {
-        List<ZTreeNode> treeNodes = new LinkedList<>();
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(pid, systemCode, null, Constant.ENABLE_STATUS, super.allPageable);
+    public List<ZtreeNode> dictTree(Long pid, Byte status ,String systemCode) {
+        if (pid == null || pid.longValue() == 0) {
+            pid = null;
+        }
+        List<ZtreeNode> treeNodes = new LinkedList<>();
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusOrderByPriorityAsc(pid, systemCode, status, super.allPageable);
         if (!CollectionUtils.isEmpty(list)){
             list.stream().forEach(item -> {
-                ZTreeNode zTreeNode = new ZTreeNode(item.getId(), item.getPid(), item.getDictName());
+                ZtreeNode zTreeNode = new ZtreeNode(item.getId(), item.getPid(), item.getDictName());
+                DictZtreeDto dictZtreeDto = new DictZtreeDto();
+                dictZtreeDto.setId(item.getId());
+                dictZtreeDto.setDictCode(item.getDictCode());
+                dictZtreeDto.setDictName(item.getDictName());
+                dictZtreeDto.setDictLabel(item.getDictLabel());
+                dictZtreeDto.setPid(item.getPid());
+                zTreeNode.setOtherAttributes(dictZtreeDto);
                 treeNodes.add(zTreeNode);
             });
         }
-        return ZTreeBuilder.buildListToTree(treeNodes);
+        return ZtreeBuilder.buildListToTree(treeNodes);
     }
 
     /**
@@ -141,24 +150,6 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
         return result;
     }
 
-    /**
-     * 递归查找子节点
-     * @param leaf
-     * @param dictList
-     * @return
-     */
-    private AbstractZTreeComponent findTreeChildren(AbstractZTreeComponent leaf, List<Dictionaries> dictList) {
-        AbstractZTreeComponent zTree =  leaf;
-        dictList.stream().forEach(item ->{
-            if (zTree.getId().equals(item.getPid())){
-                AbstractZTreeComponent leafTree = new ZTreeComposite(item.getId(), item.getDictName(),"");
-                ZTreeComposite moduleTreeComposite = (ZTreeComposite) zTree;
-                moduleTreeComposite.add(leafTree);
-                findTreeChildren(leafTree, dictList);
-            }
-        });
-        return zTree;
-    }
 
     /**
      * 根据父级 dictCode  获取下级 数据
@@ -169,7 +160,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     private List<Dictionaries> findBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode) {
         Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndDictCodeAndStatus(systemCode, dictCode, Constant.ENABLE_STATUS);
         if (dictionaries != null) {
-            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndLeafAndStatusOrderByIdAsc(dictionaries.getId(), systemCode, null, Constant.ENABLE_STATUS, super.allPageable);
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusOrderByPriorityAsc(dictionaries.getId(), systemCode, Constant.ENABLE_STATUS, super.allPageable);
             return list;
         }
         return null;

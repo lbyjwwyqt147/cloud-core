@@ -11,11 +11,12 @@ import pers.liujunyi.cloud.core.domain.dict.DictionariesDto;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesQueryDto;
 import pers.liujunyi.cloud.core.service.dict.DictionariesElasticsearchService;
 import pers.liujunyi.cloud.core.service.dict.DictionariesService;
+import pers.liujunyi.cloud.core.util.Constant;
 import pers.liujunyi.common.annotation.ApiVersion;
 import pers.liujunyi.common.controller.BaseController;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.vo.tree.ZTreeNode;
+import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -101,11 +102,11 @@ public class DictionariesController extends BaseController {
      * @param query
      * @return
      */
-    @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18080/api/v1/dict/grid")
+    @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18080/api/v1/table/dict/grid")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "dict/grid")
+    @GetMapping(value = "table/dict/grid")
     @ApiVersion(1)
     public ResultInfo findPageGrid(@Valid  DictionariesQueryDto query) {
         return this.dictionariesElasticsearchService.findPageGird(query);
@@ -113,20 +114,37 @@ public class DictionariesController extends BaseController {
 
 
     /**
-     * 字典tree 结构数据
+     * 字典tree 结构数据 (只包含正常数据  禁用数据展示)
      *
      * @param param
      * @return
      */
-    @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/dict/tree")
+    @ApiOperation(value = "字典tree 结构数据 (只包含正常数据  禁用数据展示)", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/tree")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
-            @ApiImplicitParam(name = "pid", value = "pid",  required = true, dataType = "Long")
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
     })
-    @PostMapping(value = "dict/ztree")
+    @GetMapping(value = "tree/dict/ztree")
     @ApiVersion(1)
-        public List<ZTreeNode> dictZTree(@Valid IdParamDto param ) {
-        return this.dictionariesElasticsearchService.dictTree(param.getPid(), param.getSystemCode());
+    public List<ZtreeNode> dictZTree(@Valid IdParamDto param ) {
+        return this.dictionariesElasticsearchService.dictTree(param.getId(), Constant.ENABLE_STATUS, param.getSystemCode());
+    }
+
+    /**
+     * 字典tree 结构数据 (包含禁用数据 )
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "字典tree 结构数据 (包含禁用数据 )", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/all/tree")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
+    })
+    @GetMapping(value = "tree/dict/all/ztree")
+    @ApiVersion(1)
+    public List<ZtreeNode> allDictZTree(@Valid IdParamDto param ) {
+        return this.dictionariesElasticsearchService.dictTree(param.getId(), null ,param.getSystemCode());
     }
 
 

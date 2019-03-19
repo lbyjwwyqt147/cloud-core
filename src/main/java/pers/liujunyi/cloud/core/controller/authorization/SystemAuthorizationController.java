@@ -98,7 +98,7 @@ public class SystemAuthorizationController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "system/authorization/grid")
+    @GetMapping(value = "table/system/authorization/grid")
     @ApiVersion(1)
     public ResultInfo findPageGrid(BaseQuery query) {
         return this.systemAuthorizationService.dataGrid(query);

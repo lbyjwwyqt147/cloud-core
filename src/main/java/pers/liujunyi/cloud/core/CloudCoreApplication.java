@@ -2,6 +2,8 @@ package pers.liujunyi.cloud.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -17,8 +19,8 @@ import pers.liujunyi.common.configuration.MySQLUpperCaseStrategy;
  */
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @ComponentScan(basePackages = {"pers.liujunyi.common", "pers.liujunyi.cloud.core"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,  RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class})
 public class CloudCoreApplication {
 
     public static void main(String[] args) {

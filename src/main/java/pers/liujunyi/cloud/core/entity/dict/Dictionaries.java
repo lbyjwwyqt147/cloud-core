@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -52,10 +53,12 @@ public class Dictionaries extends BaseEntity {
     /** 上级ID */
     private Long pid;
 
+    /** 完整的层级 */
+    private String fullParent;
+
     /** 所属系统编码  例如：1001 相册管理系统 */
     private String systemCode;
 
-    @Field(index = false)
     /** 优先级 */
     private Integer priority;
 
@@ -72,4 +75,16 @@ public class Dictionaries extends BaseEntity {
     /** 叶子  0:存在叶子节点  1： 不存在 */
     @Field(index = false)
     private Byte leaf = 1;
+
+    /** 预留字段1 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeOne;
+
+    /** 预留字段2 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeTwo;
+
+    /** 预留字段3 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeThree;
 }

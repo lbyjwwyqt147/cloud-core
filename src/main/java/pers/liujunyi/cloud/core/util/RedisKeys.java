@@ -6,5 +6,8 @@ package pers.liujunyi.cloud.core.util;
  */
 public final class RedisKeys {
 
-    public static final String SYSTEM_AUTH = "cloud:core:systemAuthorization";
+    /**
+     * 系统授权
+     */
+    public static final String SYSTEM_AUTH = "systemAuthorization";
 }
