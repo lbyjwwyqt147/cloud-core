@@ -27,6 +27,7 @@ public class IdParamDto implements Serializable {
     @ApiModelProperty(value = "pid")
     private Long pid;
 
+    /**  一组 id   格式必须是  1,2,3 */
     @ApiModelProperty(value = "ids")
     private String ids;
 
@@ -39,6 +40,10 @@ public class IdParamDto implements Serializable {
     private String systemCode;
 
     @ApiModelProperty(value = "code")
+    private String code;
+
+    /**  一组 code   格式必须是  1,2,3 */
+    @ApiModelProperty(value = "codes")
     private String codes;
 
     @ApiModelProperty(value = "codes")

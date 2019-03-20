@@ -51,22 +51,14 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
         if (pid == null || pid.longValue() == 0) {
             pid = null;
         }
-        List<ZtreeNode> treeNodes = new LinkedList<>();
         List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusOrderByPriorityAsc(pid, systemCode, status, super.allPageable);
-        if (!CollectionUtils.isEmpty(list)){
-            list.stream().forEach(item -> {
-                ZtreeNode zTreeNode = new ZtreeNode(item.getId(), item.getPid(), item.getDictName());
-                DictZtreeDto dictZtreeDto = new DictZtreeDto();
-                dictZtreeDto.setId(item.getId());
-                dictZtreeDto.setDictCode(item.getDictCode());
-                dictZtreeDto.setDictName(item.getDictName());
-                dictZtreeDto.setDictLabel(item.getDictLabel());
-                dictZtreeDto.setPid(item.getPid());
-                zTreeNode.setOtherAttributes(dictZtreeDto);
-                treeNodes.add(zTreeNode);
-            });
-        }
-        return ZtreeBuilder.buildListToTree(treeNodes);
+        return this.startBuilderZtree(list);
+    }
+
+    @Override
+    public List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status, String systemCode) {
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByFullParentCodeLikeAndSystemCodeAndStatusOrderByPriorityAsc(fullParentCode, systemCode, status, super.allPageable);
+        return this.startBuilderZtree(list);
     }
 
     /**
@@ -164,5 +156,29 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
             return list;
         }
         return null;
+    }
+
+    /**
+     * 构建 ztree 树
+     * @param list
+     * @return
+     */
+    private List<ZtreeNode> startBuilderZtree(List<Dictionaries> list){
+        List<ZtreeNode> treeNodes = new LinkedList<>();
+        if (!CollectionUtils.isEmpty(list)){
+            list.stream().forEach(item -> {
+                ZtreeNode zTreeNode = new ZtreeNode(item.getId(), item.getPid(), item.getDictName());
+                DictZtreeDto dictZtreeDto = new DictZtreeDto();
+                dictZtreeDto.setId(item.getId());
+                dictZtreeDto.setDictCode(item.getDictCode());
+                dictZtreeDto.setDictName(item.getDictName());
+                dictZtreeDto.setDictLabel(item.getDictLabel());
+                dictZtreeDto.setPid(item.getPid());
+                dictZtreeDto.setFullParentCode(item.getFullParentCode());
+                zTreeNode.setOtherAttributes(dictZtreeDto);
+                treeNodes.add(zTreeNode);
+            });
+        }
+        return ZtreeBuilder.buildListToTree(treeNodes);
     }
 }

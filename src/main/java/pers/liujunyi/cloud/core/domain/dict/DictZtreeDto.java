@@ -36,4 +36,7 @@ public class DictZtreeDto implements Serializable {
     /** 标签标注 */
     private String dictLabel;
 
+    /** 完整父级代码 */
+    private String fullParentCode;
+
 }

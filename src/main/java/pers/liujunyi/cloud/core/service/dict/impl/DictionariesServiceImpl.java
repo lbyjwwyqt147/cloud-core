@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.core.service.dict.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -68,8 +69,10 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (record.getPid().longValue() > 0) {
             Dictionaries parent = this.selectById(record.getPid());
             dictionaries.setFullParent(parent.getFullParent() + ":"  + parent.getId());
+            dictionaries.setFullParentCode(StringUtils.isNotBlank(parent.getFullParentCode()) ? parent.getFullParentCode()   + ":" + parent.getDictCode() : parent.getDictCode() );
         } else {
             dictionaries.setFullParent("0");
+            dictionaries.setFullParent(null);
         }
         Dictionaries saveObj = this.dictionariesRepository.save(dictionaries);
         if (saveObj == null || saveObj.getId() == null) {
@@ -118,6 +121,11 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         int count = this.dictionariesRepository.deleteAllByIdIn(ids);
         if (count > 0) {
             this.dictionariesElasticsearchRepository.deleteByIdIn(ids);
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return ResultUtil.success();
         }
         return ResultUtil.fail();

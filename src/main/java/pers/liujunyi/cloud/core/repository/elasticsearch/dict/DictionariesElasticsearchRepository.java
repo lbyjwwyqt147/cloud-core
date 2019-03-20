@@ -32,6 +32,15 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      */
     List<Dictionaries> findByPidAndSystemCodeAndStatusOrderByPriorityAsc(Long pid, String systemCode, Byte status, Pageable pageable);
 
+    /**
+     * 根据父级代码 获取字典数据
+     * @param fullParentCode
+     * @param systemCode
+     * @param status
+     * @param pageable
+     * @return
+     */
+    List<Dictionaries> findByFullParentCodeLikeAndSystemCodeAndStatusOrderByPriorityAsc(String fullParentCode, String systemCode, Byte status, Pageable pageable);
 
     /**
      *  获取 存在 叶子节点的 字典数据

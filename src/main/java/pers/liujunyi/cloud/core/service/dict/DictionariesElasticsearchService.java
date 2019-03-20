@@ -24,13 +24,22 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
 
 
     /**
-     * 符合 ztree 结构的数据
+     * 根据 pid 获取 符合 ztree 结构的数据
      * @param pid
      * @param status 状态
      * @param systemCode
      * @return
      */
     List<ZtreeNode> dictTree(Long pid, Byte status ,String systemCode);
+
+    /**
+     * 根据 fullParentCode 获取符合 ztree 结构的数据
+     * @param fullParentCode
+     * @param status 状态
+     * @param systemCode
+     * @return
+     */
+    List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status ,String systemCode);
 
     /**
      * 分页列表

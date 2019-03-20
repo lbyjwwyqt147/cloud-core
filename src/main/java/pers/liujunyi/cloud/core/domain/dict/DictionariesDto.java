@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import pers.liujunyi.common.dto.BaseDto;
+import pers.liujunyi.common.util.RegexpUtils;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /***
  * 文件名称: DictionariesDto.java
@@ -31,12 +33,14 @@ public class DictionariesDto extends BaseDto {
     @ApiModelProperty(value = "字典代码")
     @NotBlank(message = "字典代码必须填写")
     @Length(min = 0, max = 32, message = "字典代码 最多可以输入32个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_CODE_REGEXP, message = "字典代码" + RegexpUtils.ALNUM_CODE_MSG)
     private String dictCode;
 
     /** 字典名称 */
     @ApiModelProperty(value = "字典名称")
     @NotBlank(message = "字典名称必须填写")
     @Length(min = 0, max = 32, message = "字典名称 最多可以输入32个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "字典名称" + RegexpUtils.ALNUM_NAME_MSG)
     private String dictName;
 
     /** 上级ID */
@@ -63,6 +67,7 @@ public class DictionariesDto extends BaseDto {
     /** 描述信息 */
     @ApiModelProperty(value = "描述信息")
     @Length(min = 0, max = 50, message = "描述信息 最多可以输入50个字符")
+    @Pattern(regexp = RegexpUtils.ILLEGITMACY_REGEXP, message = "描述信息" + RegexpUtils.ILLEGITMACY_MSG)
     private String description;
 
     /** 预留字段1 */
@@ -79,4 +84,11 @@ public class DictionariesDto extends BaseDto {
     @ApiModelProperty(value = "attributeThree")
     @Length(min = 0, max = 100, message = "attributeThree 最多可以输入100个字符")
     private String attributeThree;
+    /** 完整的层级ID */
+    private String fullParent;
+
+    /** 完整的层级代码 */
+    private String fullParentCode;
+
+
 }

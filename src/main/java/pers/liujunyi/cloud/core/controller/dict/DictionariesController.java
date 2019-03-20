@@ -114,12 +114,12 @@ public class DictionariesController extends BaseController {
 
 
     /**
-     * 字典tree 结构数据 (只包含正常数据  禁用数据展示)
+     *  根据pid 获取 字典tree 结构数据 (只包含正常数据  禁用数据不展示)
      *
      * @param param
      * @return
      */
-    @ApiOperation(value = "字典tree 结构数据 (只包含正常数据  禁用数据展示)", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/tree")
+    @ApiOperation(value = "字典tree 结构数据 (只包含正常数据  禁用数据不展示)", notes = "适用于 根据pid  显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/tree")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
@@ -131,12 +131,29 @@ public class DictionariesController extends BaseController {
     }
 
     /**
-     * 字典tree 结构数据 (包含禁用数据 )
+     * 根据 fullParentCode 获取 字典tree 结构数据 (只包含正常数据  禁用数据不展示)
      *
      * @param param
      * @return
      */
-    @ApiOperation(value = "字典tree 结构数据 (包含禁用数据 )", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/all/tree")
+    @ApiOperation(value = "根据 fullParentCode 获取  字典tree 结构数据 (只包含正常数据  禁用数据不展示)", notes = "适用于 根据 fullParentCode 显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/tree")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String")
+    })
+    @GetMapping(value = "tree/dict/parentCode/ztree")
+    @ApiVersion(1)
+    public List<ZtreeNode> dictCodeZTree(@Valid IdParamDto param ) {
+        return this.dictionariesElasticsearchService.dictCodeTree(param.getCode(), Constant.ENABLE_STATUS, param.getSystemCode());
+    }
+
+    /**
+     * 根据pid 获取 字典tree 结构数据 (包含禁用数据 )
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "字典tree 结构数据 (包含禁用数据 )", notes = "适用于 根据pid  显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/all/tree")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")

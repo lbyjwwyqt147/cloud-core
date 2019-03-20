@@ -53,8 +53,11 @@ public class Dictionaries extends BaseEntity {
     /** 上级ID */
     private Long pid;
 
-    /** 完整的层级 */
+    /** 完整的层级ID */
     private String fullParent;
+
+    /** 完整的层级代码 */
+    private String fullParentCode;
 
     /** 所属系统编码  例如：1001 相册管理系统 */
     private String systemCode;
