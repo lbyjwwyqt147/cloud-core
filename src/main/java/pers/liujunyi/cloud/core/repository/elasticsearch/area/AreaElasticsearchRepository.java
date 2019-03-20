@@ -2,8 +2,8 @@ package pers.liujunyi.cloud.core.repository.elasticsearch.area;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.core.entity.area.Area;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 import java.util.List;
 

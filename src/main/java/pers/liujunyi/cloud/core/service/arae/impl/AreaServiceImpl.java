@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.cloud.core.entity.area.Area;
 import pers.liujunyi.cloud.core.repository.elasticsearch.area.AreaElasticsearchRepository;
 import pers.liujunyi.cloud.core.repository.jpa.area.AreaRepository;
 import pers.liujunyi.cloud.core.service.arae.AreaService;
-import pers.liujunyi.common.repository.jpa.BaseRepository;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.service.impl.BaseServiceImpl;
 
 import java.util.LinkedList;
 import java.util.List;

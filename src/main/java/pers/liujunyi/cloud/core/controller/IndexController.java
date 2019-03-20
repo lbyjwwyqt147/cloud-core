@@ -3,8 +3,9 @@ package pers.liujunyi.cloud.core.controller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
+
 
 /***
  * 文件名称: IndexController.java

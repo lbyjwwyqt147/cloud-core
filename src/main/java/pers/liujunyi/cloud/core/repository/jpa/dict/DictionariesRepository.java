@@ -3,8 +3,8 @@ package pers.liujunyi.cloud.core.repository.jpa.dict;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
-import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 import java.util.Date;
 import java.util.List;

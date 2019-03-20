@@ -1,8 +1,8 @@
 package pers.liujunyi.cloud.core.service.arae;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.core.entity.area.Area;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseElasticsearchService;
 
 import java.util.List;
 import java.util.Map;

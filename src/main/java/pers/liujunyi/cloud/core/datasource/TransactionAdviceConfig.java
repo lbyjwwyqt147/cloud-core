@@ -13,7 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.*;
 import org.springframework.validation.BindException;
-import pers.liujunyi.common.exception.DescribeException;
+import pers.liujunyi.cloud.common.exception.DescribeException;
 
 import java.io.IOException;
 import java.util.HashMap;

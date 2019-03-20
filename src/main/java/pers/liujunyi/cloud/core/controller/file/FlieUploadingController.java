@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import pers.liujunyi.cloud.common.annotation.ApiVersion;
+import pers.liujunyi.cloud.common.controller.BaseController;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.core.domain.file.FileDataDto;
 import pers.liujunyi.cloud.core.service.file.FlieUploadingService;
-import pers.liujunyi.common.annotation.ApiVersion;
-import pers.liujunyi.common.controller.BaseController;
-import pers.liujunyi.common.restful.ResultInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

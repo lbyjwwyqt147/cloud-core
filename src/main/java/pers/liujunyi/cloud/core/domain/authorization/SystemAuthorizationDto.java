@@ -5,9 +5,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import pers.liujunyi.common.dto.BaseDto;
+import pers.liujunyi.cloud.common.dto.BaseDto;
+import pers.liujunyi.cloud.common.util.RegexpUtils;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /***
@@ -29,7 +31,8 @@ public class SystemAuthorizationDto extends BaseDto {
     /** 系统名称 */
     @ApiModelProperty(value = "系统名称")
     @NotBlank(message = "系统名称必须填写")
-    @Length(min = 0, max = 32, message = "系统 最多可以输入32个字符")
+    @Length(min = 0, max = 32, message = "系统名称 最多可以输入32个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "系统名称" + RegexpUtils.ALNUM_NAME_MSG)
     private String sysName;
 
     /** 到期时间 */
@@ -57,16 +60,19 @@ public class SystemAuthorizationDto extends BaseDto {
     /** 描述信息 */
     @ApiModelProperty(value = "描述信息")
     @Length(min = 0, max = 50, message = "描述信息 最多可以输入50个字符")
+    @Pattern(regexp = RegexpUtils.ILLEGITMACY_REGEXP, message = "描述信息" + RegexpUtils.ILLEGITMACY_MSG)
     private String description;
 
     /** 预留字段1 */
     @ApiModelProperty(value = "attributeOne")
     @Length(min = 0, max = 45, message = "attributeOne 最多可以输入45个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "attributeOne" + RegexpUtils.ALNUM_NAME_MSG)
     private String attributeOne;
 
     /** 预留字段2 */
     @ApiModelProperty(value = "attributeTwo")
     @Length(min = 0, max = 65, message = "attributeTwo 最多可以输入65个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "attributeTwo" + RegexpUtils.ALNUM_NAME_MSG)
     private String attributeTwo;
 
 }

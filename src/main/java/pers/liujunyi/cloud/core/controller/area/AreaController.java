@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pers.liujunyi.cloud.common.annotation.ApiVersion;
+import pers.liujunyi.cloud.common.controller.BaseController;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.core.service.arae.AreaElasticsearchService;
 import pers.liujunyi.cloud.core.service.arae.AreaService;
-import pers.liujunyi.common.annotation.ApiVersion;
-import pers.liujunyi.common.controller.BaseController;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

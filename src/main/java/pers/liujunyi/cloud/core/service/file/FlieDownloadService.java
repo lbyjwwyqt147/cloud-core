@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.core.service.file;
 
 
-import pers.liujunyi.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

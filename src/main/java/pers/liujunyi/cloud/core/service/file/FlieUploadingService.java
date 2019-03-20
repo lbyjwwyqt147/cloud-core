@@ -1,8 +1,8 @@
 package pers.liujunyi.cloud.core.service.file;
 
 import org.springframework.web.multipart.MultipartFile;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.core.domain.file.FileDataDto;
-import pers.liujunyi.common.restful.ResultInfo;
 
 import java.util.List;
 

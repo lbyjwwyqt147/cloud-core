@@ -14,9 +14,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import pers.liujunyi.cloud.common.configuration.CustomRequestMappingHandlerMapping;
+import pers.liujunyi.cloud.common.configuration.DateConverterConfig;
 import pers.liujunyi.cloud.core.util.FileEnum;
-import pers.liujunyi.common.configuration.CustomRequestMappingHandlerMapping;
-import pers.liujunyi.common.configuration.DateConverterConfig;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;

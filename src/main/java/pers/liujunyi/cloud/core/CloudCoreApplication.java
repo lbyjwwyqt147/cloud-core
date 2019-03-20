@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import pers.liujunyi.common.configuration.MySQLUpperCaseStrategy;
+import pers.liujunyi.cloud.common.configuration.MySQLUpperCaseStrategy;
 
 
 /***
@@ -19,7 +19,7 @@ import pers.liujunyi.common.configuration.MySQLUpperCaseStrategy;
  */
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@ComponentScan(basePackages = {"pers.liujunyi.common", "pers.liujunyi.cloud.core"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))
+@ComponentScan(basePackages = {"pers.liujunyi.cloud"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,  RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class})
 public class CloudCoreApplication {
 

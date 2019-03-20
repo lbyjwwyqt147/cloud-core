@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import pers.liujunyi.common.annotation.ApiVersion;
-import pers.liujunyi.common.controller.BaseController;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.util.SystemUtils;
+import pers.liujunyi.cloud.common.annotation.ApiVersion;
+import pers.liujunyi.cloud.common.controller.BaseController;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.util.SystemUtils;
 import pers.liujunyi.cloud.core.service.file.FileManagementService;
 
 

@@ -3,12 +3,12 @@ package pers.liujunyi.cloud.core.service.file.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
 import pers.liujunyi.cloud.core.repository.jpa.file.FileManagementRepository;
 import pers.liujunyi.cloud.core.service.file.FlieDownloadService;
 import pers.liujunyi.cloud.core.util.FileUtil;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

@@ -7,18 +7,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
+import pers.liujunyi.cloud.common.vo.tree.ZtreeBuilder;
+import pers.liujunyi.cloud.common.vo.tree.ZtreeNode;
 import pers.liujunyi.cloud.core.domain.dict.DictZtreeDto;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesQueryDto;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasticsearchRepository;
 import pers.liujunyi.cloud.core.service.dict.DictionariesElasticsearchService;
 import pers.liujunyi.cloud.core.util.Constant;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.service.impl.BaseElasticsearchServiceImpl;
-import pers.liujunyi.common.vo.tree.ZtreeBuilder;
-import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public List<ZtreeNode> dictTree(Long pid, Byte status ,String systemCode) {
+    public List<ZtreeNode> dictTree(Long pid, Byte status , String systemCode) {
         if (pid == null || pid.longValue() == 0) {
             pid = null;
         }

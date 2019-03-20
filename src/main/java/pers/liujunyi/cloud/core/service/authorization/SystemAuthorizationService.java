@@ -1,10 +1,10 @@
 package pers.liujunyi.cloud.core.service.authorization;
 
+import pers.liujunyi.cloud.common.query.jpa.annotation.BaseQuery;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseService;
 import pers.liujunyi.cloud.core.domain.authorization.SystemAuthorizationDto;
 import pers.liujunyi.cloud.core.entity.authorization.SystemAuthorization;
-import pers.liujunyi.common.dto.BaseQuery;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseService;
 
 import java.util.List;
 

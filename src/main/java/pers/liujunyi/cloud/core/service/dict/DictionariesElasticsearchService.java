@@ -1,10 +1,10 @@
 package pers.liujunyi.cloud.core.service.dict;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
+import pers.liujunyi.cloud.common.vo.tree.ZtreeNode;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesQueryDto;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseElasticsearchService;
-import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * @param systemCode
      * @return
      */
-    List<ZtreeNode> dictTree(Long pid, Byte status ,String systemCode);
+    List<ZtreeNode> dictTree(Long pid, Byte status , String systemCode);
 
     /**
      * 根据 fullParentCode 获取符合 ztree 结构的数据

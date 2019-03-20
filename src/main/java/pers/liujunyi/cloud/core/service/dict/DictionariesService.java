@@ -1,9 +1,9 @@
 package pers.liujunyi.cloud.core.service.dict;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseService;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesDto;
 import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseService;
 
 import java.util.List;
 

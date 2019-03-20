@@ -5,13 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import pers.liujunyi.common.dto.BaseDto;
-import pers.liujunyi.common.util.RegexpUtils;
+import pers.liujunyi.cloud.common.dto.BaseDto;
+import pers.liujunyi.cloud.common.util.RegexpUtils;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 /***
  * 文件名称: DictionariesDto.java
@@ -57,11 +54,13 @@ public class DictionariesDto extends BaseDto {
     /** 优先级 */
     @ApiModelProperty(value = "优先级")
     @Min(value = 1, message = "优先级 必须是合法数字")
+    @Max(value = 999,  message = "优先级 不能大于999")
     private Integer priority;
 
     /** 标签标注 */
     @ApiModelProperty(value = "标签标注")
     @Length(min = 0, max = 32, message = "标签 最多可以输入32个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "标签" + RegexpUtils.ALNUM_NAME_MSG)
     private String dictLabel;
 
     /** 描述信息 */
@@ -73,16 +72,19 @@ public class DictionariesDto extends BaseDto {
     /** 预留字段1 */
     @ApiModelProperty(value = "attributeOne")
     @Length(min = 0, max = 45, message = "attributeOne 最多可以输入45个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "attributeOne" + RegexpUtils.ALNUM_NAME_MSG)
     private String attributeOne;
 
     /** 预留字段2 */
     @ApiModelProperty(value = "attributeTwo")
     @Length(min = 0, max = 65, message = "attributeTwo 最多可以输入65个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "attributeTwo" + RegexpUtils.ALNUM_NAME_MSG)
     private String attributeTwo;
 
     /** 预留字段3 */
     @ApiModelProperty(value = "attributeThree")
     @Length(min = 0, max = 100, message = "attributeThree 最多可以输入100个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "attributeThree" + RegexpUtils.ALNUM_NAME_MSG)
     private String attributeThree;
     /** 完整的层级ID */
     private String fullParent;

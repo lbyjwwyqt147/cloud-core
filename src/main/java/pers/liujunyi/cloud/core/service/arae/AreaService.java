@@ -1,8 +1,9 @@
 package pers.liujunyi.cloud.core.service.arae;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseService;
 import pers.liujunyi.cloud.core.entity.area.Area;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseService;
+
 
 /***
  * 文件名称: AreaService.java

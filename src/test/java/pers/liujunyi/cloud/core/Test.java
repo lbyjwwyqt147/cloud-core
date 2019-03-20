@@ -1,8 +1,8 @@
 package pers.liujunyi.cloud.core;
 
 import org.springframework.util.DigestUtils;
-import pers.liujunyi.common.util.DateTimeUtils;
-import pers.liujunyi.common.util.MD5Utils;
+import pers.liujunyi.cloud.common.util.DateTimeUtils;
+import pers.liujunyi.cloud.common.util.MD5Utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

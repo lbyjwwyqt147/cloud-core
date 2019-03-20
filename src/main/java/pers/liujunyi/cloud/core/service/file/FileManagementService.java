@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.core.service.file;
 
-import pers.liujunyi.common.service.BaseService;
-import pers.liujunyi.common.vo.file.FileDataVo;
+import pers.liujunyi.cloud.common.service.BaseService;
+import pers.liujunyi.cloud.common.vo.file.FileDataVo;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
 
 import java.util.List;
