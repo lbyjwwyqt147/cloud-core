@@ -86,11 +86,22 @@ public class DictionariesDto extends BaseDto {
     @Length(min = 0, max = 100, message = "attributeThree 最多可以输入100个字符")
     @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "attributeThree" + RegexpUtils.ALNUM_NAME_MSG)
     private String attributeThree;
+
+
     /** 完整的层级ID */
+    @Length(min = 0, max = 50, message = "fullParent 最多可以输入50个字符")
     private String fullParent;
 
     /** 完整的层级代码 */
+    @Length(min = 0, max = 150, message = "fullParentCode 最多可以输入150个字符")
     private String fullParentCode;
+
+    /** 全字典代码  (包含父级) */
+    @Length(min = 0, max = 150, message = "fullDictCode 最多可以输入150个字符")
+    private String fullDictCode;
+
+    /** 层次级别 */
+    private Byte dictLevel;
 
 
 }

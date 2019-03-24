@@ -53,8 +53,24 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
             return ResultUtil.params("字典代码重复,请重新输入.");
         }
         Dictionaries dictionaries = DozerBeanMapperUtil.copyProperties(record, Dictionaries.class);
-        if (record.getPid() == 0) {
+        boolean add = true;
+        if (record.getId() != null) {
+            add = false;
+        }
+        if (record.getPid().longValue() > 0) {
+            Dictionaries parent = this.selectById(record.getPid());
+            dictionaries.setFullParent(parent.getFullParent() + ":"  + parent.getId());
+            String curParentCode = StringUtils.isNotBlank(parent.getFullParentCode()) && parent.getFullParentCode().equals("0") ? parent.getFullParentCode()   + ":" + parent.getDictCode() : parent.getDictCode();
+            dictionaries.setFullParentCode(curParentCode);
+            String curFullDictCode = StringUtils.isNotBlank(parent.getFullDictCode()) && parent.getFullDictCode().equals("0") ? parent.getFullDictCode()   + ":" + record.getDictCode() : parent.getDictCode();
+            dictionaries.setFullDictCode(curFullDictCode);
+            dictionaries.setDictLevel((byte)(parent.getDictLevel() +  1));
+        } else {
             dictionaries.setLeaf((byte)0);
+            dictionaries.setFullParent("0");
+            dictionaries.setFullParentCode("0");
+            dictionaries.setDictLevel((byte)1);
+            dictionaries.setFullDictCode("0");
         }
         if (record.getPriority() == null) {
             dictionaries.setPriority(10);
@@ -62,29 +78,25 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (record.getStatus() == null) {
             dictionaries.setStatus(Constant.ENABLE_STATUS);
         }
-        if (record.getId() != null) {
+        if (!add) {
             dictionaries.setUpdateTime(new Date());
             dictionaries.setUpdateUserId(this.userUtils.getPresentLoginUserId());
-        }
-        if (record.getPid().longValue() > 0) {
-            Dictionaries parent = this.selectById(record.getPid());
-            dictionaries.setFullParent(parent.getFullParent() + ":"  + parent.getId());
-            dictionaries.setFullParentCode(StringUtils.isNotBlank(parent.getFullParentCode()) ? parent.getFullParentCode()   + ":" + parent.getDictCode() : parent.getDictCode() );
-        } else {
-            dictionaries.setFullParent("0");
-            dictionaries.setFullParent(null);
         }
         Dictionaries saveObj = this.dictionariesRepository.save(dictionaries);
         if (saveObj == null || saveObj.getId() == null) {
             return ResultUtil.fail();
         }
         this.dictionariesElasticsearchRepository.save(saveObj);
-        Dictionaries exists = this.selectById(record.getPid());
-        if (exists != null) {
-            this.dictionariesRepository.setLeafById((byte)0, new Date(), record.getPid());
-            exists.setLeaf((byte)0);
-            this.dictionariesElasticsearchRepository.save(exists);
+        // 新增操作才会去更新leaf 字段值
+        if (add) {
+            Dictionaries exists = this.selectById(record.getPid());
+            if (exists != null) {
+                this.dictionariesRepository.setLeafById((byte)0, new Date(), record.getPid());
+                exists.setLeaf((byte)0);
+                this.dictionariesElasticsearchRepository.save(exists);
+            }
         }
+
         return ResultUtil.success(saveObj.getId());
     }
 
@@ -192,7 +204,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
      * @return
      */
     private Boolean checkDictCodeData (String sysCode, Long pid, String dictCode) {
-        List<Dictionaries> exists = this.dictionariesElasticsearchRepository.findBySystemCodeAndPidAndAndDictCode(sysCode, pid, dictCode);
+        List<Dictionaries> exists = this.dictionariesElasticsearchRepository.findBySystemCodeAndPidAndDictCode(sysCode, pid, dictCode);
         if (CollectionUtils.isEmpty(exists)) {
             return false;
         }

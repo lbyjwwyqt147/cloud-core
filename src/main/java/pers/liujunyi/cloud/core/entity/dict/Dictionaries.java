@@ -59,6 +59,9 @@ public class Dictionaries extends BaseEntity {
     /** 完整的层级代码 */
     private String fullParentCode;
 
+    /** 全字典代码  (包含父级) */
+    private String fullDictCode;
+
     /** 所属系统编码  例如：1001 相册管理系统 */
     private String systemCode;
 
@@ -78,6 +81,9 @@ public class Dictionaries extends BaseEntity {
     /** 叶子  0:存在叶子节点  1： 不存在 */
     @Field(index = false)
     private Byte leaf = 1;
+
+    /** 层次级别 */
+    private Byte dictLevel;
 
     /** 预留字段1 */
     @Field(type = FieldType.Keyword, index = false)

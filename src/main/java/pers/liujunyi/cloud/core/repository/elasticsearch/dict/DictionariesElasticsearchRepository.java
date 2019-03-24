@@ -57,21 +57,60 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * @param dictCode
      * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    List<Dictionaries> findBySystemCodeAndPidAndAndDictCode(String systemCode, Long pid, String dictCode);
+    List<Dictionaries> findBySystemCodeAndPidAndDictCode(String systemCode, Long pid, String dictCode);
 
     /**
      * 根据   pid   获取数据
      * @param pid
      * @return
      */
-    List<Dictionaries> findByPid(Long pid);
+    List<Dictionaries> findBySystemCodeAndPid(String systemCode, Long pid);
+
+    /**
+     * 根据   fullParentCode   获取数据
+     * @param dictLevel
+     * @param fullParentCode
+     * @param systemCode
+     * @return
+     */
+    List<Dictionaries> findBySystemCodeAndDictLevelAndFullParentCode(String systemCode, Byte dictLevel, String fullParentCode, Pageable pageable);
+
+    /**
+     * 根据   fullParentCode   获取数据
+     * @param dictLevel
+     * @param fullParentCode
+     * @param systemCode
+     * @param status
+     * @return
+     */
+    List<Dictionaries> findBySystemCodeAndStatusAndDictLevelAndFullParentCodeOrderByPriorityAsc(String systemCode,Byte status, Byte dictLevel, String fullParentCode, Pageable pageable);
+
+
+    /**
+     * 根据   fullParentCode   获取数据
+     * @param systemCode
+     * @param fullParentCodes
+     * @param dictLevel
+     * @return
+     */
+    List<Dictionaries> findBySystemCodeAndDictLevelAndFullParentCodeIn(String systemCode, Byte dictLevel , List<String> fullParentCodes, Pageable pageable);
+
+
+    /**
+     * 根据 systemCode  fullDictCode   获取 数据
+     * @param systemCode
+     * @param fullDictCode
+     * @param status
+     * @return
+     */
+    Dictionaries findFirstBySystemCodeAndFullDictCodeAndStatus(String systemCode, String fullDictCode, Byte status);
 
     /**
      * 根据 systemCode  dictCode status   获取 第一条 数据
      * @param systemCode
      * @param dictCode
      * @param status
-     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
+     * @return
      */
     Dictionaries findFirstBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode, Byte status);
 }

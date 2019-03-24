@@ -55,23 +55,23 @@ public class Area implements Serializable {
     private String mergerName;
 
     /** 简称 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String shortName;
 
     /** 全名称简称 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String mergerShortName;
 
     /** 级别 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private Byte levelType;
 
     /** 城市编号 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String cityCode;
 
     /** 邮编 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String zipCode;
 
     /** 拼音 */
@@ -81,22 +81,22 @@ public class Area implements Serializable {
     private String jianPin;
 
     /** 第一个字符 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String firstChar;
 
     /** 经度 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String lng;
 
     /** 纬度 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String lat;
 
     /** 备注 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String remarks;
 
     /**  更新时间 */
-    @Field(type = FieldType.Auto, index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private Date updateTime;
 }

@@ -34,7 +34,9 @@ spring:
         max-file-size: 25MB      # 设置上传文件最大大小
         max-request-size: 1024MB  # 设置上传文件总大小
 
-
+  main:
+    # 解决  and overriding is disabled.
+    allow-bean-definition-overriding: true
 
 
   # 使用 swagger 如果字段的类型为Long或是int类型 后台会报java.lang.NumberFormatException: For input string: ""；忽略这个错误

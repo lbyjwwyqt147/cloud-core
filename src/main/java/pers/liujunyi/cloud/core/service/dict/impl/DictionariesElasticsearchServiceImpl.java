@@ -20,10 +20,9 @@ import pers.liujunyi.cloud.core.repository.elasticsearch.dict.DictionariesElasti
 import pers.liujunyi.cloud.core.service.dict.DictionariesElasticsearchService;
 import pers.liujunyi.cloud.core.util.Constant;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /***
  * 文件名称: DictionariesElasticsearchServiceImpl.java
@@ -109,7 +108,12 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public List<Map<String, String>> dictCombox(String systemCode, String dictCode, Boolean empty) {
+    public List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty) {
+        return this.dictCombox(systemCode, parentCode, (byte)2, empty);
+    }
+
+    @Override
+    public List<Map<String, String>> dictCombox(String systemCode, String parentCode, Byte dictLevel, Boolean empty) {
         List<Map<String, String>> result  = new LinkedList<>();
         if (empty != null && empty == true) {
             Map<String, String> emptyMap = new ConcurrentHashMap<>();
@@ -117,7 +121,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
             emptyMap.put("text", "-请选择-");
             result.add(emptyMap);
         }
-        List<Dictionaries> list = this.findBySystemCodeAndDictCodeAndStatus(systemCode, dictCode);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndStatusAndDictLevelAndFullParentCodeOrderByPriorityAsc(systemCode, Constant.ENABLE_STATUS, dictLevel,parentCode, super.pageable);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {
                 Map<String, String> map = new ConcurrentHashMap<>();
@@ -130,33 +134,46 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public String getDictName(String systemCode, String pidDictCode, String dictCode) {
+    public String getDictName(String systemCode, String parentCode, String dictCode) {
         String result = "";
-        List<Dictionaries> list = this.findBySystemCodeAndDictCodeAndStatus(systemCode, pidDictCode);
-        if (!CollectionUtils.isEmpty(list)) {
-            Dictionaries dictionaries = list.stream().filter(o -> o.getDictCode().trim().equals(dictCode.trim())).findAny().orElse(null);
-            if (dictionaries != null) {
+        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndFullDictCodeAndStatus(systemCode, parentCode + ":" + dictCode, null);
+        if (dictionaries != null) {
                 result = dictionaries.getDictName();
-            }
         }
         return result;
     }
 
-
-    /**
-     * 根据父级 dictCode  获取下级 数据
-     * @param systemCode
-     * @param dictCode
-     * @return
-     */
-    private List<Dictionaries> findBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode) {
-        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndDictCodeAndStatus(systemCode, dictCode, Constant.ENABLE_STATUS);
-        if (dictionaries != null) {
-            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusOrderByPriorityAsc(dictionaries.getId(), systemCode, Constant.ENABLE_STATUS, super.allPageable);
-            return list;
+    @Override
+    public Map<String, String> getDictNameToMap(String systemCode, Byte dictLevel, String fullParentCode) {
+        dictLevel = dictLevel == null ? (byte)2 : dictLevel;
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndDictLevelAndFullParentCode(systemCode, dictLevel, fullParentCode, super.allPageable);
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.stream().collect(Collectors.toMap(Dictionaries::getDictCode, Dictionaries::getDictName));
         }
         return null;
     }
+
+    @Override
+    public Map<String, Map<String, String>> getDictNameToMap(String systemCode,  Byte dictLevel, List<String> fullParentCodes) {
+        dictLevel = dictLevel == null ? (byte)2 : dictLevel;
+        Map<String, Map<String, String>> dictNameMap = new ConcurrentHashMap<>();
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndDictLevelAndFullParentCodeIn(systemCode, dictLevel, fullParentCodes, super.allPageable);
+        if (!CollectionUtils.isEmpty(list)) {
+            // 以 fullParentCode 分组
+            Map<String, List<Dictionaries>> parentCodeGroup = list.stream().collect(Collectors.groupingBy(Dictionaries::getFullParentCode));
+            Set<Map.Entry<String, List<Dictionaries>>> entrySet = parentCodeGroup.entrySet();
+            Iterator<Map.Entry<String, List<Dictionaries>>> iter = entrySet.iterator();
+            while (iter.hasNext()) {
+                Map.Entry<String, List<Dictionaries>> entry = iter.next();
+                List<Dictionaries> dictionariesList = entry.getValue();
+                Map<String, String> tempMap = dictionariesList.stream().collect(Collectors.toMap(Dictionaries::getDictCode, Dictionaries::getDictName));
+                dictNameMap.put(entry.getKey(), tempMap);
+            }
+        }
+        return dictNameMap;
+    }
+
+
 
     /**
      * 构建 ztree 树
