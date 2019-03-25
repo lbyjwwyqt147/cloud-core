@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.encrypt.annotation.Decrypt;
+import pers.liujunyi.cloud.common.encrypt.annotation.Encrypt;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.util.SystemUtils;
 import pers.liujunyi.cloud.common.vo.tree.ZtreeNode;
 import pers.liujunyi.cloud.core.domain.IdParamDto;
 import pers.liujunyi.cloud.core.domain.dict.DictionariesDto;
@@ -22,7 +24,6 @@ import pers.liujunyi.cloud.core.util.Constant;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +74,8 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
     @Decrypt
-    @PostMapping(value = "dict/s")
+    @Encrypt
+    @PostMapping(value = "1010/10")
     @ApiVersion(1)
     public ResultInfo saveDataRecord(@Valid @RequestBody DictionariesDto param) {
         return this.dictionariesService.saveRecord(param);
@@ -248,28 +250,7 @@ public class DictionariesController extends BaseController {
         return  ResultUtil.success(this.dictionariesElasticsearchService.getDictName(systemCode, parentCode, dictCode));
     }
 
-    /**
-     *  字典 fullParentCode 父级代码 转换为字典值 map
-     * @param systemCode
-     * @param dictLevel
-     * @param  fullParentCode
-     * @return
-     */
-    @ApiOperation(value = "字典  fullParentCode 父级代码 转换为字典值 map 代码转换为字典值", notes = "适用于字典 fullParentCode 父级代码 转换为字典值 map 请求示例：127.0.0.1:18080/api/v1/dict/map/level/dictName")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
-            @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
-            @ApiImplicitParam(name = "fullParentCode", value = "父级字典代码",  required = true),
-            @ApiImplicitParam(name = "dictLevel", value = "层次级别",  required = false)
-    })
-    @GetMapping(value = "dict/map/level/dictName")
-    @ApiVersion(1)
-    public ResultInfo getDictNameToMap(@Valid @NotBlank(message = "systemCode 必须填写")
-                               @RequestParam(name = "systemCode", required = true) String systemCode,
-                               @RequestParam(name = "dictLevel") Byte dictLevel,  @NotBlank(message = "fullParentCode 必须填写")
-                               @RequestParam(name = "fullParentCode", required = true)  String fullParentCode) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, dictLevel, fullParentCode));
-    }
+
 
     /**
      *  字典 fullParentCode 父级代码 转换为字典值 map
@@ -290,14 +271,13 @@ public class DictionariesController extends BaseController {
     public ResultInfo getDictNameToMap(@Valid @NotBlank(message = "systemCode 必须填写")
                                        @RequestParam(name = "systemCode", required = true) String systemCode, @NotBlank(message = "fullParentCode 必须填写")
                                        @RequestParam(name = "fullParentCode", required = true) String fullParentCode) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, (byte)2, fullParentCode));
+        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, fullParentCode));
     }
 
     /**
      *  字典 fullParentCode 父级代码 转换为字典值 map
      * @param systemCode
      * @param fullParentCodes
-     * @param dictLevel
      * @return
      */
     @ApiOperation(value = "字典 fullParentCode 父级代码 转换为字典值 map", notes = "适用于字典 fullParentCode 父级代码 转换为字典值 map 请求示例：127.0.0.1:18080/api/v1/dict/map/dictName")
@@ -307,33 +287,13 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "fullParentCodes", value = "父级字典代码",  required = true),
             @ApiImplicitParam(name = "dictLevel", value = "层次级别",  required = false)
     })
-    @GetMapping(value = "dict/map/dictName")
+    @GetMapping(value = "dict/map/list/dictName")
     @ApiVersion(1)
     public ResultInfo getDictNameToMapList(@Valid @NotBlank(message = "systemCode 必须填写")
                                            @RequestParam(name = "systemCode", required = true) String systemCode,
-                                           @RequestParam(name = "dictLevel") Byte dictLevel, @NotBlank(message = "fullParentCodes 必须填写")
+                                           @NotBlank(message = "fullParentCodes 必须填写")
                                            @RequestParam(name = "fullParentCodes", required = true) String fullParentCodes) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, dictLevel, Arrays.asList(fullParentCodes.split(","))));
-    }
-
-    /**
-     *  字典 fullParentCode 父级代码 转换为字典值 map
-     * @param systemCode
-     * @param fullParentCodes
-     * @return
-     */
-    @ApiOperation(value = "字典 fullParentCode 父级代码 转换为字典值 map", notes = "适用于字典 fullParentCode 父级代码 转换为字典值 map 请求示例：127.0.0.1:18080/api/v1/dict/map/dictName")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
-            @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
-            @ApiImplicitParam(name = "fullParentCodes", value = "父级字典代码",  required = true)
-    })
-    @GetMapping(value = "dict/map/dictName")
-    @ApiVersion(1)
-    public ResultInfo getDictNameToMapList(@Valid @NotBlank(message = "systemCode 必须填写")
-                                       @RequestParam(name = "systemCode", required = true) String systemCode,  @NotBlank(message = "fullParentCodes 必须填写")
-                                       @RequestParam(name = "fullParentCodes", required = true) String fullParentCodes) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, (byte)2 , Arrays.asList(fullParentCodes.split(","))));
+        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, SystemUtils.stringToList(fullParentCodes)));
     }
 
 

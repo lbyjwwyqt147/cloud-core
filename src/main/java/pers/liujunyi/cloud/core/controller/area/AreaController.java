@@ -13,6 +13,7 @@ import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.util.SystemUtils;
 import pers.liujunyi.cloud.core.service.arae.AreaElasticsearchService;
 import pers.liujunyi.cloud.core.service.arae.AreaService;
 
@@ -63,7 +64,7 @@ public class AreaController extends BaseController {
 
     /**
      *  根据ID获取名称
-     *
+     * @param id
      * @return
      */
     @ApiOperation(value = "根据ID获取名称", notes = "适用于根据ID获取名称 请求示例：127.0.0.1:18080/api/v1/area/name")
@@ -76,6 +77,23 @@ public class AreaController extends BaseController {
     public ResultInfo getAreaName(@Valid @NotNull(message = "id 必须填写")
                                       @RequestParam(name = "id", required = true) Long id) {
         return this.areaElasticsearchService.getAreaName(id);
+    }
+
+    /**
+     *  根据ID获取名称  返回map
+     * @param ids
+     * @return
+     */
+    @ApiOperation(value = "根据ID获取名称  返回map", notes = "适用于根据ID获取名称 请求示例：127.0.0.1:18080/api/v1/area/map/name")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "String")
+    })
+    @GetMapping(value = "area/map/name")
+    @ApiVersion(1)
+    public ResultInfo getAreaNameToMap(@Valid @NotNull(message = "ids 必须填写")
+                                  @RequestParam(name = "ids", required = true) String ids) {
+        return this.areaElasticsearchService.areaNameToMap(SystemUtils.idToLong(ids));
     }
 
 

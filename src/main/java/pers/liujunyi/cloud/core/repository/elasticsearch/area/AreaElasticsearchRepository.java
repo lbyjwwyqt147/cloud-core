@@ -28,4 +28,6 @@ public interface AreaElasticsearchRepository extends BaseElasticsearchRepository
      * @return
      */
     List<Area> findByPid(Long pid, Pageable pageable);
+
+
 }

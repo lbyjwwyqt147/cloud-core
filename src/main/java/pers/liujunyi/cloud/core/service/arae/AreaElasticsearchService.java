@@ -34,4 +34,19 @@ public interface AreaElasticsearchService extends BaseElasticsearchService<Area,
      * @return
      */
     List<Map<String, Object>> areaCombox(Long pid, Boolean empty);
+
+    /**
+     * 根据id 获取名称  返回map
+     * @param ids
+     * @return  返回 map   key = 编号   value = 名称
+     */
+    ResultInfo areaNameToMap(List<Long> ids);
+
+    /**
+     * 根据id 获取名称  返回map
+     * @param ids
+     * @return  返回 map   key = 编号   value = 名称
+     */
+    Map<Long, String> getAreaNameToMap(List<Long> ids);
+
 }

@@ -57,15 +57,6 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      */
     List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty);
 
-    /**
-     * 字典 Combox
-     * @param systemCode
-     * @param parentCode  父级 code
-     * @param dictLevel  层次
-     * @param empty
-     * @return
-     */
-    List<Map<String, String>> dictCombox(String systemCode, String parentCode ,Byte dictLevel, Boolean empty);
 
     /**
      * 根据 fullDictCode 获取字典名称值
@@ -81,17 +72,15 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * 根据fullParentCode获取字典值 返回map
      * @param systemCode
      * @param fullParentCode  父级 dict code
-     * @param dictLevel  层次
      * @return  返回 map   key = 字典代码   value = 字典名称
      */
-    Map<String, String> getDictNameToMap(String systemCode, Byte dictLevel, String fullParentCode);
+    Map<String, String> getDictNameToMap(String systemCode, String fullParentCode);
 
     /**
      * 根据fullParentCodes 获取字典值 返回map
      * @param systemCode
      * @param fullParentCodes  父级 dict code
-     * @param dictLevel  层次
      * @return  返回 map   key = 字典代码   value = map
      */
-    Map<String, Map<String, String>> getDictNameToMap(String systemCode, Byte dictLevel, List<String> fullParentCodes);
+    Map<String, Map<String, String>> getDictNameToMap(String systemCode, List<String> fullParentCodes);
 }

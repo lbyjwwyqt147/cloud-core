@@ -109,11 +109,6 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
 
     @Override
     public List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty) {
-        return this.dictCombox(systemCode, parentCode, (byte)2, empty);
-    }
-
-    @Override
-    public List<Map<String, String>> dictCombox(String systemCode, String parentCode, Byte dictLevel, Boolean empty) {
         List<Map<String, String>> result  = new LinkedList<>();
         if (empty != null && empty == true) {
             Map<String, String> emptyMap = new ConcurrentHashMap<>();
@@ -121,7 +116,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
             emptyMap.put("text", "-请选择-");
             result.add(emptyMap);
         }
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndStatusAndDictLevelAndFullParentCodeOrderByPriorityAsc(systemCode, Constant.ENABLE_STATUS, dictLevel,parentCode, super.pageable);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndStatusAndFullParentCodeOrderByPriorityAsc(systemCode, Constant.ENABLE_STATUS, parentCode, super.pageable);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {
                 Map<String, String> map = new ConcurrentHashMap<>();
@@ -132,6 +127,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
         }
         return result;
     }
+
 
     @Override
     public String getDictName(String systemCode, String parentCode, String dictCode) {
@@ -144,9 +140,8 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public Map<String, String> getDictNameToMap(String systemCode, Byte dictLevel, String fullParentCode) {
-        dictLevel = dictLevel == null ? (byte)2 : dictLevel;
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndDictLevelAndFullParentCode(systemCode, dictLevel, fullParentCode, super.allPageable);
+    public Map<String, String> getDictNameToMap(String systemCode,  String fullParentCode) {
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCode(systemCode, fullParentCode, super.allPageable);
         if (!CollectionUtils.isEmpty(list)) {
             return list.stream().collect(Collectors.toMap(Dictionaries::getDictCode, Dictionaries::getDictName));
         }
@@ -154,10 +149,9 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public Map<String, Map<String, String>> getDictNameToMap(String systemCode,  Byte dictLevel, List<String> fullParentCodes) {
-        dictLevel = dictLevel == null ? (byte)2 : dictLevel;
+    public Map<String, Map<String, String>> getDictNameToMap(String systemCode,  List<String> fullParentCodes) {
         Map<String, Map<String, String>> dictNameMap = new ConcurrentHashMap<>();
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndDictLevelAndFullParentCodeIn(systemCode, dictLevel, fullParentCodes, super.allPageable);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCodeIn(systemCode, fullParentCodes, super.allPageable);
         if (!CollectionUtils.isEmpty(list)) {
             // 以 fullParentCode 分组
             Map<String, List<Dictionaries>> parentCodeGroup = list.stream().collect(Collectors.groupingBy(Dictionaries::getFullParentCode));

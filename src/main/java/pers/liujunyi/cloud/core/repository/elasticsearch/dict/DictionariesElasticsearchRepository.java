@@ -68,32 +68,29 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
 
     /**
      * 根据   fullParentCode   获取数据
-     * @param dictLevel
      * @param fullParentCode
      * @param systemCode
      * @return
      */
-    List<Dictionaries> findBySystemCodeAndDictLevelAndFullParentCode(String systemCode, Byte dictLevel, String fullParentCode, Pageable pageable);
+    List<Dictionaries> findBySystemCodeAndFullParentCode(String systemCode, String fullParentCode, Pageable pageable);
 
     /**
      * 根据   fullParentCode   获取数据
-     * @param dictLevel
      * @param fullParentCode
      * @param systemCode
      * @param status
      * @return
      */
-    List<Dictionaries> findBySystemCodeAndStatusAndDictLevelAndFullParentCodeOrderByPriorityAsc(String systemCode,Byte status, Byte dictLevel, String fullParentCode, Pageable pageable);
+    List<Dictionaries> findBySystemCodeAndStatusAndFullParentCodeOrderByPriorityAsc(String systemCode,Byte status,  String fullParentCode, Pageable pageable);
 
 
     /**
      * 根据   fullParentCode   获取数据
      * @param systemCode
      * @param fullParentCodes
-     * @param dictLevel
      * @return
      */
-    List<Dictionaries> findBySystemCodeAndDictLevelAndFullParentCodeIn(String systemCode, Byte dictLevel , List<String> fullParentCodes, Pageable pageable);
+    List<Dictionaries> findBySystemCodeAndFullParentCodeIn(String systemCode, List<String> fullParentCodes, Pageable pageable);
 
 
     /**

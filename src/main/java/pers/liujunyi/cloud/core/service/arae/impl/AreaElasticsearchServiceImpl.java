@@ -8,6 +8,7 @@ import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
 import pers.liujunyi.cloud.core.entity.area.Area;
+import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.area.AreaElasticsearchRepository;
 import pers.liujunyi.cloud.core.service.arae.AreaElasticsearchService;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /***
  * 文件名称: AreaElasticsearchServiceImpl.java
@@ -67,6 +69,20 @@ public class AreaElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<A
             });
         }
         return result;
+    }
+
+    @Override
+    public ResultInfo areaNameToMap(List<Long> ids) {
+        return ResultUtil.success(this.getAreaNameToMap(ids));
+    }
+
+    @Override
+    public Map<Long, String> getAreaNameToMap(List<Long> ids) {
+        List<Area> list = super.findByIdIn(ids);
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.stream().collect(Collectors.toMap(Area::getId, Area::getMergerName));
+        }
+        return null;
     }
 
     /**

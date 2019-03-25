@@ -69,7 +69,7 @@ public class FileManagementController extends BaseController {
     @DeleteMapping(value = "file/batchDelete/{id}")
     @ApiVersion(1)
     public ResultInfo batchDelete(@PathVariable(value = "id") String id) {
-        if (this.fileManagementService.deleteAllByIdIn(SystemUtils.getIds(id))) {
+        if (this.fileManagementService.deleteAllByIdIn(SystemUtils.idToLong(id))) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();
@@ -89,7 +89,7 @@ public class FileManagementController extends BaseController {
     @GetMapping(value = "file/details/{id}")
     @ApiVersion(1)
     public ResultInfo findAllById(@PathVariable(value = "id") String id) {
-        return ResultUtil.success(this.fileManagementService.findByIdIn(SystemUtils.getIds(id)));
+        return ResultUtil.success(this.fileManagementService.findByIdIn(SystemUtils.idToLong(id)));
     }
 
 
