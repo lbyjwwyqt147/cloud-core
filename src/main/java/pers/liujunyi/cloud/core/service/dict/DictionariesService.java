@@ -43,6 +43,13 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
     ResultInfo batchDeletes(List<Long> ids);
 
     /**
+     * 单条删除
+     * @param id
+     * @return
+     */
+    ResultInfo singleDelete(Long id);
+
+    /**
      * 同步数据到es中
      * @return
      */

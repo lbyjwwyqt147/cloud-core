@@ -53,7 +53,7 @@ public class DictionariesDto extends BaseDto {
 
     /** 优先级 */
     @ApiModelProperty(value = "优先级")
-    @Min(value = 1, message = "优先级 必须是合法数字")
+    @Min(value = 0, message = "优先级 必须大于0")
     @Max(value = 999,  message = "优先级 不能大于999")
     private Integer priority;
 

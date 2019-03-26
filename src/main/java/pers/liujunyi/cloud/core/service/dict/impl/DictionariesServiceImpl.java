@@ -60,9 +60,9 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (record.getPid().longValue() > 0) {
             Dictionaries parent = this.selectById(record.getPid());
             dictionaries.setFullParent(parent.getFullParent() + ":"  + parent.getId());
-            String curParentCode = StringUtils.isNotBlank(parent.getFullParentCode()) && parent.getFullParentCode().equals("0") ? parent.getFullParentCode()   + ":" + parent.getDictCode() : parent.getDictCode();
+            String curParentCode = StringUtils.isNotBlank(parent.getFullParentCode()) && !parent.getFullParentCode().equals("0") ? parent.getFullParentCode()   + ":" + parent.getDictCode() : parent.getDictCode();
             dictionaries.setFullParentCode(curParentCode);
-            String curFullDictCode = StringUtils.isNotBlank(parent.getFullDictCode()) && parent.getFullDictCode().equals("0") ? parent.getFullDictCode()   + ":" + record.getDictCode() : parent.getDictCode();
+            String curFullDictCode = StringUtils.isNotBlank(parent.getFullDictCode()) ? parent.getFullDictCode()   + ":" + record.getDictCode() : parent.getDictCode();
             dictionaries.setFullDictCode(curFullDictCode);
             dictionaries.setDictLevel((byte)(parent.getDictLevel() +  1));
         } else {
@@ -70,7 +70,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
             dictionaries.setFullParent("0");
             dictionaries.setFullParentCode("0");
             dictionaries.setDictLevel((byte)1);
-            dictionaries.setFullDictCode("0");
+            dictionaries.setFullDictCode(record.getDictCode());
         }
         if (record.getPriority() == null) {
             dictionaries.setPriority(10);
@@ -141,6 +141,13 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
             return ResultUtil.success();
         }
         return ResultUtil.fail();
+    }
+
+    @Override
+    public ResultInfo singleDelete(Long id) {
+        this.dictionariesRepository.deleteById(id);
+        this.dictionariesElasticsearchRepository.deleteById(id);
+        return ResultUtil.success();
     }
 
     @Override
