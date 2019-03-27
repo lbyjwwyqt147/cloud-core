@@ -142,7 +142,7 @@ public class DictionariesController extends BaseController {
      * @param param 　 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "删除多条数据(数据加密处理)", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/dict/batch/d")
+    @ApiOperation(value = "删除多条数据(数据加密处理)", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/dict/b/d")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String")
@@ -195,7 +195,7 @@ public class DictionariesController extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "字典tree 结构数据 (只包含正常数据  禁用数据不展示)", notes = "适用于 根据pid  显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/tree")
+    @ApiOperation(value = "字典tree 结构数据 (只包含正常数据  禁用数据不展示)", notes = "适用于 根据pid  显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/z")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
@@ -212,7 +212,7 @@ public class DictionariesController extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "根据 fullParentCode 获取  字典tree 结构数据 (只包含正常数据  禁用数据不展示)", notes = "适用于 根据 fullParentCode 显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/tree")
+    @ApiOperation(value = "根据 fullParentCode 获取  字典tree 结构数据 (只包含正常数据  禁用数据不展示)", notes = "适用于 根据 fullParentCode 显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/p/z")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String")
@@ -229,7 +229,7 @@ public class DictionariesController extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "字典tree 结构数据 (包含禁用数据 )", notes = "适用于 根据pid  显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/all/tree")
+    @ApiOperation(value = "字典tree 结构数据 (包含禁用数据 )", notes = "适用于 根据pid  显示 tree 数据 请求示例：127.0.0.1:18080/api/v1/tree/dict/all/z")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
@@ -266,7 +266,7 @@ public class DictionariesController extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "修改数据状态(数据加密处理)", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/st")
+    @ApiOperation(value = "修改数据状态(数据加密处理)", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/p")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
