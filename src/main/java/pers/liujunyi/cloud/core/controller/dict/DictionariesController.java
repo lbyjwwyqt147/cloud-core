@@ -182,7 +182,6 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @Encrypt
     @GetMapping(value = "table/dict/g")
     @ApiVersion(1)
     public ResultInfo encryptPageGrid(@Valid DictionariesQueryDto query) {
