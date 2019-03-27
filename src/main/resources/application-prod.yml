@@ -13,10 +13,8 @@ data:
   allowedOrigin: '*'
   # 直接访问 http://101.132.136.225:18080 时 返回信息设置
   indexView: '请访问：http://101.132.136.225:18080/swagger-ui.html  查看API文档'
-  # 数据字典地址
-  dictUrl: http://127.0.0.1:18080/api/v1/dict/dictName
   # cloud_core 地址
-  cloudUrl: http://127.0.0.1:18080/api/v1
+  cloudUrl: http://127.0.0.1:18080/api
   # redis 是否默填充application name 作为redis key 的前缀   true 填充 false 不填充   例如：photo_album:user    photo_album:为自动填充
   redisPrefixion: true
   # 授权访问核心系统的 code
@@ -123,6 +121,20 @@ spring:
         min-idle: 10
     #连接超时时间
     timeout: 60000ms
+
+  # RSA 加密
+  encrypt:
+    # RSA 私钥
+    privateKey:
+    # RSA 公钥
+    publicKey:
+    # AES 密钥
+    secretKey: dO6+g3+08ELBKtx/1/WBYQ==
+    # 签名过期时间 单位 分钟
+    signExpireTime: 10
+    # 开启调试模式，调试模式下不进行加解密操作，用于像Swagger这种在线API测试场景
+    debug: false
+
 
 logging:
   config: classpath:log4j2-spring-prod.xml

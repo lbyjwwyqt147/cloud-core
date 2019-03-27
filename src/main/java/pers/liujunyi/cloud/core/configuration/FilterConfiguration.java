@@ -3,7 +3,6 @@ package pers.liujunyi.cloud.core.configuration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import pers.liujunyi.cloud.common.encrypt.filter.SignAuthFilter;
 
 /***
@@ -12,7 +11,6 @@ import pers.liujunyi.cloud.common.encrypt.filter.SignAuthFilter;
  * @author ljy
  */
 @Configuration
-@Order(20)
 public class FilterConfiguration {
 
     /**
@@ -41,7 +39,7 @@ public class FilterConfiguration {
        // registration.addUrlPatterns("/folder_name/*");
         //过滤指定文件
        // registration.addUrlPatterns("/index.html");
-        registrationBean.setOrder(5);
+        registrationBean.setOrder(1);
         return registrationBean;
     }
 }

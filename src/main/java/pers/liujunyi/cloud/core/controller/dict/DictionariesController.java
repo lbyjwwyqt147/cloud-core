@@ -149,7 +149,7 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @DeleteMapping(value = "dict/batch/d")
+    @DeleteMapping(value = "dict/b/d")
     @ApiVersion(1)
     public ResultInfo encryptBatchDelete(@Valid @RequestBody IdParamDto param) {
         return this.dictionariesService.batchDeletes(param.getIdList());
@@ -216,7 +216,7 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String")
     })
-    @GetMapping(value = "tree/dict/parentCode/z")
+    @GetMapping(value = "tree/dict/p/z")
     @ApiVersion(1)
     public List<ZtreeNode> dictCodeZTree(@Valid IdParamDto param ) {
         return this.dictionariesElasticsearchService.dictCodeTree(param.getCode(), Constant.ENABLE_STATUS, param.getSystemCode());
@@ -273,7 +273,7 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @PutMapping(value = "dict/st")
+    @PutMapping(value = "dict/p")
     @ApiVersion(1)
     public ResultInfo encryptUpdateDataStatus(@Valid @RequestBody IdParamDto param ) {
         return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList());
