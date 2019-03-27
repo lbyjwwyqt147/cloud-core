@@ -108,15 +108,15 @@ public class DictionariesController extends BaseController {
     @ApiOperation(value = "单条删除数据(数据加密处理)", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/dict/d")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
-            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "String")
     })
     @Encrypt
     @Decrypt
     @DeleteMapping(value = "dict/d")
     @ApiVersion(1)
     public ResultInfo encryptSingleDelete(@Valid @NotNull(message = "id 必须填写")
-                                   @RequestParam(name = "id", required = true) Long id) {
-        return this.dictionariesService.singleDelete(id);
+                                   @RequestParam(name = "id", required = true) String id) {
+        return this.dictionariesService.singleDelete(Long.valueOf(id));
     }
 
     /**
@@ -172,7 +172,7 @@ public class DictionariesController extends BaseController {
     }
 
     /**
-     * 分页列表数据
+     * 分页列表数据(数据加密处理)
      *
      * @param query
      * @return
@@ -182,6 +182,7 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
+    @Encrypt
     @GetMapping(value = "table/dict/g")
     @ApiVersion(1)
     public ResultInfo encryptPageGrid(@Valid DictionariesQueryDto query) {
