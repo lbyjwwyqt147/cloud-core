@@ -17,14 +17,18 @@ data:
   cloudUrl: http://127.0.0.1:18080/api
   # redis 是否默填充application name 作为redis key 的前缀   true 填充 false 不填充   例如：photo_album:user    photo_album:为自动填充
   redisPrefixion: true
-  # 授权访问核心系统的 code
+  # 核心系统授权访问的 code
   coreSystemCode: 1000
-  # 授权访问核心系统的 appId
+  # 心系统授权访问核的 appId
   coreAppId: 1550817758252
-  # 授权访问核心系统的 appKey
+  # 核心系统授权访问的 appKey
   coreAppKey: c80e645007264e2684b393533ef7e832
   # 授权访问核心系统的 credential
   coreCredential: 1f2db1ad91963708d36c751c282be8ae
+  # 核心系统的 appId
+  cloudAppId: 1550817758252
+  # 核心系统的 appKey
+  cloudAppKey: c80e645007264e2684b393533ef7e832
 
 spring:
   datasource:
