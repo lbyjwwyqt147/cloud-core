@@ -30,7 +30,7 @@ public class FilterConfiguration {
     public FilterRegistrationBean signAuthFilterRegistration(
             SignAuthFilter signAuthFilter) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean(signAuthFilter);
-        registrationBean.addUrlPatterns("/*");
+        registrationBean.addUrlPatterns("/api/*");
         //过滤应用程序中所有资源,当前应用程序根下的所有文件包括多级子目录下的所有文件，注意这里*前有“/”
         //registration.addUrlPatterns("/*");
         //过滤指定的类型文件资源, 当前应用程序根目录下的所有html文件，注意：*.html前没有“/”,否则错误

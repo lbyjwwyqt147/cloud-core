@@ -84,8 +84,6 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
      */
     @Override
     public ResultInfo findPageGird(DictionariesQueryDto query) {
-        // 排序方式
-        Sort sort =  new Sort(Sort.Direction.ASC, "priority");
 
         // 分页参数
        /* Pageable pageable = PageRequest.of(query.getPageNumber() - 1, query.getPageSize(), sort);
@@ -98,7 +96,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
                 .withQuery(filter).build();*/
         //分页参数
-        Pageable pageable = query.toPageable(sort);
+        Pageable pageable = query.toPageable(Sort.Direction.ASC, "priority");
         // 查询数据
         SearchQuery searchQuery = query.toSpecPageable(pageable);
         Page<Dictionaries> searchPageResults = this.dictionariesElasticsearchRepository.search(searchQuery);
