@@ -61,6 +61,11 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
         return this.startBuilderZtree(list);
     }
 
+    @Override
+    public List<Dictionaries> findByPid(Long pid) {
+        return this.dictionariesElasticsearchRepository.findByPid(pid, super.allPageable);
+    }
+
     /**
      *
      *  使用QueryBuilder
@@ -84,17 +89,6 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
      */
     @Override
     public ResultInfo findPageGird(DictionariesQueryDto query) {
-
-        // 分页参数
-       /* Pageable pageable = PageRequest.of(query.getPageNumber() - 1, query.getPageSize(), sort);
-        // 条件过滤
-        BoolQueryBuilder filter = QueryBuilders.boolQuery();
-      //  filter.must(QueryBuilders.matchQuery("dictCode", query.getDictCode()));
-        filter.must(QueryBuilders.termQuery("systemCode", query.getSystemCode()));
-        filter.must(QueryBuilders.termQuery("pid", query.getPid()));
-       // filter.must(QueryBuilders.fuzzyQuery("dictName", query.getDictName()));
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
-                .withQuery(filter).build();*/
         //分页参数
         Pageable pageable = query.toPageable(Sort.Direction.ASC, "priority");
         // 查询数据

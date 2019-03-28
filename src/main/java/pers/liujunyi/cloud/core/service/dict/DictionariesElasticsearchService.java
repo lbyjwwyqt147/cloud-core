@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.core.service.dict;
 
+import org.springframework.data.domain.Pageable;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.common.vo.tree.ZtreeNode;
@@ -40,6 +41,13 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * @return
      */
     List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status ,String systemCode);
+
+    /**
+     *  获取 存在 叶子节点的 字典数据
+     * @param pid
+     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
+     */
+    List<Dictionaries> findByPid(Long pid);
 
     /**
      * 分页列表

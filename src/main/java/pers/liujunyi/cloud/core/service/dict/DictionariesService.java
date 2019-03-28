@@ -36,6 +36,15 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
     ResultInfo updateStatus(Byte status, List<Long> ids);
 
     /**
+     * 修改状态
+     * @param status
+     * @param id
+     * @param version
+     * @return
+     */
+    ResultInfo updateStatus(Byte status, Long id, Long version);
+
+    /**
      * 批量删除
      * @param ids
      * @return

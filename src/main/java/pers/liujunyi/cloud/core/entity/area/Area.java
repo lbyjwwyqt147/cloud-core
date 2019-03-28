@@ -101,6 +101,7 @@ public class Area implements Serializable {
     @Field(type = FieldType.Keyword, index = false)
     private Date updateTime;
 
+    /** 版本号  */
     @Version
-    private Long version;
+    private Long dataVersion;
 }

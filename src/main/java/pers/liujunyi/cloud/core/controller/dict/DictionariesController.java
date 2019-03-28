@@ -115,7 +115,7 @@ public class DictionariesController extends BaseController {
     @DeleteMapping(value = "dict/d")
     @ApiVersion(1)
     public ResultInfo encryptSingleDelete(@Valid @NotNull(message = "id 必须填写")
-                                   @RequestParam(name = "id", required = true) String id) {
+                                   @RequestParam(name = "id", required = true) @RequestBody String id) {
         return this.dictionariesService.singleDelete(Long.valueOf(id));
     }
 
@@ -241,12 +241,12 @@ public class DictionariesController extends BaseController {
 
 
     /**
-     *  修改数据状态
+     *  批量修改数据状态
      *
      * @param param
      * @return
      */
-    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/status")
+    @ApiOperation(value = "批量修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/status")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
@@ -260,12 +260,34 @@ public class DictionariesController extends BaseController {
 
 
     /**
-     *  修改数据状态(数据加密处理)
+     *  单条修改数据状态(数据加密处理)
      *
      * @param param
      * @return
      */
-    @ApiOperation(value = "修改数据状态(数据加密处理)", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/p")
+    @ApiOperation(value = "单条修改数据状态(数据加密处理)", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/p")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer"),
+            @ApiImplicitParam(name = "dataVersion", value = "version",  required = true, dataType = "integer")
+    })
+    @Encrypt
+    @Decrypt
+    @PutMapping(value = "dict/p")
+    @ApiVersion(1)
+    public ResultInfo encryptUpdateDataStatus(@Valid @RequestBody IdParamDto param ) {
+        return this.dictionariesService.updateStatus(param.getStatus(), param.getId(), param.getDataVersion());
+    }
+
+
+    /**
+     *  批量修改数据状态(数据加密处理)
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "批量修改数据状态(数据加密处理)", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/dict/b/p")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
@@ -273,9 +295,9 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @PutMapping(value = "dict/p")
+    @PutMapping(value = "dict/b/p")
     @ApiVersion(1)
-    public ResultInfo encryptUpdateDataStatus(@Valid @RequestBody IdParamDto param ) {
+    public ResultInfo encryptUpdateStatus(@Valid @RequestBody IdParamDto param ) {
         return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList());
     }
 

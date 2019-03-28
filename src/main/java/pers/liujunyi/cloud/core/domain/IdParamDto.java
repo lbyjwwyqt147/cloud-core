@@ -57,6 +57,9 @@ public class IdParamDto implements Serializable {
     @ApiModelProperty(value = "状态")
     private Byte status;
 
+    @ApiModelProperty(value = "版本号")
+    private Long dataVersion;
+
     public void setIds(String ids) {
         if (StringUtils.isNotBlank(ids)) {
             this.setIdList(JSONArray.parseArray(ids, Long.class));

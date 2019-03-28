@@ -51,6 +51,14 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
     List<Dictionaries> findByPidIn(List<Long> pid, Pageable pageable);
 
     /**
+     *  获取 存在 叶子节点的 字典数据
+     * @param pid
+     * @param  pageable
+     * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
+     */
+    List<Dictionaries> findByPid(Long pid, Pageable pageable);
+
+    /**
      *  根据 systemCode  pid  dictCode 获取数据
      * @param systemCode
      * @param pid

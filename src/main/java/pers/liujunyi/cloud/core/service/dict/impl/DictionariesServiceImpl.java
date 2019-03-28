@@ -86,6 +86,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (saveObj == null || saveObj.getId() == null) {
             return ResultUtil.fail();
         }
+        saveObj.setDataVersion(record.getDataVersion() + 1);
         this.dictionariesElasticsearchRepository.save(saveObj);
         // 新增操作才会去更新leaf 字段值
         if (add) {
@@ -118,6 +119,28 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
                 sourceMap.put(String.valueOf(item), docDataMap);
             });
             // 更新 Elasticsearch 中的数据
+            super.updateBatchElasticsearchData(sourceMap);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
+    public ResultInfo updateStatus(Byte status, Long id, Long version) {
+        if (status.byteValue() == 1) {
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPid(id, super.allPageable);
+            if (!CollectionUtils.isEmpty(list)) {
+                return ResultUtil.params("无法被禁用.");
+            }
+        }
+        int count = this.dictionariesRepository.setStatusById(status, new Date(), id, version);
+        if (count > 0) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("status", status);
+            docDataMap.put("dataVersion", version + 1);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            sourceMap.put(String.valueOf(id), docDataMap);
             super.updateBatchElasticsearchData(sourceMap);
             return ResultUtil.success();
         }

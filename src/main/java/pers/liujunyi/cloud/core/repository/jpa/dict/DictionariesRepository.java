@@ -41,8 +41,22 @@ public interface DictionariesRepository extends BaseRepository<Dictionaries, Lon
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query(value = "update dictionaries dict set dict.status = ?1, dict.update_time = ?2   where dict.id in (?3)", nativeQuery = true)
-    int setStatusByIds(Byte status,Date updateTime,List<Long> ids);
+    @Query(value = "update dictionaries dict set dict.status = ?1, dict.update_time = ?2, dict.data_version = data_version+1  where dict.id in (?3)", nativeQuery = true)
+    int setStatusByIds(Byte status, Date updateTime, List<Long> ids);
+
+    /**
+     * 修改状态
+     * @param status  0:启动 1：禁用
+     * @param id
+     * @param updateTime
+     * @param version
+     * @return
+     */
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    @Modifying(clearAutomatically = true)
+    //@Query(value = "update dictionaries dict set dict.status = ?1, dict.update_time = ?2, dict.data_version = data_version+1  where dict.id = ?3 ", nativeQuery = true)
+    @Query(value = "update dictionaries dict set dict.status = ?1, dict.update_time = ?2, dict.data_version = data_version+1  where dict.id = ?3 and dict.data_version = ?4", nativeQuery = true)
+    int setStatusById(Byte status,Date updateTime, Long id, Long version);
 
     /**
      *  修改  leaf
