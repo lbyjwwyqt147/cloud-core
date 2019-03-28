@@ -99,5 +99,5 @@ public class Dictionaries extends BaseEntity {
     private String attributeThree;
 
     @Version
-    private Integer version;
+    private Long version;
 }

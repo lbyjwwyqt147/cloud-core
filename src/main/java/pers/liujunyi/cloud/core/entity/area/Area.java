@@ -102,5 +102,5 @@ public class Area implements Serializable {
     private Date updateTime;
 
     @Version
-    private Integer version;
+    private Long version;
 }

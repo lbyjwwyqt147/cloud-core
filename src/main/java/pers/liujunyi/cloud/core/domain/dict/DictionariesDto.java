@@ -103,6 +103,6 @@ public class DictionariesDto extends BaseDto {
     /** 层次级别 */
     private Byte dictLevel;
     /** 版本号 */
-    private Integer version;
+    private Long version;
 
 }
