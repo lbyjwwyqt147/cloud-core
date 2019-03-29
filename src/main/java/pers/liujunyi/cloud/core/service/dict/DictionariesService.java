@@ -30,10 +30,12 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
     /**
      * 修改状态
      * @param status
+     * @param putParams
      * @param ids
+     *
      * @return
      */
-    ResultInfo updateStatus(Byte status, List<Long> ids);
+    ResultInfo updateStatus(Byte status, List<Long> ids, String putParams);
 
     /**
      * 修改状态

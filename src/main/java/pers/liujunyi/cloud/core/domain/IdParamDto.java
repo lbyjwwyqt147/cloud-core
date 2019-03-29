@@ -39,6 +39,11 @@ public class IdParamDto implements Serializable {
     @Length(min = 1, max = 10, message = "systemCode 最大长度为10个字符")
     private String systemCode;
 
+
+    /**  修改状态时前端传的json数组   格式必须是  [{id=1,dataVersion=}] */
+    @ApiModelProperty(value = "putParams")
+    private String putParams;
+
     @ApiModelProperty(value = "code")
     private String code;
 

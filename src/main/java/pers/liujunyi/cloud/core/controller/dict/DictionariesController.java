@@ -255,7 +255,7 @@ public class DictionariesController extends BaseController {
     @PutMapping(value = "dict/status")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
-        return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList());
+        return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList(), param.getPutParams());
     }
 
 
@@ -298,7 +298,7 @@ public class DictionariesController extends BaseController {
     @PutMapping(value = "dict/b/p")
     @ApiVersion(1)
     public ResultInfo encryptUpdateStatus(@Valid @RequestBody IdParamDto param ) {
-        return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList());
+        return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList(), param.getPutParams());
     }
 
     /**
