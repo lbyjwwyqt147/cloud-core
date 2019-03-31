@@ -12,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.cloud.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.Version;
 
 /***
  * 文件名称: Dictionaries.java
@@ -97,4 +98,7 @@ public class Dictionaries extends BaseEntity {
     @Field(type = FieldType.Keyword, index = false)
     private String attributeThree;
 
+    /** 版本号  */
+    @Version
+    private Long dataVersion;
 }
