@@ -134,7 +134,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     @Override
     public ResultInfo updateStatus(Byte status, Long id, Long version) {
         if (status.byteValue() == 1) {
-            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPid(id, super.allPageable);
+            List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPid(id, super.getPageable(1));
             if (!CollectionUtils.isEmpty(list)) {
                 return ResultUtil.params("无法被禁用.");
             }
