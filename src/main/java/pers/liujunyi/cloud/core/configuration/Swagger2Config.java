@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  * 文件名称: Swagger2.java
@@ -29,20 +32,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Swagger2Config {
 
-    /** 定义分隔符,配置Swagger多包 */
-    private static final String splitor = ";";
-
+    /**
+     * 创建API
+     */
     @Bean
-    public Docket createRestApi() {
+    public Docket customDocket() {
+        /** 指定需要扫描 的 controller 包路径   */
+        List<String> basePackageList = new ArrayList<>();
+        basePackageList.add("pers.liujunyi.cloud.core.controller");
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                .enable(true)
                 .select()
-                //扫描swagger 注解的包  RequestHandlerSelectors.basePackage("pers.liujunyi.cloud.core.controller")
-                .apis(basePackage("pers.liujunyi.cloud.core.controller"))
+                // .apis(RequestHandlerSelectors.basePackage("pers.liujunyi.cloud.core.controller"))
+                .apis(basePackage(basePackageList))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
     }
 
+    /**
+     * 添加摘要信息
+     * 这里是接口的描述配置
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //页面标题
@@ -56,19 +69,20 @@ public class Swagger2Config {
                 .build();
     }
 
+
     /**
-     * 重写basePackage方法，使能够实现多包访问，复制贴上去
+     * 重写basePackage方法，使能够实现多包访问
      * @param basePackage
      * @return com.google.common.base.Predicate<springfox.documentation.RequestHandler>
      */
-    public static Predicate<RequestHandler> basePackage(final String basePackage) {
+    public static Predicate<RequestHandler> basePackage(List<String> basePackage) {
         return input -> declaringClass(input).transform(handlerPackage(basePackage)).or(true);
     }
 
-    private static Function<Class<?>, Boolean> handlerPackage(final String basePackage)     {
+    private static Function<Class<?>, Boolean> handlerPackage(List<String> basePackage)     {
         return input -> {
             // 循环判断匹配
-            for (String strPackage : basePackage.split(splitor)) {
+            for (String strPackage : basePackage) {
                 boolean isMatch = input.getPackage().getName().startsWith(strPackage);
                 if (isMatch) {
                     return true;
@@ -80,6 +94,30 @@ public class Swagger2Config {
 
     private static Optional<? extends Class<?>> declaringClass(RequestHandler input) {
         return Optional.fromNullable(input.declaringClass());
+    }
+
+
+    private List<ApiKey> securitySchemes() {
+        List<ApiKey> apiKeys = new ArrayList<>();
+        apiKeys.add(new ApiKey("Authorization", "Authorization", "header"));
+        return apiKeys;
+    }
+
+    private List<SecurityContext> securityContexts() {
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex("^(?!auth).*$")).build());
+        return securityContexts;
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        List<SecurityReference> securityReferences = new ArrayList<>();
+        securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
+        return securityReferences;
     }
 }
 
