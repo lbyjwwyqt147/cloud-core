@@ -82,11 +82,6 @@ public class FileDataDto implements Serializable {
     @Length(min = 0, max = 45, message = "extensionThree 最多可以输入45个字符")
     private String extensionThree;
 
-    /** 扩展字段4 */
-    @ApiModelProperty(value = "扩展字段4")
-    @Length(min = 0, max = 45, message = "extensionFour 最多可以输入45个字符")
-    private String extensionFour;
-
     @ApiModelProperty(value = "是否需要重命名上传文件名称 默认：true")
     private Boolean rename = true;
 
@@ -96,5 +91,8 @@ public class FileDataDto implements Serializable {
 
     @ApiModelProperty(value = "是否添加水印 默认：false")
     private Boolean addWatermark = false;
+
+    @ApiModelProperty(value = "文件路径")
+    private String filePath;
 
 }

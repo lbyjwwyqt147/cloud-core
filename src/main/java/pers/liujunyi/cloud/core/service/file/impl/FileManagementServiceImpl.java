@@ -11,7 +11,7 @@ import pers.liujunyi.cloud.common.vo.file.FileDataVo;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
 import pers.liujunyi.cloud.core.repository.jpa.file.FileManagementRepository;
 import pers.liujunyi.cloud.core.service.file.FileManagementService;
-import pers.liujunyi.cloud.core.util.FileUtil;
+import pers.liujunyi.cloud.core.service.oss.AliyunOSSClientUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +36,8 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
 
     @Autowired
     private FileManagementRepository fileManagementRepository;
+    @Autowired
+    private AliyunOSSClientUtil aliyunOSSClientUtil;
 
     public FileManagementServiceImpl(BaseRepository<FileManagement, Long> baseRepository) {
         super(baseRepository);
@@ -88,7 +90,7 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
         List<FileManagement> recordList = this.findByIdIn(ids);
         // 删除数据库纪录
         this.fileManagementRepository.deleteInBatch(recordList);
-        // 删除磁盘上的文件
+        // 删除阿里云oss 上的文件
         this.deleteFile(recordList);
         return true;
     }
@@ -98,8 +100,8 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
         FileManagement record = this.fileManagementRepository.getOne(id);
         // 删除数据库纪录
         this.fileManagementRepository.delete(record);
-        // 删除磁盘上的文件
-        FileUtil.delete(record.getFilePath());
+        // 删除阿里云oss 上的文件
+        aliyunOSSClientUtil.deleteFile(record.getFileCallAddress());
         return true;
     }
 
@@ -110,10 +112,10 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
      * @param records
      */
     private void deleteFile(List<FileManagement> records) {
-        // 删除磁盘上的文件
+        // 删除阿里云oss 上的文件
         threadPoolExecutor.execute(() -> {
             for (FileManagement fileRecord : records) {
-                FileUtil.delete(fileRecord.getFilePath());
+                aliyunOSSClientUtil.deleteFile(fileRecord.getFileCallAddress());
             }
         });
     }

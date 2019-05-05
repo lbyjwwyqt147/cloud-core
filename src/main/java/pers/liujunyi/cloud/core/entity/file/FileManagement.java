@@ -120,6 +120,11 @@ public class FileManagement implements Serializable {
     private Date uploadTime;
 
     /**
+     * 文件唯一签名
+     */
+    private String fileSignature;
+
+    /**
      * 扩展字段1
      */
     private String extensionOne;
@@ -134,9 +139,5 @@ public class FileManagement implements Serializable {
      */
     private String extensionThree;
 
-    /**
-     * 扩展字段4
-     */
-    private String extensionFour;
 
 }
