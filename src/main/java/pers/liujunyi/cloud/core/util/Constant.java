@@ -11,7 +11,6 @@ public final class  Constant {
     public static final Byte ENABLE_STATUS = 0;
     public static final String DATA_GRID_MESSAGE = "无数据";
 
-
     /**
      * 数据状态值
      * @param status

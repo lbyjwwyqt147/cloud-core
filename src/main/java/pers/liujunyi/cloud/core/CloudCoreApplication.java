@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import pers.liujunyi.cloud.common.configuration.MySQLUpperCaseStrategy;
 import pers.liujunyi.cloud.common.encrypt.annotation.EnableEncrypt;
 
@@ -19,6 +20,7 @@ import pers.liujunyi.cloud.common.encrypt.annotation.EnableEncrypt;
  * 开启加解密自动配置 @EnableEncrypt
  * @author
  */
+@EnableScheduling
 @EnableEncrypt
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
