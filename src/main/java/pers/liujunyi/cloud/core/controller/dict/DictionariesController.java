@@ -102,7 +102,7 @@ public class DictionariesController extends BaseController {
     /**
      * 单条删除数据(数据加密处理)
      *
-     * @param id
+     * @param param
      * @return
      */
     @ApiOperation(value = "单条删除数据(数据加密处理)", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/dict/d")
@@ -114,9 +114,8 @@ public class DictionariesController extends BaseController {
     @Decrypt
     @DeleteMapping(value = "dict/d")
     @ApiVersion(1)
-    public ResultInfo encryptSingleDelete(@Valid @NotNull(message = "id 必须填写")
-                                   @RequestParam(name = "id", required = true) @RequestBody String id) {
-        return this.dictionariesService.singleDelete(Long.valueOf(id));
+    public ResultInfo encryptSingleDelete(@Valid @RequestBody IdParamDto param) {
+        return this.dictionariesService.singleDelete(Long.valueOf(param.getId()));
     }
 
     /**

@@ -88,7 +88,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
         if (saveObj == null || saveObj.getId() == null) {
             return ResultUtil.fail();
         }
-        saveObj.setDataVersion(record.getDataVersion() + 1);
+        saveObj.setDataVersion(saveObj.getDataVersion() + 1);
         this.dictionariesElasticsearchRepository.save(saveObj);
         // 新增操作才会去更新leaf 字段值
         if (add) {
