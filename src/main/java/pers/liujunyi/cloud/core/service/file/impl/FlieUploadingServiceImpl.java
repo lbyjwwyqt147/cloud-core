@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /***
  * 文件名称: FlieUploadingServiceImpl.java
@@ -71,7 +72,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
             return ResultUtil.params("缺少上传文件");
         }
         List<FileManagement> recordList = new CopyOnWriteArrayList<>();
-        byte i = 0;
+        AtomicInteger seq  = new AtomicInteger(0);
         for (MultipartFile file : files) {
             // 获取文件名
             String fileName = file.getOriginalFilename();
@@ -102,9 +103,9 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 fileRecord.setFileSize(FileUtil.getFileSize(ossData.getFileSize()));
                 fileRecord.setFileDirectory(fliePath);
                 fileRecord.setFileSuffix(suffixName);
-                fileRecord.setPriority(i);
+                fileRecord.setPriority((byte) seq.get());
                 recordList.add(fileRecord);
-                i++;
+                seq.set(1);
             }
         }
         ResultInfo resultInfo = null;
