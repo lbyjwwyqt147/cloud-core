@@ -57,6 +57,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
         explain.put("fileInitialName", "文件上传前原始名称");
         explain.put("fileName", "文件上传后的名称");
         explain.put("fileSignature", "文件上传后的唯一签名");
+        explain.put("sequence", "顺序");
         explain.put("fileCallAddress", "文件访问http路径");
         explain.put("fileSize", "文件大小");
         explain.put("fileCategory", "文件分类 0：图片 1：文档  2：视频  5：其他");
@@ -70,6 +71,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
             return ResultUtil.params("缺少上传文件");
         }
         List<FileManagement> recordList = new CopyOnWriteArrayList<>();
+        byte i = 0;
         for (MultipartFile file : files) {
             // 获取文件名
             String fileName = file.getOriginalFilename();
@@ -100,7 +102,9 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 fileRecord.setFileSize(FileUtil.getFileSize(ossData.getFileSize()));
                 fileRecord.setFileDirectory(fliePath);
                 fileRecord.setFileSuffix(suffixName);
+                fileRecord.setPriority(i);
                 recordList.add(fileRecord);
+                i++;
             }
         }
         ResultInfo resultInfo = null;
