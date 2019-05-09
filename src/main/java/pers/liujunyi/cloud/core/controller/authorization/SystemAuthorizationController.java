@@ -46,7 +46,7 @@ public class SystemAuthorizationController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "system/authorization/save")
+    @PostMapping(value = "intrude/system/authorization/save")
     @ApiVersion(1)
     public ResultInfo saveRecord(@Valid SystemAuthorizationDto param) {
         return this.systemAuthorizationService.saveRecord(param);
@@ -63,7 +63,7 @@ public class SystemAuthorizationController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
     })
-    @DeleteMapping(value = "system/authorization/delete")
+    @DeleteMapping(value = "intrude/system/authorization/delete")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
                                        @RequestParam(name = "id", required = true) Long id) {
@@ -82,7 +82,7 @@ public class SystemAuthorizationController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String")
     })
-    @DeleteMapping(value = "system/authorization/batchDelete")
+    @DeleteMapping(value = "intrude/system/authorization/batchDelete")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param ) {
         return this.systemAuthorizationService.deleteAllBySysCodeIn(param.getCodeList());
@@ -117,7 +117,7 @@ public class SystemAuthorizationController extends BaseController {
             @ApiImplicitParam(name = "codes", value = "codes",  required = true, dataType = "String"),
             @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer")
     })
-    @PutMapping(value = "system/authorization/status")
+    @PutMapping(value = "intrude/system/authorization/status")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.systemAuthorizationService.updateStatus(param.getStatus(), param.getCodeList());
@@ -132,7 +132,7 @@ public class SystemAuthorizationController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "system/authorization/sync")
+    @PostMapping(value = "intrude/system/authorization/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToRedis() {
         return this.systemAuthorizationService.syncDataToRedis();

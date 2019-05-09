@@ -106,7 +106,7 @@ public class AreaController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "area/sync")
+    @PostMapping(value = "intrude/area/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToElasticsearch() {
         return this.areaService.syncDataToElasticsearch();
@@ -122,7 +122,7 @@ public class AreaController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "area/all")
+    @GetMapping(value = "intrude/area/all")
     @ApiVersion(1)
     public ResultInfo findAll() {
         return ResultUtil.success(this.areaElasticsearchService.findAll());

@@ -57,7 +57,7 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "dict/save")
+    @PostMapping(value = "intrude/dict/save")
     @ApiVersion(1)
     public ResultInfo saveRecord(@Valid DictionariesDto param) {
         return this.dictionariesService.saveRecord(param);
@@ -75,7 +75,7 @@ public class DictionariesController extends BaseController {
     })
     @Decrypt
     @Encrypt
-    @PostMapping(value = "dict/s")
+    @PostMapping(value = "intrude/dict/s")
     @ApiVersion(1)
     public ResultInfo encryptSaveDataRecord(@Valid @RequestBody DictionariesDto param) {
         return this.dictionariesService.saveRecord(param);
@@ -92,7 +92,7 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
     })
-    @DeleteMapping(value = "dict/delete")
+    @DeleteMapping(value = "intrude/dict/delete")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
                                        @RequestParam(name = "id", required = true) Long id) {
@@ -112,7 +112,7 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @DeleteMapping(value = "dict/d")
+    @DeleteMapping(value = "intrude/dict/d")
     @ApiVersion(1)
     public ResultInfo encryptSingleDelete(@Valid @RequestBody IdParamDto param) {
         return this.dictionariesService.singleDelete(Long.valueOf(param.getId()));
@@ -129,7 +129,7 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String")
     })
-    @DeleteMapping(value = "dict/batchDelete")
+    @DeleteMapping(value = "intrude/dict/batchDelete")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
         return this.dictionariesService.batchDeletes(param.getIdList());
@@ -148,7 +148,7 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @DeleteMapping(value = "dict/b/d")
+    @DeleteMapping(value = "intrude/dict/b/d")
     @ApiVersion(1)
     public ResultInfo encryptBatchDelete(@Valid @RequestBody IdParamDto param) {
         return this.dictionariesService.batchDeletes(param.getIdList());
@@ -251,7 +251,7 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
             @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer")
     })
-    @PutMapping(value = "dict/status")
+    @PutMapping(value = "intrude/dict/status")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList(), param.getPutParams());
@@ -273,7 +273,7 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @PutMapping(value = "dict/p")
+    @PutMapping(value = "intrude/dict/p")
     @ApiVersion(1)
     public ResultInfo encryptUpdateDataStatus(@Valid @RequestBody IdParamDto param ) {
         return this.dictionariesService.updateStatus(param.getStatus(), param.getId(), param.getDataVersion());
@@ -294,7 +294,7 @@ public class DictionariesController extends BaseController {
     })
     @Encrypt
     @Decrypt
-    @PutMapping(value = "dict/b/p")
+    @PutMapping(value = "intrude/dict/b/p")
     @ApiVersion(1)
     public ResultInfo encryptUpdateStatus(@Valid @RequestBody IdParamDto param ) {
         return this.dictionariesService.updateStatus(param.getStatus(), param.getIdList(), param.getPutParams());
@@ -405,7 +405,7 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "fullParentCodes", value = "父级字典代码",  required = true),
             @ApiImplicitParam(name = "dictLevel", value = "层次级别",  required = false)
     })
-    @GetMapping(value = "dict/map/list/dictName")
+    @GetMapping(value = "/ict/map/list/dictName")
     @ApiVersion(1)
     public ResultInfo getDictNameToMapList(@Valid @NotBlank(message = "systemCode 必须填写")
                                            @RequestParam(name = "systemCode", required = true) String systemCode,
@@ -426,7 +426,7 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
     })
-    @PostMapping(value = "dict/sync")
+    @PostMapping(value = "intrude/dict/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToElasticsearch() {
         return this.dictionariesService.syncDataToElasticsearch();
