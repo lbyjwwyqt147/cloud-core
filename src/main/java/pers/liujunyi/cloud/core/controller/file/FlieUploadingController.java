@@ -52,7 +52,7 @@ public class FlieUploadingController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
     })
-    @PostMapping(value = "file/upload/single", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "verify/file/upload/single", produces = "application/json;charset=UTF-8")
     @ApiVersion(1)
     public ResultInfo singleUploadFile(@RequestParam("file") MultipartFile file, @Valid FileDataDto data) {
         List<MultipartFile> files = new ArrayList<>();
@@ -73,7 +73,7 @@ public class FlieUploadingController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
     })
-    @PostMapping(value = "file/upload/batch", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "verify/file/upload/batch", produces = "application/json;charset=UTF-8")
     @ApiVersion(1)
     public ResultInfo batchUploadFile(HttpServletRequest request, @Valid FileDataDto data) {
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");

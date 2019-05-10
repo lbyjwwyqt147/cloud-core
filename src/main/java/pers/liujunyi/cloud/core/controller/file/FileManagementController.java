@@ -46,7 +46,7 @@ public class FileManagementController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
     })
-    @DeleteMapping(value = "intrude/file/delete/{id}")
+    @DeleteMapping(value = "ignore/file/d/{id}")
     @ApiVersion(1)
     public ResultInfo singleDelete(@PathVariable(value = "id") Long id) {
         if (this.fileManagementService.deleteById(id)) {
@@ -66,7 +66,7 @@ public class FileManagementController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
     })
-    @DeleteMapping(value = "intrude/file/batchDelete/{id}")
+    @DeleteMapping(value = "ignore/file/d/b/{id}")
     @ApiVersion(1)
     public ResultInfo batchDelete(@PathVariable(value = "id") String id) {
         if (this.fileManagementService.deleteAllByIdIn(SystemUtils.idToLong(id))) {
@@ -86,7 +86,7 @@ public class FileManagementController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
     })
-    @GetMapping(value = "file/details/{id}")
+    @GetMapping(value = "ignore/file/details/{id}")
     @ApiVersion(1)
     public ResultInfo findAllById(@PathVariable(value = "id") String id) {
         return ResultUtil.success(this.fileManagementService.findByIdIn(SystemUtils.idToLong(id)));

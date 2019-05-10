@@ -55,7 +55,7 @@ public class AreaController extends BaseController {
             @ApiImplicitParam(name = "pid", value = "pid", required = true),
             @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
     })
-    @GetMapping(value = "area/combox")
+    @GetMapping(value = "ignore/area/combox")
     @ApiVersion(1)
     public List<Map<String, Object>> araeCombox(@Valid @NotNull(message = "pid 必须填写")
                                                     @RequestParam(name = "pid", required = true) Long pid, Boolean empty) {
@@ -72,7 +72,7 @@ public class AreaController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long")
     })
-    @GetMapping(value = "area/name")
+    @GetMapping(value = "ignore/area/name")
     @ApiVersion(1)
     public ResultInfo getAreaName(@Valid @NotNull(message = "id 必须填写")
                                       @RequestParam(name = "id", required = true) Long id) {
@@ -89,7 +89,7 @@ public class AreaController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "String")
     })
-    @GetMapping(value = "area/map/name")
+    @GetMapping(value = "ignore/area/map/name")
     @ApiVersion(1)
     public ResultInfo getAreaNameToMap(@Valid @NotNull(message = "ids 必须填写")
                                   @RequestParam(name = "ids", required = true) String ids) {
@@ -106,7 +106,7 @@ public class AreaController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "intrude/area/sync")
+    @PostMapping(value = "verify/area/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToElasticsearch() {
         return this.areaService.syncDataToElasticsearch();
@@ -122,7 +122,7 @@ public class AreaController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "intrude/area/all")
+    @GetMapping(value = "verify/area/all")
     @ApiVersion(1)
     public ResultInfo findAll() {
         return ResultUtil.success(this.areaElasticsearchService.findAll());

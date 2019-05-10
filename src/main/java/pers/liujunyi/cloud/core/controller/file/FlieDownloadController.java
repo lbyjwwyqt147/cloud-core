@@ -46,7 +46,7 @@ public class FlieDownloadController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
     })
-    @GetMapping(value = "file/download/{id}")
+    @GetMapping(value = "ignore/file/download/{id}")
     @ApiVersion(1)
     public ResultInfo downloadFile(@RequestParam(name = "id", required = true) @PathVariable(value = "id") Long id, HttpServletResponse response) {
         return this.flieDownloadService.downloadFile(id, response);
