@@ -147,6 +147,10 @@
         <logger name="org.jboss.netty" level="warn" />
         <logger name="org.apache.http" level="warn" />
         <logger name="com.alibaba.druid" level="warn" />
+        <logger name="org.springframework.data.elasticsearch" level="debug"/>
+<!--
+        <logger name="org.springframework.data.elasticsearch.repository" level="debug"/>
+-->
 
         <!--记录druid-sql的记录-->
         <logger name="com.alibaba.druid.filter.logging.Log4j2Filter" level="debug" additivity="false">
