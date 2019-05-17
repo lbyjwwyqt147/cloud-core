@@ -82,7 +82,7 @@ public class DictionariesController extends BaseController {
     @DeleteMapping(value = "verify/dict/d")
     @ApiVersion(1)
     public ResultInfo encryptSingleDelete(@Valid @RequestBody IdParamDto param) {
-        return this.dictionariesService.singleDelete(Long.valueOf(param.getId()));
+        return this.dictionariesService.deleteSingle(Long.valueOf(param.getId()));
     }
 
 
@@ -103,7 +103,7 @@ public class DictionariesController extends BaseController {
     @DeleteMapping(value = "verify/dict/d/b")
     @ApiVersion(1)
     public ResultInfo encryptBatchDelete(@Valid @RequestBody IdParamDto param) {
-        return this.dictionariesService.batchDeletes(param.getIdList());
+        return this.dictionariesService.deleteBatch(param.getIdList());
     }
 
     /**

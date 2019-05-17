@@ -153,7 +153,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     }
 
     @Override
-    public ResultInfo batchDeletes(List<Long> ids) {
+    public ResultInfo deleteBatch(List<Long> ids) {
         List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidIn(ids, super.getPageable(ids.size()));
         if (!CollectionUtils.isEmpty(list)) {
             return ResultUtil.params("无法被删除.");
@@ -172,7 +172,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     }
 
     @Override
-    public ResultInfo singleDelete(Long id) {
+    public ResultInfo deleteSingle(Long id) {
         this.dictionariesRepository.deleteById(id);
         this.dictionariesElasticsearchRepository.deleteById(id);
         return ResultUtil.success();

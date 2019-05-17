@@ -51,14 +51,14 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
      * @param ids
      * @return
      */
-    ResultInfo batchDeletes(List<Long> ids);
+    ResultInfo deleteBatch(List<Long> ids);
 
     /**
      * 单条删除
      * @param id
      * @return
      */
-    ResultInfo singleDelete(Long id);
+    ResultInfo deleteSingle(Long id);
 
     /**
      * 同步数据到es中
