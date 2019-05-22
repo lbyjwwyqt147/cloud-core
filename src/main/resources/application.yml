@@ -55,3 +55,6 @@ aliyun:
     accessKeyId: 你的AccessKeyID
     accessKeySecret: 你的AccessKeySecret
 
+# es mapper 文件路径
+es:
+  basePath: esmapper/
