@@ -130,7 +130,12 @@
             <DefaultRolloverStrategy max="30"></DefaultRolloverStrategy>
         </RollingFile>
 
+        <!-- 日志输出到logstash  host为logstash主机外网IP，4560为logstash端口 -->
+        <!--<Socket name="logstash-tcp" host="101.132.136.225" port="4560" protocol="TCP">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Socket>-->
     </appenders>
+
 
     <loggers>
         <root level="DEBUG" includeLocation="true">
@@ -148,6 +153,13 @@
         <logger name="org.apache.http" level="warn" />
         <logger name="com.alibaba.druid" level="warn" />
         <logger name="org.springframework.data.elasticsearch" level="debug"/>
+
+        <!-- 日志异步发送logstash -->
+        <!-- 如果使用<asyncRoot> 或 <asyncLogger>，includeLocation="true"是必须要设置才会有类路径等一些信息打印出来 -->
+        <!--<AsyncLogger name="pers.liujunyi.cloud.core" level="info" includeLocation="true" >
+            <appender-ref ref="logstash-tcp" />
+        </AsyncLogger>-->
+
 <!--
         <logger name="org.springframework.data.elasticsearch.repository" level="debug"/>
 -->
