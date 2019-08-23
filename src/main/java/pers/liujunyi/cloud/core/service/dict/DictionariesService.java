@@ -62,7 +62,8 @@ public interface DictionariesService extends BaseService<Dictionaries, Long> {
 
     /**
      * 同步数据到es中
+     * @param lesseeId
      * @return
      */
-    ResultInfo syncDataToElasticsearch();
+    ResultInfo syncDataToElasticsearch(Long lesseeId);
 }

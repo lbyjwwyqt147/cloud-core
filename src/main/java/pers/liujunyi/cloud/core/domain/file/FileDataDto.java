@@ -95,4 +95,12 @@ public class FileDataDto implements Serializable {
     @ApiModelProperty(value = "文件路径")
     private String filePath;
 
+    /** 租户ID */
+    @Min(value = 1, message = "lesseeId 必须是合法数字")
+    private Long lesseeId;
+
+    /** 租户名称  */
+    @Length(min = 0, max = 45, message = "lesseeName 最多可以输入45个字符")
+    private String lesseeName;
+
 }

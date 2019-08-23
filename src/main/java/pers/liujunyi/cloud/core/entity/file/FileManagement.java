@@ -139,5 +139,10 @@ public class FileManagement implements Serializable {
      */
     private String extensionThree;
 
+    /** 租户ID */
+    private Long lessee;
+
+    /** 租户名称  */
+    private String lesseeName;
 
 }

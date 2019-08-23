@@ -104,4 +104,6 @@ public class Area implements Serializable {
     /** 版本号  */
     @Version
     private Long dataVersion;
+
+    private Long lessee;
 }

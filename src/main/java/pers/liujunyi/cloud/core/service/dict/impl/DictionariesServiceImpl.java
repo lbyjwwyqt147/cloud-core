@@ -182,11 +182,11 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
     }
 
     @Override
-    public ResultInfo syncDataToElasticsearch() {
+    public ResultInfo syncDataToElasticsearch(Long lesseeId) {
         Sort sort =  new Sort(Sort.Direction.ASC, "id");
-        List<Dictionaries> list = this.dictionariesRepository.findAll(sort);
+        List<Dictionaries> list = this.dictionariesRepository.findByLessee(lesseeId, sort);
         if (!CollectionUtils.isEmpty(list)) {
-            this.dictionariesElasticsearchRepository.deleteAll();
+            this.dictionariesElasticsearchRepository.deleteByLessee(lesseeId);
             // 限制条数
             int pointsDataLimit = 1000;
             int size = list.size();
@@ -209,7 +209,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
                 this.dictionariesElasticsearchRepository.saveAll(list);
             }
         } else {
-            this.dictionariesElasticsearchRepository.deleteAll();
+            this.dictionariesElasticsearchRepository.deleteByLessee(lesseeId);
         }
         return ResultUtil.success();
     }

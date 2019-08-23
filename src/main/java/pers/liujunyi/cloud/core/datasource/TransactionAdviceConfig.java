@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.core.datasource;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -32,7 +32,7 @@ import java.util.Map;
  * @version 1.0
  * @author ljy
  */
-@Slf4j
+@Log4j2
 @Aspect
 @Component
 public class TransactionAdviceConfig {

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 /***
  * AuditorAware　设置当前用户ＩＤ
+ * @author ljy
  */
 @Configuration
 public class UserIDAuditorBean implements AuditorAware<Long> {

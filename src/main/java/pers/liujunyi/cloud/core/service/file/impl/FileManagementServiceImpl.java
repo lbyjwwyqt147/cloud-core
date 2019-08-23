@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.core.service.file.impl;
 
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @version 1.0
  * @author ljy
  */
-@Slf4j
+@Log4j2
 @Service
 public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, Long> implements FileManagementService {
     private ThreadPoolExecutor threadPoolExecutor = ThreadPoolExecutorFactory.getThreadPoolExecutor();

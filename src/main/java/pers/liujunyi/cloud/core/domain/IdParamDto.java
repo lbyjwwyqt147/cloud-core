@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -64,6 +65,10 @@ public class IdParamDto implements Serializable {
 
     @ApiModelProperty(value = "版本号")
     private Long dataVersion;
+
+    @ApiModelProperty(value = "租户")
+    @NotNull(message = "lesseeId 必须填写")
+    private Long lessee;
 
     public void setIds(String ids) {
         if (StringUtils.isNotBlank(ids)) {

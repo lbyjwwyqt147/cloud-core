@@ -137,7 +137,7 @@ public class DictionariesController extends BaseController {
     @GetMapping(value = "tree/dict/z")
     @ApiVersion(1)
     public List<ZtreeNode> dictZTree(@Valid IdParamDto param ) {
-        return this.dictionariesElasticsearchService.dictTree(param.getId(), Constant.ENABLE_STATUS, param.getSystemCode());
+        return this.dictionariesElasticsearchService.dictTree(param.getId(), Constant.ENABLE_STATUS, param.getSystemCode(), param.getLessee());
     }
 
     /**
@@ -154,7 +154,7 @@ public class DictionariesController extends BaseController {
     @GetMapping(value = "tree/dict/p/z")
     @ApiVersion(1)
     public List<ZtreeNode> dictCodeZTree(@Valid IdParamDto param ) {
-        return this.dictionariesElasticsearchService.dictCodeTree(param.getCode(), Constant.ENABLE_STATUS, param.getSystemCode());
+        return this.dictionariesElasticsearchService.dictCodeTree(param.getCode(), Constant.ENABLE_STATUS, param.getSystemCode(), param.getLessee());
     }
 
     /**
@@ -171,7 +171,7 @@ public class DictionariesController extends BaseController {
     @GetMapping(value = "tree/dict/all/z")
     @ApiVersion(1)
     public List<ZtreeNode> allDictZTree(@Valid IdParamDto param ) {
-        return this.dictionariesElasticsearchService.dictTree(param.getId(), null ,param.getSystemCode());
+        return this.dictionariesElasticsearchService.dictTree(param.getId(), null, param.getSystemCode(), param.getLessee());
     }
 
 
@@ -229,14 +229,15 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
             @ApiImplicitParam(name = "parentCode", value = "父级字典代码",  required = true),
-            @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
+            @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true),
+            @ApiImplicitParam(name = "lessee", value = "租户ID",  required = true, dataType = "integer", defaultValue = "1")
     })
     @GetMapping(value = "ignore/dict/combox")
     @ApiVersion(1)
     public List<Map<String, String>> dictCombox(@Valid @NotBlank(message = "systemCode 必须填写")
                                                     @RequestParam(name = "systemCode", required = true) String systemCode, @NotBlank(message = "parentCode 必须填写")
-    @RequestParam(name = "parentCode", required = true)  String parentCode, Boolean empty) {
-        return this.dictionariesElasticsearchService.dictCombox(systemCode, parentCode, empty);
+    @RequestParam(name = "parentCode", required = true)  String parentCode, Boolean empty, Long lessee) {
+        return this.dictionariesElasticsearchService.dictCombox(systemCode, parentCode, empty, lessee);
     }
 
     /**
@@ -251,15 +252,16 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
             @ApiImplicitParam(name = "parentCode", value = "父级字典代码",  required = true),
-            @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
+            @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true),
+            @ApiImplicitParam(name = "lessee", value = "租户ID",  required = true, dataType = "integer", defaultValue = "1")
     })
     @Encrypt
     @GetMapping(value = "ignore/dict/selectBox")
     @ApiVersion(1)
     public List<Map<String, String>> encryptDictCombox(@Valid @NotBlank(message = "systemCode 必须填写")
                                                 @RequestParam(name = "systemCode", required = true) String systemCode, @NotBlank(message = "parentCode 必须填写")
-                                                @RequestParam(name = "parentCode", required = true)  String parentCode, Boolean empty) {
-        return this.dictionariesElasticsearchService.dictCombox(systemCode, parentCode, empty);
+                                                @RequestParam(name = "parentCode", required = true)  String parentCode, Boolean empty, Long lessee) {
+        return this.dictionariesElasticsearchService.dictCombox(systemCode, parentCode, empty, lessee);
     }
 
     /**
@@ -274,15 +276,16 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
             @ApiImplicitParam(name = "parentCode", value = "父级字典代码",  required = true),
-            @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true)
+            @ApiImplicitParam(name = "dictCode", value = "字典代码",  required = true),
+            @ApiImplicitParam(name = "lessee", value = "租户ID",  required = true, dataType = "integer", defaultValue = "1")
     })
     @GetMapping(value = "ignore/dict/name")
     @ApiVersion(1)
     public ResultInfo dictName(@Valid @NotBlank(message = "systemCode 必须填写")
                                    @RequestParam(name = "systemCode", required = true) String systemCode,  @NotBlank(message = "parentCode 必须填写")
     @RequestParam(name = "parentCode", required = true) String parentCode,  @NotBlank(message = "dictCode 必须填写")
-    @RequestParam(name = "dictCode", required = true)  String dictCode) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictName(systemCode, parentCode, dictCode));
+    @RequestParam(name = "dictCode", required = true)  String dictCode, Long lessee) {
+        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictName(systemCode, parentCode, dictCode, lessee));
     }
 
 
@@ -298,15 +301,16 @@ public class DictionariesController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
-            @ApiImplicitParam(name = "fullParentCode", value = "父级字典代码",  required = true)
+            @ApiImplicitParam(name = "fullParentCode", value = "父级字典代码",  required = true),
+            @ApiImplicitParam(name = "lessee", value = "租户ID",  required = true, dataType = "integer", defaultValue = "1")
 
     })
     @GetMapping(value = "ignore/dict/map/name")
     @ApiVersion(1)
     public ResultInfo getDictNameToMap(@Valid @NotBlank(message = "systemCode 必须填写")
                                        @RequestParam(name = "systemCode", required = true) String systemCode, @NotBlank(message = "fullParentCode 必须填写")
-                                       @RequestParam(name = "fullParentCode", required = true) String fullParentCode) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, fullParentCode));
+                                       @RequestParam(name = "fullParentCode", required = true) String fullParentCode, Long lessee) {
+        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, fullParentCode, lessee));
     }
 
     /**
@@ -320,15 +324,16 @@ public class DictionariesController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "systemCode", value = "系统码", required = true),
             @ApiImplicitParam(name = "fullParentCodes", value = "父级字典代码",  required = true),
-            @ApiImplicitParam(name = "dictLevel", value = "层次级别",  required = false)
+            @ApiImplicitParam(name = "dictLevel", value = "层次级别",  required = false),
+            @ApiImplicitParam(name = "lessee", value = "租户ID",  required = true, dataType = "integer", defaultValue = "1")
     })
     @GetMapping(value = "ignore/dict/map/list/name")
     @ApiVersion(1)
     public ResultInfo getDictNameToMapList(@Valid @NotBlank(message = "systemCode 必须填写")
                                            @RequestParam(name = "systemCode", required = true) String systemCode,
                                            @NotBlank(message = "fullParentCodes 必须填写")
-                                           @RequestParam(name = "fullParentCodes", required = true) String fullParentCodes) {
-        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, SystemUtils.stringToList(fullParentCodes)));
+                                           @RequestParam(name = "fullParentCodes", required = true) String fullParentCodes, Long lessee) {
+        return  ResultUtil.success(this.dictionariesElasticsearchService.getDictNameToMap(systemCode, SystemUtils.stringToList(fullParentCodes), lessee));
     }
 
 
@@ -342,10 +347,11 @@ public class DictionariesController extends BaseController {
     @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18080/api/v1/dict/sync")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "lessee", value = "租户ID",  required = true, dataType = "integer", defaultValue = "1")
     })
     @PostMapping(value = "verify/dict/sync")
     @ApiVersion(1)
-    public ResultInfo syncDataToElasticsearch() {
-        return this.dictionariesService.syncDataToElasticsearch();
+    public ResultInfo syncDataToElasticsearch(Long lessee) {
+        return this.dictionariesService.syncDataToElasticsearch(lessee);
     }
 }

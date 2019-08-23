@@ -27,28 +27,29 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * @param pid
      * @param systemCode
      * @param status   0: 启动 1：禁用
+     * @param lesseeId  租户ID
      * @param  pageable
      * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    List<Dictionaries> findByPidAndSystemCodeAndStatusOrderByPriorityAsc(Long pid, String systemCode, Byte status, Pageable pageable);
+    List<Dictionaries> findByPidAndSystemCodeAndStatusAndLesseeOrderByPriorityAsc(Long pid, String systemCode, Byte status, Long lesseeId, Pageable pageable);
 
     /**
      * 根据父级代码 获取字典数据
      * @param fullParentCode
      * @param systemCode
      * @param status
+     * @param lesseeId  租户ID
      * @param pageable
      * @return
      */
-    List<Dictionaries> findByFullParentCodeLikeAndSystemCodeAndStatusOrderByPriorityAsc(String fullParentCode, String systemCode, Byte status, Pageable pageable);
+    List<Dictionaries> findByFullParentCodeLikeAndSystemCodeAndStatusAndLesseeOrderByPriorityAsc(String fullParentCode, String systemCode, Byte status, Long lesseeId, Pageable pageable);
 
     /**
      *  获取 存在 叶子节点的 字典数据
      * @param pid
-     * @param  pageable
      * @return 客户端没有设置分页，es服务端会有默认填充 默认只返回10条
      */
-    List<Dictionaries> findByPidIn(List<Long> pid, Pageable pageable);
+    List<Dictionaries> findByPidIn(List<Long> pid,  Pageable pageable);
 
     /**
      *  获取 存在 叶子节点的 字典数据
@@ -78,27 +79,30 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * 根据   fullParentCode   获取数据
      * @param fullParentCode
      * @param systemCode
+     * @param lesseeId
      * @return
      */
-    List<Dictionaries> findBySystemCodeAndFullParentCode(String systemCode, String fullParentCode, Pageable pageable);
+    List<Dictionaries> findBySystemCodeAndFullParentCodeAndLessee(String systemCode, String fullParentCode, Long lesseeId, Pageable pageable);
 
     /**
      * 根据   fullParentCode   获取数据
      * @param fullParentCode
      * @param systemCode
      * @param status
+     * @param lesseeId
      * @return
      */
-    List<Dictionaries> findBySystemCodeAndStatusAndFullParentCodeOrderByPriorityAsc(String systemCode,Byte status,  String fullParentCode, Pageable pageable);
+    List<Dictionaries> findBySystemCodeAndStatusAndFullParentCodeAndLesseeOrderByPriorityAsc(String systemCode, Byte status,  String fullParentCode, Long lesseeId, Pageable pageable);
 
 
     /**
      * 根据   fullParentCode   获取数据
      * @param systemCode
      * @param fullParentCodes
+     * @param lesseeId
      * @return
      */
-    List<Dictionaries> findBySystemCodeAndFullParentCodeIn(String systemCode, List<String> fullParentCodes, Pageable pageable);
+    List<Dictionaries> findBySystemCodeAndFullParentCodeInAndLessee(String systemCode, List<String> fullParentCodes, Long lesseeId, Pageable pageable);
 
 
     /**
@@ -106,16 +110,18 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * @param systemCode
      * @param fullDictCode
      * @param status
+     * @param lesseeId
      * @return
      */
-    Dictionaries findFirstBySystemCodeAndFullDictCodeAndStatus(String systemCode, String fullDictCode, Byte status);
+    Dictionaries findFirstBySystemCodeAndFullDictCodeAndStatusAndLessee(String systemCode, String fullDictCode, Byte status, Long lesseeId);
 
     /**
      * 根据 systemCode  dictCode status   获取 第一条 数据
      * @param systemCode
      * @param dictCode
      * @param status
+     * @param lesseeId
      * @return
      */
-    Dictionaries findFirstBySystemCodeAndDictCodeAndStatus(String systemCode, String dictCode, Byte status);
+    Dictionaries findFirstBySystemCodeAndDictCodeAndStatusAndLessee(String systemCode, String dictCode, Byte status, Long lesseeId);
 }

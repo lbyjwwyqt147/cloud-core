@@ -3,6 +3,7 @@ package pers.liujunyi.cloud.core.service.oss;
 
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.*;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ import java.util.Date;
  * @version 1.0
  * @author ljy
  */
-@Slf4j
+@Log4j2
 @Component
 public class AliyunOSSClientUtil {
 

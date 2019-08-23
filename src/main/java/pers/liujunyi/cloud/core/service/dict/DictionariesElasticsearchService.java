@@ -1,6 +1,5 @@
 package pers.liujunyi.cloud.core.service.dict;
 
-import org.springframework.data.domain.Pageable;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.common.vo.tree.ZtreeNode;
@@ -29,18 +28,20 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * @param pid
      * @param status 状态
      * @param systemCode
+     * @param lesseeId
      * @return
      */
-    List<ZtreeNode> dictTree(Long pid, Byte status , String systemCode);
+    List<ZtreeNode> dictTree(Long pid, Byte status, String systemCode,  Long lesseeId );
 
     /**
      * 根据 fullParentCode 获取符合 ztree 结构的数据
      * @param fullParentCode
      * @param status 状态
      * @param systemCode
+     * @param lesseeId
      * @return
      */
-    List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status ,String systemCode);
+    List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status, String systemCode,  Long lesseeId);
 
     /**
      *  获取 存在 叶子节点的 字典数据
@@ -61,9 +62,10 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * @param systemCode
      * @param parentCode  父级 code
      * @param empty
+     * @param lesseeId
      * @return
      */
-    List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty);
+    List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty,  Long lesseeId);
 
 
     /**
@@ -71,24 +73,27 @@ public interface DictionariesElasticsearchService extends BaseElasticsearchServi
      * @param systemCode
      * @param parentCode  父级 code
      * @param dictCode    要取值的 字典 code
+     * @param lesseeId
      * @return
      */
-    String getDictName(String systemCode, String parentCode ,String dictCode);
+    String getDictName(String systemCode, String parentCode ,String dictCode,  Long lesseeId);
 
 
     /**
      * 根据fullParentCode获取字典值 返回map
      * @param systemCode
      * @param fullParentCode  父级 dict code
+     * @param lesseeId
      * @return  返回 map   key = 字典代码   value = 字典名称
      */
-    Map<String, String> getDictNameToMap(String systemCode, String fullParentCode);
+    Map<String, String> getDictNameToMap(String systemCode, String fullParentCode,  Long lesseeId);
 
     /**
      * 根据fullParentCodes 获取字典值 返回map
      * @param systemCode
      * @param fullParentCodes  父级 dict code
+     * @param lesseeId
      * @return  返回 map   key = 字典代码   value = map
      */
-    Map<String, Map<String, String>> getDictNameToMap(String systemCode, List<String> fullParentCodes);
+    Map<String, Map<String, String>> getDictNameToMap(String systemCode, List<String> fullParentCodes,  Long lesseeId);
 }

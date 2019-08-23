@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.core.util;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -24,7 +24,7 @@ import java.util.UUID;
  *
  *
  */
-@Slf4j
+@Log4j2
 public class FileUtil {
 
     /**

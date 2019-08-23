@@ -47,23 +47,23 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public List<ZtreeNode> dictTree(Long pid, Byte status , String systemCode) {
+    public List<ZtreeNode> dictTree(Long pid, Byte status,  String systemCode, Long lesseeId) {
         if (pid == null || pid.longValue() == 0) {
             pid = null;
         }
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusOrderByPriorityAsc(pid, systemCode, status, super.allPageable);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByPidAndSystemCodeAndStatusAndLesseeOrderByPriorityAsc(pid, systemCode, status, lesseeId, super.allPageable);
         return this.startBuilderZtree(list);
     }
 
     @Override
-    public List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status, String systemCode) {
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByFullParentCodeLikeAndSystemCodeAndStatusOrderByPriorityAsc(fullParentCode, systemCode, status, super.allPageable);
+    public List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status, String systemCode, Long lesseeId) {
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByFullParentCodeLikeAndSystemCodeAndStatusAndLesseeOrderByPriorityAsc(fullParentCode, systemCode, status, lesseeId, super.allPageable);
         return this.startBuilderZtree(list);
     }
 
     @Override
     public List<Dictionaries> findByPid(Long pid) {
-        return this.dictionariesElasticsearchRepository.findByPid(pid, super.allPageable);
+        return this.dictionariesElasticsearchRepository.findByPid(pid,  super.allPageable);
     }
 
     /**
@@ -101,7 +101,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty) {
+    public List<Map<String, String>> dictCombox(String systemCode, String parentCode, Boolean empty, Long lesseeId) {
         List<Map<String, String>> result  = new LinkedList<>();
         if (empty != null && empty == true) {
             Map<String, String> emptyMap = new ConcurrentHashMap<>();
@@ -109,7 +109,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
             emptyMap.put("text", "-请选择-");
             result.add(emptyMap);
         }
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndStatusAndFullParentCodeOrderByPriorityAsc(systemCode, Constant.ENABLE_STATUS, parentCode, super.pageable);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndStatusAndFullParentCodeAndLesseeOrderByPriorityAsc(systemCode, Constant.ENABLE_STATUS, parentCode, lesseeId, super.pageable);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {
                 Map<String, String> map = new ConcurrentHashMap<>();
@@ -123,9 +123,9 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
 
 
     @Override
-    public String getDictName(String systemCode, String parentCode, String dictCode) {
+    public String getDictName(String systemCode, String parentCode, String dictCode, Long lesseeId) {
         String result = "";
-        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndFullDictCodeAndStatus(systemCode, parentCode + ":" + dictCode, null);
+        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndFullDictCodeAndStatusAndLessee(systemCode, parentCode + ":" + dictCode, null, lesseeId);
         if (dictionaries != null) {
                 result = dictionaries.getDictName();
         }
@@ -133,8 +133,8 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public Map<String, String> getDictNameToMap(String systemCode,  String fullParentCode) {
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCode(systemCode, fullParentCode, super.allPageable);
+    public Map<String, String> getDictNameToMap(String systemCode,  String fullParentCode, Long lesseeId) {
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCodeAndLessee(systemCode, fullParentCode, lesseeId, super.allPageable);
         if (!CollectionUtils.isEmpty(list)) {
             return list.stream().collect(Collectors.toMap(Dictionaries::getDictCode, Dictionaries::getDictName));
         }
@@ -142,9 +142,9 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     }
 
     @Override
-    public Map<String, Map<String, String>> getDictNameToMap(String systemCode,  List<String> fullParentCodes) {
+    public Map<String, Map<String, String>> getDictNameToMap(String systemCode,  List<String> fullParentCodes, Long lesseeId) {
         Map<String, Map<String, String>> dictNameMap = new ConcurrentHashMap<>();
-        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCodeIn(systemCode, fullParentCodes, super.allPageable);
+        List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCodeInAndLessee(systemCode, fullParentCodes, lesseeId, super.allPageable);
         if (!CollectionUtils.isEmpty(list)) {
             // 以 fullParentCode 分组
             Map<String, List<Dictionaries>> parentCodeGroup = list.stream().collect(Collectors.groupingBy(Dictionaries::getFullParentCode));

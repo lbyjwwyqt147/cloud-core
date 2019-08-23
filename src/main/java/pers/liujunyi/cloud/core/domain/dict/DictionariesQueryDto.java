@@ -66,4 +66,7 @@ public class DictionariesQueryDto extends BaseEsQuery {
     @Length(min = 0, max = 64, message = "credential 最大长度为64个字符")
     private String credential;
 
+    /** 租户 */
+    @QueryCondition()
+    private Long lessee;
 }
