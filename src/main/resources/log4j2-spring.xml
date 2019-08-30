@@ -201,8 +201,33 @@
         <logger name="jdbc.connection" level="WARN"/>
         <logger name="jdbc.audit" level="WARN"/>
 
+        <!-- hibernate日志输出 -->
+        <logger name="org.hibernate.engine.QueryParameters" additivity="false" >
+            <level value="DEBUG" />
+            <appender-ref ref="Console" />
+            <appender-ref ref="ConsoleApplication" />
+        </logger>
+        <logger name="org.hibernate.engine.query.HQLQueryPlan" additivity="false" >
+            <level value="DEBUG" />
+            <appender-ref ref="Console" />
+            <appender-ref ref="ConsoleApplication" />
+        </logger>
+        <!-- 1. 输出SQL 到控制台和文件-->
+        <logger name="org.hibernate.SQL" additivity="false" >
+            <level value="DEBUG" />
+            <appender-ref ref="Console" />
+            <appender-ref ref="ConsoleApplication" />
+        </logger>
+
+        <!-- 2. 输出SQL 的参数到控制台和文件-->
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false" level="TRACE" >
+            <level value="TRACE" />
+            <appender-ref ref="Console" />
+            <appender-ref ref="ConsoleApplication" />
+        </logger>
+
         <!-- 根据需要关闭不必要的日志输出 -->
-      <!--  <logger name="jdbc.connection" level="OFF" />
+        <!--  <logger name="jdbc.connection" level="OFF" />
         <logger name="jdbc.audit" level="OFF" />
         <logger name="jdbc.resultset" level="OFF" />
         <logger name="jdbc.sqlonly" level="OFF" />

@@ -27,6 +27,9 @@ spring:
       # validate：会验证类里的属性和表字段是否一致，不一致，则会报错；
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy    #　策略会有大小写区别 在进行领域映射时,首字母小写，大写字母变为下划线加小写 自动根据实体类重新生成表时（实体类即使配置了@Table 如果大小写不匹配也会生成表） 表名和字段都为小写
+    properties:
+      hibernate:
+        format_sql: true
 
   servlet:
       multipart:
