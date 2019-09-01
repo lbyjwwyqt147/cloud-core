@@ -28,4 +28,13 @@ public interface FlieUploadingService {
      */
     ResultInfo startUploading(List<MultipartFile> files, FileDataDto fileData);
 
+    /**
+     * 阿里云oss文件上传
+     *
+     * @param files    文件
+     * @param fileData 文件附加数据
+     * @return
+     */
+    ResultInfo aliyunBatchUploadFile(List<MultipartFile> files, FileDataDto fileData);
+
 }

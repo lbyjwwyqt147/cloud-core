@@ -1,7 +1,6 @@
 package pers.liujunyi.cloud.core.service.file.impl;
 
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -79,6 +78,7 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
                 fileData.setFileCallAddress(fileRecord.getFileCallAddress());
                 fileData.setFileSignature(fileRecord.getFileSignature());
                 fileData.setSequence(fileRecord.getPriority());
+                fileData.setFileCategory(fileRecord.getFileCategory());
                 fileDataList.add(fileData);
             }
         } else {

@@ -62,6 +62,26 @@ public class FlieUploadingController extends BaseController {
 
 
     /**
+     * 阿里云oss批量上传文件
+     *
+     * @param request
+     * @param data
+     * @return
+     */
+    @ApiOperation(value = "阿里云oss批量上传文件", notes = "适用于阿里云oss批量上传文件 请求示例：127.0.0.1:18080/api/v1/verify/file/oss/upload/batch")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
+    })
+    @PostMapping(value = "verify/file/oss/upload/batch", produces = "application/json;charset=UTF-8")
+    @ApiVersion(1)
+    public ResultInfo aliyunBatchUploadFile(HttpServletRequest request, @Valid FileDataDto data) {
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+        return this.flieUploadingService.aliyunBatchUploadFile(files, data);
+    }
+
+
+    /**
      * 批量上传文件
      *
      * @param request
