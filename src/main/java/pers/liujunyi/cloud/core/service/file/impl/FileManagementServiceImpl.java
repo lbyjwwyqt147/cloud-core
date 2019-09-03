@@ -79,6 +79,7 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
                 fileData.setFileSignature(fileRecord.getFileSignature());
                 fileData.setSequence(fileRecord.getPriority());
                 fileData.setFileCategory(fileRecord.getFileCategory());
+                fileData.setFileSuffix(fileRecord.getFileSuffix());
                 fileDataList.add(fileData);
             }
         } else {
