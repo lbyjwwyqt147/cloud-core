@@ -36,7 +36,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # JDBC 配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
+    url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
     username: root
     password: root@123
     druid:
