@@ -36,12 +36,12 @@ public class FileManagementController extends BaseController {
     private FileManagementService fileManagementService;
 
     /**
-     * 单条删除数据
+     * 单条删除本地磁盘数据
      *
      * @param id
      * @return
      */
-    @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/file/delete/11")
+    @ApiOperation(value = "单条删除本地磁盘数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/file/delete/11")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
@@ -56,12 +56,12 @@ public class FileManagementController extends BaseController {
     }
 
     /**
-     * 批量删除
+     * 批量删除本地磁盘数据
      *
      * @param id 　 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/file/batchDelete/11,12,13")
+    @ApiOperation(value = "批量删除本地磁盘数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/file/batchDelete/11,12,13")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
@@ -70,6 +70,46 @@ public class FileManagementController extends BaseController {
     @ApiVersion(1)
     public ResultInfo batchDelete(@PathVariable(value = "id") String id) {
         if (this.fileManagementService.deleteAllByIdIn(SystemUtils.idToLong(id))) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    /**
+     * 单条删除阿里云oss上数据
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "单条删除阿里云oss上数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/file/delete/11")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
+    })
+    @DeleteMapping(value = "ignore/file/oss/d/{id}")
+    @ApiVersion(1)
+    public ResultInfo singleAliyunDelete(@PathVariable(value = "id") Long id) {
+        if (this.fileManagementService.deleteAliyunAllById(id)) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    /**
+     * 批量删除阿里云oss上数据
+     *
+     * @param id 　 多个id 用 , 隔开
+     * @return
+     */
+    @ApiOperation(value = "删除多条阿里云oss上数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/file/batchDelete/11,12,13")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
+    })
+    @DeleteMapping(value = "ignore/file/oss/d/b/{id}")
+    @ApiVersion(1)
+    public ResultInfo batchAliyunDelete(@PathVariable(value = "id") String id) {
+        if (this.fileManagementService.deleteAliyunAllByIdIn(SystemUtils.idToLong(id))) {
             return ResultUtil.success();
         }
         return ResultUtil.fail();

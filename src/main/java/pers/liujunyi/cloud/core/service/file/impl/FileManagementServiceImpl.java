@@ -12,6 +12,7 @@ import pers.liujunyi.cloud.core.entity.file.FileManagement;
 import pers.liujunyi.cloud.core.repository.jpa.file.FileManagementRepository;
 import pers.liujunyi.cloud.core.service.file.FileManagementService;
 import pers.liujunyi.cloud.core.service.oss.AliyunOSSClientUtil;
+import pers.liujunyi.cloud.core.util.FileUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -90,11 +91,31 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
     }
 
     @Override
-    public Boolean deleteAllByIdIn(List<Long> ids) {
+    public Boolean deleteAliyunAllByIdIn(List<Long> ids) {
         List<FileManagement> recordList = this.findByIdIn(ids);
         // 删除数据库纪录
         this.fileManagementRepository.deleteInBatch(recordList);
         // 删除阿里云oss 上的文件
+        this.deleteAliyunFile(recordList);
+        return true;
+    }
+
+    @Override
+    public Boolean deleteAliyunAllById(Long id) {
+        FileManagement record = this.fileManagementRepository.getOne(id);
+        // 删除数据库纪录
+        this.fileManagementRepository.delete(record);
+        // 删除阿里云oss 上的文件
+        aliyunOSSClientUtil.deleteFile(record.getFileCallAddress());
+        return true;
+    }
+
+    @Override
+    public Boolean deleteAllByIdIn(List<Long> ids) {
+        List<FileManagement> recordList = this.findByIdIn(ids);
+        // 删除数据库纪录
+        this.fileManagementRepository.deleteInBatch(recordList);
+        // 删除本地文件
         this.deleteFile(recordList);
         return true;
     }
@@ -104,11 +125,25 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
         FileManagement record = this.fileManagementRepository.getOne(id);
         // 删除数据库纪录
         this.fileManagementRepository.delete(record);
-        // 删除阿里云oss 上的文件
-        aliyunOSSClientUtil.deleteFile(record.getFileCallAddress());
+        // 删除本地文件
+        FileUtil.delete(record.getFilePath());
         return true;
     }
 
+
+    /**
+     * 删除阿里云oss 上的文件
+     *
+     * @param records
+     */
+    private void deleteAliyunFile(List<FileManagement> records) {
+        // 删除阿里云oss 上的文件
+        threadPoolExecutor.execute(() -> {
+            for (FileManagement fileRecord : records) {
+                aliyunOSSClientUtil.deleteFile(fileRecord.getFileCallAddress());
+            }
+        });
+    }
 
     /**
      * 删除 磁盘上的文件
@@ -116,10 +151,9 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
      * @param records
      */
     private void deleteFile(List<FileManagement> records) {
-        // 删除阿里云oss 上的文件
         threadPoolExecutor.execute(() -> {
             for (FileManagement fileRecord : records) {
-                aliyunOSSClientUtil.deleteFile(fileRecord.getFileCallAddress());
+                FileUtil.delete(fileRecord.getFilePath());
             }
         });
     }

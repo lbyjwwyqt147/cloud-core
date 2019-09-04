@@ -50,4 +50,18 @@ public interface FileManagementService extends BaseService<FileManagement, Long>
      * @return
      */
     List<FileDataVo> saveFileData(List<FileManagement> records);
+
+    /**
+     * 删除阿里云上的文件
+     * @param ids
+     * @return
+     */
+    Boolean deleteAliyunAllByIdIn(List<Long> ids);
+
+    /**
+     * 删除阿里云上的文件
+     * @param id
+     * @return
+     */
+    Boolean deleteAliyunAllById(Long id);
 }
