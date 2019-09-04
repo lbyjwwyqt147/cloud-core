@@ -8,7 +8,7 @@ data:
   file:
     dir: E:/fileUpload/
   # 配置系统访问url
-  hostName: http://localhost:18080/
+  hostName: http://127.0.0.1:18080/
   # 域名设置 跨域
   allowedOrigin: '*'
   # 直接访问 http://localhost:18080 时 返回信息设置
