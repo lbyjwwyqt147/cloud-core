@@ -109,11 +109,21 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * 根据 systemCode  fullDictCode   获取 数据
      * @param systemCode
      * @param fullDictCode
-     * @param status
      * @param lesseeId
      * @return
      */
-    Dictionaries findFirstBySystemCodeAndFullDictCodeAndStatusAndLessee(String systemCode, String fullDictCode, Byte status, Long lesseeId);
+    List<Dictionaries> findBySystemCodeAndFullDictCodeAndLessee(String systemCode, String fullDictCode, Long lesseeId);
+
+    /**
+     * 根据 systemCode  fullParentCode dictCode   获取 数据
+     * @param systemCode
+     * @param fullParentCode
+     * @param dictCode
+     * @param lesseeId
+     * @return
+     */
+    List<Dictionaries> findBySystemCodeAndFullParentCodeAndDictCodeAndLessee(String systemCode, String fullParentCode, String dictCode, Long lesseeId);
+
 
     /**
      * 根据 systemCode  dictCode status   获取 第一条 数据
@@ -123,5 +133,5 @@ public interface DictionariesElasticsearchRepository extends BaseElasticsearchRe
      * @param lesseeId
      * @return
      */
-    Dictionaries findFirstBySystemCodeAndDictCodeAndStatusAndLessee(String systemCode, String dictCode, Byte status, Long lesseeId);
+    List<Dictionaries> findBySystemCodeAndDictCodeAndLesseeAndStatus(String systemCode, String dictCode, Long lesseeId, Byte status);
 }

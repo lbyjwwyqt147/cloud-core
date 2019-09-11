@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.core.service.dict.impl;
 
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +58,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
 
     @Override
     public List<ZtreeNode> dictCodeTree(String fullParentCode, Byte status, String systemCode, Long lesseeId) {
+        fullParentCode = QueryParser.escape(fullParentCode).trim().replace(" ","");
         List<Dictionaries> list = this.dictionariesElasticsearchRepository.findByFullParentCodeLikeAndSystemCodeAndStatusAndLesseeOrderByPriorityAsc(fullParentCode, systemCode, status, lesseeId, super.allPageable);
         return this.startBuilderZtree(list);
     }
@@ -109,6 +111,7 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
             emptyMap.put("text", "-请选择-");
             result.add(emptyMap);
         }
+        parentCode = QueryParser.escape(parentCode).trim().replace(" ","");
         List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndStatusAndFullParentCodeAndLesseeOrderByPriorityAsc(systemCode, Constant.ENABLE_STATUS, parentCode, lesseeId, super.pageable);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {
@@ -125,15 +128,17 @@ public class DictionariesElasticsearchServiceImpl extends BaseElasticsearchServi
     @Override
     public String getDictName(String systemCode, String parentCode, String dictCode, Long lesseeId) {
         String result = "";
-        Dictionaries dictionaries = this.dictionariesElasticsearchRepository.findFirstBySystemCodeAndFullDictCodeAndStatusAndLessee(systemCode, parentCode + ":" + dictCode, null, lesseeId);
-        if (dictionaries != null) {
-                result = dictionaries.getDictName();
+        String fullDictCode = QueryParser.escape(parentCode + ":" + dictCode).trim().replace(" ","");
+        List<Dictionaries> dictionaries = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullDictCodeAndLessee(systemCode, fullDictCode, lesseeId);
+        if (dictionaries != null && dictionaries.size() > 0) {
+                result = dictionaries.get(0).getDictName();
         }
         return result;
     }
 
     @Override
     public Map<String, String> getDictNameToMap(String systemCode,  String fullParentCode, Long lesseeId) {
+        fullParentCode = QueryParser.escape(fullParentCode).trim().replace(" ","");
         List<Dictionaries> list = this.dictionariesElasticsearchRepository.findBySystemCodeAndFullParentCodeAndLessee(systemCode, fullParentCode, lesseeId, super.allPageable);
         if (!CollectionUtils.isEmpty(list)) {
             return list.stream().collect(Collectors.toMap(Dictionaries::getDictCode, Dictionaries::getDictName));
