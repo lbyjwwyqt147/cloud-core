@@ -82,11 +82,11 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         config.setAllowedOrigins(Arrays.asList(allowedOrigin.trim().split(",")));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.setAllowCredentials(false);
+        config.setAllowCredentials(true);
         config.setMaxAge(3600L);
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(1);
+        bean.setOrder(0);
         return bean;
     }
 
