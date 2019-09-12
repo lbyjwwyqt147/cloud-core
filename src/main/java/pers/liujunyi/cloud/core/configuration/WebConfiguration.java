@@ -86,6 +86,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         config.setMaxAge(3600L);
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        // 设置为 0
         bean.setOrder(0);
         return bean;
     }
