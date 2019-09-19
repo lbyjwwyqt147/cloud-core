@@ -91,7 +91,11 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
             // 获取文件名
             String fileName = file.getOriginalFilename();
             //得到文件后缀名
-            String suffixName = FileUtil.getSuffixName(fileName).toLowerCase();
+            String suffixName = FileUtil.getSuffixName(fileName);
+            if (StringUtils.isBlank(suffixName)) {
+                suffixName = ".jpg";
+            }
+            suffixName = suffixName.toLowerCase();
             String newFileName = fileName;
             if (fileData.getRename()) {
                 //重命名文件名(避免文件名重复)

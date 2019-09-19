@@ -89,6 +89,9 @@ public class FileUtil {
      */
     public static String getSuffixName(String fileName) {
         // 文件后缀
+        if (fileName.lastIndexOf(".") == -1) {
+            return null;
+        }
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         return suffixName;
     }
