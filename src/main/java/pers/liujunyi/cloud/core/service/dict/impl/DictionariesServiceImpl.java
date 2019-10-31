@@ -183,7 +183,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<Dictionaries, Long>
 
     @Override
     public ResultInfo syncDataToElasticsearch(Long lesseeId) {
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort =  Sort.by(Sort.Direction.ASC, "id");
         List<Dictionaries> list = this.dictionariesRepository.findByLessee(lesseeId, sort);
         if (!CollectionUtils.isEmpty(list)) {
             this.dictionariesElasticsearchRepository.deleteByLessee(lesseeId);

@@ -42,7 +42,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
 
     @Override
     public ResultInfo syncDataToElasticsearch() {
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<Area> list = this.areaRepoitory.findAll(sort);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(item -> {

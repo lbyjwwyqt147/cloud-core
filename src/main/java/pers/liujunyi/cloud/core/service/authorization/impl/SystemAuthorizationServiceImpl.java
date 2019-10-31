@@ -131,7 +131,7 @@ public class SystemAuthorizationServiceImpl extends BaseServiceImpl<SystemAuthor
 
     @Override
     public ResultInfo syncDataToRedis() {
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort =  Sort.by(Sort.Direction.ASC, "id");
         List<SystemAuthorization>  list = this.systemAuthorizationRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(list)) {
             this.redisTemplateUtils.del(RedisKeys.SYSTEM_AUTH);

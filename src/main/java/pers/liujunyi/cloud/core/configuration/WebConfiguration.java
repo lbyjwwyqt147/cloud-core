@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.cors.CorsConfiguration;
@@ -91,16 +92,16 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         return bean;
     }
 
-
+    /**
+     * 重写RequestMappingHandlerMapping实现为指定包下所有的控制器(Controller|RestController)添加统一URI请求版本号
+     * @return
+     */
     @Override
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+    public RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
         RequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();
-        handlerMapping.setOrder(0);
-        handlerMapping.setInterceptors(getInterceptors());
+        handlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return handlerMapping;
     }
-
 
     /**
      *  前端传递的日期字符串 自动转换为 Data 类型

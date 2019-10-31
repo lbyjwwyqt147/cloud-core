@@ -123,6 +123,23 @@ public class DictionariesController extends BaseController {
         return this.dictionariesElasticsearchService.findPageGird(query);
     }
 
+    @GetMapping(value = "table/dict/t")
+    @ApiVersion(1)
+    public ResultInfo Test() {
+        return ResultUtil.success("v1");
+    }
+    @GetMapping(value = "table/dict/t")
+    @ApiVersion(2)
+    public ResultInfo Test2() {
+        return ResultUtil.success("v2");
+    }
+
+    @GetMapping(value = "table/dict/t")
+    @ApiVersion(10)
+    public ResultInfo Test10() {
+        return ResultUtil.success("v10");
+    }
+
     /**
      *  根据pid 获取 字典tree 结构数据 (只包含正常数据  禁用数据不展示)
      *
