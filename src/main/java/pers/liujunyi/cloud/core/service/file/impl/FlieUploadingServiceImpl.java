@@ -120,6 +120,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 String requestUrl = this.getFileRequestUrl(fileDirectory, newFileName);
                 // 组织文件数据入库
                 FileManagement fileRecord = DozerBeanMapperUtil.copyProperties(fileData, FileManagement.class);
+                fileRecord.setLessee(fileData.getLesseeId());
                 fileRecord.setUploadTime(new Date());
                 fileRecord.setFileInitialName(fileName);
                 fileRecord.setFileName(newFileName);
