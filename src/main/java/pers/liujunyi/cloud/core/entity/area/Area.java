@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Table;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -39,6 +41,7 @@ import java.util.Date;
 @Document(indexName = "cloud_core_area", type = "area", shards = 1, replicas = 0)
 @DynamicInsert
 @DynamicUpdate
+@Table(appliesTo = "area", comment = "行政区划表")
 public class Area implements Serializable {
     private static final long serialVersionUID = 891324344152585871L;
     @Id
@@ -49,18 +52,22 @@ public class Area implements Serializable {
     private Long pid;
 
     /** 名称 */
+    @Column(length = 32, columnDefinition="varchar(32) DEFAULT NULL COMMENT '名称'")
     private String name;
 
     /** 全名称 */
     @Field(type = FieldType.Auto, index = false)
+    @Column(length = 200, columnDefinition="varchar(200) DEFAULT NULL COMMENT '全名称'")
     private String mergerName;
 
     /** 简称 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 20, columnDefinition="varchar(20) DEFAULT NULL COMMENT '简称'")
     private String shortName;
 
     /** 全名称简称 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 100, columnDefinition="varchar(100) DEFAULT NULL COMMENT '全名称简称'")
     private String mergerShortName;
 
     /** 级别 */
@@ -69,41 +76,49 @@ public class Area implements Serializable {
 
     /** 城市编号 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 15, columnDefinition="varchar(15) DEFAULT NULL COMMENT '城市编号'")
     private String cityCode;
 
     /** 邮编 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 6, columnDefinition="varchar(6) DEFAULT NULL COMMENT '邮编'")
     private String zipCode;
 
     /** 拼音 */
+    @Column(length = 128, columnDefinition="varchar(128) DEFAULT NULL COMMENT '拼音'")
     private String pinYin;
 
     /** 简拼 */
+    @Column(length = 32, columnDefinition="varchar(32) DEFAULT NULL COMMENT '简拼'")
     private String jianPin;
 
     /** 第一个字符 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 10, columnDefinition="varchar(10) DEFAULT NULL COMMENT '第一个字符'")
     private String firstChar;
 
     /** 经度 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 15, columnDefinition="varchar(15) DEFAULT NULL COMMENT '经度'")
     private String lng;
 
     /** 纬度 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 15, columnDefinition="varchar(15) DEFAULT NULL COMMENT '纬度'")
     private String lat;
 
     /** 备注 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(length = 50, columnDefinition="varchar(50) DEFAULT NULL COMMENT '备注'")
     private String remarks;
 
     /**  更新时间 */
     @Field(type = FieldType.Keyword, index = false)
+    @Column(columnDefinition="timestamp DEFAULT NULL  COMMENT '更新时间'")
     private Date updateTime;
 
     /** 版本号  */
     @Version
     private Long dataVersion;
 
-    private Long lessee;
 }

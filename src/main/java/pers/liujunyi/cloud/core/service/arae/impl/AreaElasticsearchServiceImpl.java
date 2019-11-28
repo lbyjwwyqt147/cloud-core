@@ -8,7 +8,6 @@ import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
 import pers.liujunyi.cloud.core.entity.area.Area;
-import pers.liujunyi.cloud.core.entity.dict.Dictionaries;
 import pers.liujunyi.cloud.core.repository.elasticsearch.area.AreaElasticsearchRepository;
 import pers.liujunyi.cloud.core.service.arae.AreaElasticsearchService;
 

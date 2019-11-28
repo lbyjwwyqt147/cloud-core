@@ -13,22 +13,12 @@ data:
   allowedOrigin: '*'
   # 直接访问 http://localhost:18080 时 返回信息设置
   indexView: '请访问：http://localhost:18080/swagger-ui.html  查看API文档'
-  # cloud_core 地址
-  cloudUrl: http://127.0.0.1:18080/api
   # redis 是否默填充application name 作为redis key 的前缀   true 填充 false 不填充   例如：photo_album:user    photo_album:为自动填充
   redisPrefixion: true
-  # 核心系统授权访问的 code
-  coreSystemCode: 1000
-  # 心系统授权访问核的 appId
-  coreAppId: 1550817758252
-  # 核心系统授权访问的 appKey
-  coreAppKey: c80e645007264e2684b393533ef7e832
-  # 授权访问核心系统的 credential
-  coreCredential: 1f2db1ad91963708d36c751c282be8ae
-  # 核心系统的 appId
-  cloudAppId: 1550817758252
-  # 核心系统的 appKey
-  cloudAppKey: c80e645007264e2684b393533ef7e832
+  # cloud_core 地址
+  cloud:
+    url: http://127.0.0.1:18080/api
+
 
 spring:
   datasource:
@@ -36,9 +26,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # JDBC 配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.136.225:3306/cloud_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://101.132.136.225:3306/cloud_saas?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
     username: root
-    password: root@123
+    password: root@163
     druid:
       # 连接池配置
       # 初始化大小，最小，最大
@@ -106,6 +96,33 @@ spring:
         transport:
           tcp:
             connect_timeout: 120s  # 连接超时的时间
+
+    mongodb:
+      host: 101.132.136.225
+      port: 27017
+      username: admin
+      password: admin
+      database: cloud_core
+      always-use-m-beans: false
+      authentication-database: admin
+      connect-timeout: 10000
+      heartbeat-connect-timeout: 20000
+      heartbeat-frequency: 10000
+      heartbeat-socket-timeout: 20000
+      local-threshold: 15
+      max-connection-idel-time: 0
+      max-connection-life-time: 0
+      max-connections-per-host: 100
+      max-wait-time: 120000
+      min-connections-per-host: 10
+      min-heartbeat-frequency: 500
+      replica-set: rs0
+      server-selection-timeout: 30000
+      socket-keep-alive: false
+      socket-timeout: 0
+      ssl-enabled: false
+      ssl-invalid-host-name-allowed: false
+      threads-allowed-to-block-for-connection-multiplier: 5
 
   # redis 配置
   redis:

@@ -1,10 +1,10 @@
-package pers.liujunyi.cloud.core.service.authorization;
+package pers.liujunyi.cloud.core.service.tenement;
 
 import pers.liujunyi.cloud.common.query.jpa.annotation.BaseQuery;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseService;
-import pers.liujunyi.cloud.core.domain.authorization.SystemAuthorizationDto;
-import pers.liujunyi.cloud.core.entity.authorization.SystemAuthorization;
+import pers.liujunyi.cloud.core.domain.tenement.TenementInfoDto;
+import pers.liujunyi.cloud.core.entity.tenement.TenementInfo;
 
 import java.util.List;
 
@@ -19,22 +19,29 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
-public interface SystemAuthorizationService extends BaseService<SystemAuthorization, Long> {
+public interface TenementInfoService extends BaseService<TenementInfo, Long> {
 
     /**
      * 保存数据
      * @param record
      * @return
      */
-    ResultInfo saveRecord(SystemAuthorizationDto record);
+    ResultInfo saveRecord(TenementInfoDto record);
 
     /**
      * 修改状态
      * @param status
-     * @param sysCodes
+     * @param ids
      * @return
      */
-    ResultInfo updateStatus(Byte status, List<String> sysCodes);
+    ResultInfo updateStatus(Byte status, List<Long> ids);
+
+    /**
+     * 根据id 获取信息
+     * @param id
+     * @return
+     */
+    TenementInfo findById(Long id);
 
     /**
      * grid
@@ -45,18 +52,18 @@ public interface SystemAuthorizationService extends BaseService<SystemAuthorizat
 
     /**
      * 检测是否拥有权限
-     * @param systemCode 系统编码
+     * @param id 租户ID
      * @param signature  签名
      * @return true:有权限   false:无权限
      */
-    Boolean authCheck(String systemCode, String signature);
+    Boolean authCheck(Long id, String signature);
 
     /**
-     * 根据sysCode 批量删除
-     * @param sysCodes
+     * 根据 id 批量删除
+     * @param ids
      * @return
      */
-    ResultInfo deleteAllBySysCodeIn(List<String> sysCodes);
+    ResultInfo deleteBatchById(List<Long> ids);
 
     /**
      * 同步数据到redis 中

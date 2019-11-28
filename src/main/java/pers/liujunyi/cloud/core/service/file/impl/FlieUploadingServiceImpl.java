@@ -120,7 +120,6 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 String requestUrl = this.getFileRequestUrl(fileDirectory, newFileName);
                 // 组织文件数据入库
                 FileManagement fileRecord = DozerBeanMapperUtil.copyProperties(fileData, FileManagement.class);
-                fileRecord.setLessee(fileData.getLesseeId());
                 fileRecord.setUploadTime(new Date());
                 fileRecord.setFileInitialName(fileName);
                 fileRecord.setFileName(newFileName);
@@ -235,13 +234,17 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
      *
      * @param prefix
      * @param fileData
-     * @return images/10001/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
+     * 1: 租户ID
+     * 10：业务模块代码
+     * 2019： 年份
+     * 1： 月份
+     * 20: 日
+     * 5119bc8336ee4bb2bbc2b523e88db745.jpg  文件名
+     * @return images/1/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
      */
     private String getFileDirectory(String prefix, FileDataDto fileData) {
         StringBuffer filePatchBuffer = new StringBuffer(prefix);
-        if (StringUtils.isNotBlank(fileData.getSystemCode())) {
-            filePatchBuffer.append("/").append(fileData.getSystemCode());
-        }
+        filePatchBuffer.append("/").append(fileData.getTenementId());
         if (StringUtils.isNotBlank(fileData.getBusinessCode())) {
             filePatchBuffer.append("/").append(fileData.getBusinessCode());
         }
@@ -257,14 +260,18 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
      *
      * @param prefix
      * @param fileData
-     * @return document/images/10001/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
+     * 1: 租户ID
+     * 10：业务模块代码
+     * 2019： 年份
+     * 1： 月份
+     * 20: 日
+     * 5119bc8336ee4bb2bbc2b523e88db745.jpg  文件名
+     * @return document/images/1/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
      */
     private String getFileDirectoryNew(String prefix, FileDataDto fileData) {
         StringBuffer filePatchBuffer = new StringBuffer("document");
         filePatchBuffer.append("/").append(prefix);
-        if (StringUtils.isNotBlank(fileData.getSystemCode())) {
-            filePatchBuffer.append("/").append(fileData.getSystemCode());
-        }
+        filePatchBuffer.append("/").append(fileData.getTenementId());
         if (StringUtils.isNotBlank(fileData.getBusinessCode())) {
             filePatchBuffer.append("/").append(fileData.getBusinessCode());
         }

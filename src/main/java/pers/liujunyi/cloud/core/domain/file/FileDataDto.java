@@ -27,10 +27,6 @@ import java.io.Serializable;
 public class FileDataDto implements Serializable {
     private static final long serialVersionUID = -4979656133062494676L;
 
-    /** 所属系统编码  例如：1001 相册管理系统 */
-    @ApiModelProperty(value = "系统编码")
-    @Length(min = 0, max = 10, message = "systemCode 最多可以输入10个字符")
-    private String systemCode;
 
     /** 所属系统业务模块编码 例如：10：相册管理  20：视频管理  30： 博文管理 */
     @ApiModelProperty(value = "所属系统业务模块编码")
@@ -49,12 +45,12 @@ public class FileDataDto implements Serializable {
 
     /** 描述信息 */
     @ApiModelProperty(value = "描述信息")
-    @Length(min = 0, max = 100, message = "description 最多可以输入100个字符")
+    @Length(min = 0, max = 50, message = "description 最多可以输入50个字符")
     private String description;
 
     /** 备注 */
     @ApiModelProperty(value = "备注")
-    @Length(min = 0, max = 100, message = "remarks 最多可以输入100个字符")
+    @Length(min = 0, max = 50, message = "remarks 最多可以输入50个字符")
     private String remarks;
 
     /** 上传者ID */
@@ -96,11 +92,11 @@ public class FileDataDto implements Serializable {
     private String filePath;
 
     /** 租户ID */
-    @Min(value = 1, message = "lesseeId 必须是合法数字")
-    private Long lesseeId;
+    @Min(value = 0, message = "tenementId 必须是合法数字")
+    private Long tenementId;
 
     /** 租户名称  */
-    @Length(min = 0, max = 45, message = "lesseeName 最多可以输入45个字符")
-    private String lesseeName;
+    @Length(min = 0, max = 32, message = "tenementName 最多可以输入32个字符")
+    private String tenementName;
 
 }
