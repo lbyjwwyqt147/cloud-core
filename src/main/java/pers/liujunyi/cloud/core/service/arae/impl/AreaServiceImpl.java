@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
-import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
+import pers.liujunyi.cloud.common.service.impl.BaseJpaElasticsearchServiceImpl;
 import pers.liujunyi.cloud.core.entity.area.Area;
 import pers.liujunyi.cloud.core.repository.elasticsearch.area.AreaElasticsearchRepository;
 import pers.liujunyi.cloud.core.repository.jpa.area.AreaRepository;
@@ -28,17 +28,16 @@ import java.util.List;
  * @author ljy
  */
 @Service
-public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements AreaService {
+public class AreaServiceImpl extends BaseJpaElasticsearchServiceImpl<Area, Long> implements AreaService {
 
     @Autowired
     private AreaRepository areaRepoitory;
     @Autowired
     private AreaElasticsearchRepository areaElasticsearchRepository;
 
-    public AreaServiceImpl(BaseRepository<Area, Long> baseRepository) {
-        super(baseRepository);
+    public AreaServiceImpl(BaseJpaRepository<Area, Long> baseJpaRepository) {
+        super(baseJpaRepository);
     }
-
 
     @Override
     public ResultInfo syncDataToElasticsearch() {

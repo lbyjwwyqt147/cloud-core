@@ -4,7 +4,7 @@ package pers.liujunyi.cloud.core.service.oss;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.*;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import pers.liujunyi.cloud.core.domain.file.FileDataDto;
@@ -31,16 +31,16 @@ import java.util.Date;
 public class AliyunOSSClientUtil {
 
     /**  阿里云API的内或外网域名 */
-   // @Value("${aliyun.oss.endpoint}")
+    @Value("${aliyun.oss.endpoint}")
     private  String ENDPOINT;
     /**  阿里云API的密钥Access Key ID */
-  //  @Value("${aliyun.oss.accessKeyId}")
+    @Value("${aliyun.oss.accessKeyId}")
     private  String ACCESS_KEY_ID;
     /**  阿里云API的密钥Access Key Secret */
-   // @Value("${aliyun.oss.accessKeySecret}")
+    @Value("${aliyun.oss.accessKeySecret}")
     private  String ACCESS_KEY_SECRET;
     /**  阿里云API的bucket名称 主目录*/
-  //  @Value("${aliyun.oss.bucketName}")
+    @Value("${aliyun.oss.bucketName}")
     public  String BACKET_NAME;
     public static final String FORMAT = new SimpleDateFormat("yyyyMMdd").format(new Date());
     public static final String FORMATS = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -49,7 +49,7 @@ public class AliyunOSSClientUtil {
     private OSSClient ossClient;
 
     public AliyunOSSClientUtil() {
-       // ossClient = new OSSClient(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        //ossClient = new OSSClient(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
     }
 
     /**
@@ -188,11 +188,12 @@ public class AliyunOSSClientUtil {
     public AliyunOSSDataVo uploadFile(MultipartFile file, String bucketName, FileDataDto fileData) {
         AliyunOSSDataVo ossData = null;
         try {
+            String folder = this.createFolder(bucketName, fileData.getFolder());
             // 以输入流的形式上传文件
             InputStream is = file.getInputStream();
             // 文件名
             String fileName = file.getName();
-            String curFilePath = fileData.getFilePath();
+            String curFilePath = folder + "/" +fileData.getFilePath();
             log.info("上传到路径：" + curFilePath);
             // 文件大小
             long fileSize = file.getSize();

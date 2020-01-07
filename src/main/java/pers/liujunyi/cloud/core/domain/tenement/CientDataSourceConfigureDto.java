@@ -72,7 +72,7 @@ public class CientDataSourceConfigureDto  extends BaseDto {
     /** 数据库名称 */
     @ApiModelProperty(value = "数据库名称")
     @Length(min = 0, max = 20, message = "数据库名称 最多可以输入20个字符")
-    private String database;
+    private String dataBase;
 
     /** 端口 */
     @ApiModelProperty(value = "端口")
@@ -81,4 +81,7 @@ public class CientDataSourceConfigureDto  extends BaseDto {
     /** 0: 启动 1：禁用  */
     @ApiModelProperty(value = "状态：0：正常  1：禁用")
     private Byte status = 0;
+
+    /** 服务器主机地址 */
+    private String hostAddress;
 }

@@ -2,27 +2,29 @@ package pers.liujunyi.cloud.core.service.tenement.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
-import pers.liujunyi.cloud.common.query.jpa.annotation.BaseQuery;
 import pers.liujunyi.cloud.common.redis.RedisTemplateUtils;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
-import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
+import pers.liujunyi.cloud.common.service.impl.BaseJpaServiceImpl;
 import pers.liujunyi.cloud.common.util.DateTimeUtils;
 import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.cloud.common.util.SystemUtils;
 import pers.liujunyi.cloud.common.vo.BaseRedisKeys;
 import pers.liujunyi.cloud.core.domain.tenement.TenementInfoDto;
+import pers.liujunyi.cloud.core.domain.tenement.TenementQuery;
 import pers.liujunyi.cloud.core.entity.tenement.TenementInfo;
 import pers.liujunyi.cloud.core.repository.jpa.tenement.TenementInfoRepository;
 import pers.liujunyi.cloud.core.service.tenement.TenementInfoService;
 import pers.liujunyi.cloud.core.util.Constant;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,33 +42,41 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author ljy
  */
 @Service
-public class TenementInfoServiceImpl extends BaseServiceImpl<TenementInfo, Long> implements TenementInfoService {
+public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Long> implements TenementInfoService {
 
     @Autowired
     private TenementInfoRepository tenementInfoRepository;
     @Autowired
     private RedisTemplateUtils redisTemplateUtils;
 
-    public TenementInfoServiceImpl(BaseRepository<TenementInfo, Long> baseRepository) {
+    public TenementInfoServiceImpl(BaseJpaRepository<TenementInfo, Long> baseRepository) {
         super(baseRepository);
     }
 
     @Override
     public ResultInfo saveRecord(TenementInfoDto record) {
-        if (this.checkRepetition(record.getTenementCode(), record.getId())) {
+        if (this.checkRepetition(record.getTenementPhone(), record.getId())) {
             return ResultUtil.params("手机号已经被注册,请重新输入!");
+        }
+        if (record.getId() == null) {
+            record.setCreateTime(new Date());
+        } else {
+            record.setUpdateTime(new Date());
         }
         record.setAppId(String.valueOf(System.currentTimeMillis()));
         record.setAppKey(SystemUtils.uuid());
-        record.setAppSecret(generateSign(record.getAppId(), record.getAppKey()));
+        record.setAppSecret(this.generateSign(record.getAppId(), record.getAppKey()));
         if (record.getExpireTime() == null) {
             record.setExpireTime(DateTimeUtils.additionalYear(10));
         }
         TenementInfo tenementInfo = DozerBeanMapperUtil.copyProperties(record, TenementInfo.class);
+        if (StringUtils.isBlank(tenementInfo.getSpecialVersion())) {
+            tenementInfo.setSpecialVersion("v1");
+        }
         TenementInfo saveObj =  this.tenementInfoRepository.save(tenementInfo);
         if (saveObj != null && saveObj.getId() != null) {
             record.setId(saveObj.getId());
-            this.redisTemplateUtils.hset(BaseRedisKeys.LESSEE, saveObj.getTenementCode(), JSON.toJSONString(record));
+            this.redisTemplateUtils.hset(BaseRedisKeys.LESSEE, saveObj.getTenementPhone(), JSON.toJSONString(record));
             return ResultUtil.success();
         }
         return ResultUtil.fail();
@@ -94,12 +104,13 @@ public class TenementInfoServiceImpl extends BaseServiceImpl<TenementInfo, Long>
     }
 
     @Override
-    public ResultInfo dataGrid(BaseQuery query) {
+    public ResultInfo dataGrid(TenementQuery query) {
         Map<String, Object> map = this.redisTemplateUtils.hgetAll(BaseRedisKeys.LESSEE);
         List<TenementInfoDto> dataList = new LinkedList<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             JSONObject json = JSONObject.parseObject(entry.getValue().toString());
             TenementInfoDto tenement = JSON.toJavaObject(json, TenementInfoDto.class);
+            tenement.setExpireDate(DateTimeUtils.dateFormatYmd(tenement.getExpireTime()));
             dataList.add(tenement);
         }
         int size = dataList.size();
@@ -142,7 +153,7 @@ public class TenementInfoServiceImpl extends BaseServiceImpl<TenementInfo, Long>
             this.redisTemplateUtils.del(BaseRedisKeys.LESSEE);
             Map<String, Object> map = new ConcurrentHashMap<>();
             list.stream().forEach(item -> {
-                map.put(item.getTenementCode(), item);
+                map.put(item.getTenementPhone(), item);
             });
             this.redisTemplateUtils.hmset(BaseRedisKeys.LESSEE, map);
         } else {
@@ -163,19 +174,19 @@ public class TenementInfoServiceImpl extends BaseServiceImpl<TenementInfo, Long>
         }
         boolean result = false;
         TenementInfo tenementInfo = this.getOne(id);
-        if (tenementInfo != null && !tenementInfo.getTenementCode().equals(tenementCode)) {
+        if (tenementInfo != null && !tenementInfo.getTenementPhone().equals(tenementCode)) {
             result = this.checkTenementCode(tenementCode);
         }
         return  result;
     }
 
     /**
-     * 检查 tenementCode 是否重复
-     * @param tenementCode
+     * 检查 tenementPhone 是否重复
+     * @param tenementPhone
      * @return
      */
-    private Boolean checkTenementCode (String tenementCode) {
-        TenementInfo tenement = this.tenementInfoRepository.findFirstByTenementCode(tenementCode);
+    private Boolean checkTenementCode (String tenementPhone) {
+        TenementInfo tenement = this.tenementInfoRepository.findFirstByTenementPhone(tenementPhone);
         if (tenement != null) {
             return true;
         }

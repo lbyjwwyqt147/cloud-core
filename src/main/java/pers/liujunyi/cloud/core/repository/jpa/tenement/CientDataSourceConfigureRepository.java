@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.core.repository.jpa.tenement;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.core.entity.tenement.CientDataSourceConfigure;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
-public interface CientDataSourceConfigureRepository extends BaseRepository<CientDataSourceConfigure, Long> {
+public interface CientDataSourceConfigureRepository extends BaseJpaRepository<CientDataSourceConfigure, Long> {
 
     /**
      * 修改状态

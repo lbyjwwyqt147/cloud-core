@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.core.repository.jpa.area;
 
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.core.entity.area.Area;
 
 
@@ -15,5 +15,5 @@ import pers.liujunyi.cloud.core.entity.area.Area;
  * @version 1.0
  * @author ljy
  */
-public interface AreaRepository extends BaseRepository<Area, Long> {
+public interface AreaRepository extends BaseJpaRepository<Area, Long> {
 }

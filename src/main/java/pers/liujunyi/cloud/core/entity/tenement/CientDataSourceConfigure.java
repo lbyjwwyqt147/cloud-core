@@ -35,15 +35,15 @@ import javax.persistence.Entity;
 @Table(appliesTo = "cient_data_source_configure", comment = "租户客户端数据源配置表")
 public class CientDataSourceConfigure extends BaseEntity {
 
-    @Column(columnDefinition="bigint(20) NOT NULL COMMENT '租户ID'")
+    @Column(nullable = false, columnDefinition="bigint(20) NOT NULL COMMENT '租户ID'")
     private Long tenementId;
 
     /** 数据源类型 1：MySql  2：redis 3: MongoDb 4: Elasticsearch */
-    @Column(columnDefinition="tinyint(4) NOT NULL COMMENT '状态：1：MySql  2：redis 3: MongoDb 4: Elasticsearch '")
+    @Column(nullable = false, columnDefinition="tinyint(4) NOT NULL COMMENT '数据源类型：1：MySql  2：redis 3: MongoDb 4: Elasticsearch '")
     private Byte category;
 
     /** applicationName 对应每个运营程序 application.yml 中的 application.name */
-    @Column(columnDefinition="varchar(20) NOT NULL COMMENT 'applicationName 对应每个运营程序 application.yml 中的 application.name '")
+    @Column(nullable = false, columnDefinition="varchar(20) NOT NULL COMMENT 'applicationName 对应每个运营程序的 application.name'")
     private String applicationName;
 
     /** 数据源类型 默认 com.alibaba.druid.pool.DruidDataSource */
@@ -55,20 +55,20 @@ public class CientDataSourceConfigure extends BaseEntity {
     private String driverClassName;
 
     /** 数据库地址 */
-    @Column(columnDefinition="varchar(255) NOT NULL COMMENT '数据库地址'")
+    @Column(nullable = false, columnDefinition="varchar(255) NOT NULL COMMENT '数据库地址'")
     private String dataSourceUrl;
 
     /** 数据库登录名 */
-    @Column(columnDefinition="varchar(32) NOT NULL COMMENT '数据库登录名'")
+    @Column(length = 32, columnDefinition="varchar(32) DEFAULT NULL COMMENT '数据库登录名'")
     private String dataSourceUserName;
 
     /** 数据库登录密码 */
-    @Column(columnDefinition="varchar(65) DEFAULT NULL COMMENT '数据库登录密码'")
+    @Column(length = 65, columnDefinition="varchar(65) DEFAULT NULL COMMENT '数据库登录密码'")
     private String dataSourcePassword;
 
     /** 数据库名称 */
     @Column(columnDefinition="varchar(20) DEFAULT NULL COMMENT '数据库名称'")
-    private String database;
+    private String dataBase;
 
     /** 端口 */
     @Column(columnDefinition="int(11) DEFAULT NULL COMMENT '端口'")
@@ -78,4 +78,7 @@ public class CientDataSourceConfigure extends BaseEntity {
     @Column(columnDefinition="tinyint(4) DEFAULT '0' COMMENT '状态：0：正常  1：禁用 '")
     private Byte status;
 
+    /** 服务器主机地址 */
+    @Column(nullable = false, columnDefinition="varchar(255) NOT NULL COMMENT '服务器主机地址'")
+    private String hostAddress;
 }

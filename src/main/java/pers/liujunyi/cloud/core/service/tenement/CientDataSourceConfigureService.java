@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.core.service.tenement;
 
 import pers.liujunyi.cloud.common.restful.ResultInfo;
-import pers.liujunyi.cloud.common.service.BaseService;
+import pers.liujunyi.cloud.common.service.BaseJpaService;
 import pers.liujunyi.cloud.core.domain.tenement.CientDataSourceConfigureDto;
 import pers.liujunyi.cloud.core.entity.tenement.CientDataSourceConfigure;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
-public interface CientDataSourceConfigureService  extends BaseService<CientDataSourceConfigure, Long> {
+public interface CientDataSourceConfigureService  extends BaseJpaService<CientDataSourceConfigure, Long> {
 
     /**
      * 保存数据

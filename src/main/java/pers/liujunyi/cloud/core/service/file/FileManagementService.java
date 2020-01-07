@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.core.service.file;
 
-import pers.liujunyi.cloud.common.service.BaseService;
+import pers.liujunyi.cloud.common.service.BaseJpaService;
 import pers.liujunyi.cloud.common.vo.file.FileDataVo;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
-public interface FileManagementService extends BaseService<FileManagement, Long> {
+public interface FileManagementService extends BaseJpaService<FileManagement, Long> {
 
     /**
      * 新增纪录 并返回新增纪录ID

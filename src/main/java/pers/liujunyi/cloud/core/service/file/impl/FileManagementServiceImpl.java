@@ -4,8 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
-import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
+import pers.liujunyi.cloud.common.service.impl.BaseJpaServiceImpl;
 import pers.liujunyi.cloud.common.util.ThreadPoolExecutorFactory;
 import pers.liujunyi.cloud.common.vo.file.FileDataVo;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
@@ -32,7 +32,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Log4j2
 @Service
-public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, Long> implements FileManagementService {
+public class FileManagementServiceImpl extends BaseJpaServiceImpl<FileManagement, Long> implements FileManagementService {
     private ThreadPoolExecutor threadPoolExecutor = ThreadPoolExecutorFactory.getThreadPoolExecutor();
 
     @Autowired
@@ -40,7 +40,7 @@ public class FileManagementServiceImpl extends BaseServiceImpl<FileManagement, L
     @Autowired
     private AliyunOSSClientUtil aliyunOSSClientUtil;
 
-    public FileManagementServiceImpl(BaseRepository<FileManagement, Long> baseRepository) {
+    public FileManagementServiceImpl(BaseJpaRepository<FileManagement, Long> baseRepository) {
         super(baseRepository);
     }
 

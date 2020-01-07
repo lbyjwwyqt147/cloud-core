@@ -13,10 +13,12 @@ import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.cloud.common.vo.file.FileDataVo;
 import pers.liujunyi.cloud.core.domain.file.FileDataDto;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
+import pers.liujunyi.cloud.core.entity.tenement.TenementInfo;
 import pers.liujunyi.cloud.core.service.file.FileManagementService;
 import pers.liujunyi.cloud.core.service.file.FlieUploadingService;
 import pers.liujunyi.cloud.core.service.oss.AliyunOSSClientUtil;
 import pers.liujunyi.cloud.core.service.oss.AliyunOSSDataVo;
+import pers.liujunyi.cloud.core.service.tenement.TenementInfoService;
 import pers.liujunyi.cloud.core.util.FileEnum;
 import pers.liujunyi.cloud.core.util.FileUtil;
 
@@ -48,6 +50,8 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
     private FileManagementService fileManagementService;
     @Autowired
     private AliyunOSSClientUtil aliyunOSSClientUtil;
+    @Autowired
+    private TenementInfoService tenementInfoService;
 
     /**  阿里云API的bucket名称 主目录 */
     @Value("${aliyun.oss.bucketName}")
@@ -152,6 +156,8 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
         if (files.isEmpty()) {
             return ResultUtil.params("缺少上传文件");
         }
+        TenementInfo tenementInfo = this.tenementInfoService.findById(fileData.getTenementId());
+        fileData.setFolder(tenementInfo.getFolder());
         List<FileManagement> recordList = new CopyOnWriteArrayList<>();
         AtomicInteger seq  = new AtomicInteger(0);
         for (MultipartFile file : files) {

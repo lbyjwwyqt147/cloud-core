@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.core.repository.jpa.file;
 
 import org.springframework.stereotype.Repository;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.core.entity.file.FileManagement;
 
 
@@ -17,7 +17,7 @@ import pers.liujunyi.cloud.core.entity.file.FileManagement;
  * @author ljy
  */
 @Repository
-public interface FileManagementRepository extends BaseRepository<FileManagement, Long> {
+public interface FileManagementRepository extends BaseJpaRepository<FileManagement, Long> {
 
 
 }

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.dto.IdParamDto;
-import pers.liujunyi.cloud.common.query.jpa.annotation.BaseQuery;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.core.domain.tenement.TenementInfoDto;
+import pers.liujunyi.cloud.core.domain.tenement.TenementQuery;
 import pers.liujunyi.cloud.core.service.tenement.TenementInfoService;
 
 import javax.validation.Valid;
@@ -81,7 +81,7 @@ public class TenementInfoController extends BaseController {
     })
     @GetMapping(value = "table/tenement/g")
     @ApiVersion(1)
-    public ResultInfo findPageGrid(BaseQuery query) {
+    public ResultInfo findPageGrid(TenementQuery query) {
         return this.tenementInfoService.dataGrid(query);
     }
 
@@ -98,7 +98,7 @@ public class TenementInfoController extends BaseController {
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
             @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer")
     })
-    @PutMapping(value = "verify/tenement/p")
+    @PutMapping(value = "verify/tenement/p/b")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.tenementInfoService.updateStatus(param.getStatus(), param.getIdList());

@@ -47,7 +47,7 @@ public class FlieUploadingController extends BaseController {
      * @param data
      * @return
      */
-    @ApiOperation(value = "单个文件上传", notes = "适用于上传单个文件 请求示例：127.0.0.1:18080/api/v1/file/upload/single")
+    @ApiOperation(value = "单个文件上传")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
@@ -68,7 +68,7 @@ public class FlieUploadingController extends BaseController {
      * @param data
      * @return
      */
-    @ApiOperation(value = "阿里云oss批量上传文件", notes = "适用于阿里云oss批量上传文件 请求示例：127.0.0.1:18080/api/v1/verify/file/oss/upload/batch")
+    @ApiOperation(value = "阿里云oss批量上传文件")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")
@@ -88,7 +88,7 @@ public class FlieUploadingController extends BaseController {
      * @param data
      * @return
      */
-    @ApiOperation(value = "多个文件上传", notes = "适用于批量上传文件 请求示例：127.0.0.1:18080/api/v1/file/upload/batch")
+    @ApiOperation(value = "多个文件上传")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "file", value = "文件", paramType = "query", required = true, dataType = "MultipartFile")

@@ -41,7 +41,7 @@ public class FileManagementController extends BaseController {
      * @param id
      * @return
      */
-    @ApiOperation(value = "单条删除本地磁盘数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/file/delete/11")
+    @ApiOperation(value = "单条删除本地磁盘数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
@@ -61,7 +61,7 @@ public class FileManagementController extends BaseController {
      * @param id 　 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "批量删除本地磁盘数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/file/batchDelete/11,12,13")
+    @ApiOperation(value = "批量删除本地磁盘数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
@@ -81,7 +81,7 @@ public class FileManagementController extends BaseController {
      * @param id
      * @return
      */
-    @ApiOperation(value = "单条删除阿里云oss上数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/file/delete/11")
+    @ApiOperation(value = "单条删除阿里云oss上数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
@@ -101,7 +101,7 @@ public class FileManagementController extends BaseController {
      * @param id 　 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "删除多条阿里云oss上数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/file/batchDelete/11,12,13")
+    @ApiOperation(value = "删除多条阿里云oss上数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
@@ -121,7 +121,7 @@ public class FileManagementController extends BaseController {
      * @param id 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "根据文件id获取信息", notes = "适用于根据文件id获取信息 请求示例：127.0.0.1:18080/api/v1/file/details/11,12")
+    @ApiOperation(value = "根据文件id获取信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")

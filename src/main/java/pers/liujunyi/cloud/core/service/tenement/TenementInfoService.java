@@ -1,16 +1,16 @@
 package pers.liujunyi.cloud.core.service.tenement;
 
-import pers.liujunyi.cloud.common.query.jpa.annotation.BaseQuery;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
-import pers.liujunyi.cloud.common.service.BaseService;
+import pers.liujunyi.cloud.common.service.BaseJpaService;
 import pers.liujunyi.cloud.core.domain.tenement.TenementInfoDto;
+import pers.liujunyi.cloud.core.domain.tenement.TenementQuery;
 import pers.liujunyi.cloud.core.entity.tenement.TenementInfo;
 
 import java.util.List;
 
 /***
- * 文件名称: SystemAuthorizationService.java
- * 文件描述: 系统授权 Service
+ * 文件名称: TenementInfoService.java
+ * 文件描述: 租户 Service
  * 公 司:
  * 内容摘要:
  * 其他说明:
@@ -19,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
-public interface TenementInfoService extends BaseService<TenementInfo, Long> {
+public interface TenementInfoService extends BaseJpaService<TenementInfo, Long> {
 
     /**
      * 保存数据
@@ -36,19 +36,13 @@ public interface TenementInfoService extends BaseService<TenementInfo, Long> {
      */
     ResultInfo updateStatus(Byte status, List<Long> ids);
 
-    /**
-     * 根据id 获取信息
-     * @param id
-     * @return
-     */
-    TenementInfo findById(Long id);
 
     /**
      * grid
      * @param query
      * @return
      */
-    ResultInfo dataGrid(BaseQuery query);
+    ResultInfo dataGrid(TenementQuery query);
 
     /**
      * 检测是否拥有权限

@@ -99,4 +99,6 @@ public class FileDataDto implements Serializable {
     @Length(min = 0, max = 32, message = "tenementName 最多可以输入32个字符")
     private String tenementName;
 
+    /** 文件夹 */
+    private String folder;
 }

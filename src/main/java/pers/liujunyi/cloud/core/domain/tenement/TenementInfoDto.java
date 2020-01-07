@@ -39,11 +39,11 @@ public class TenementInfoDto extends BaseDto {
     @ApiModelProperty(value = "到期时间")
     private Date expireTime;
 
-    /** 租户手机号  */
-    @ApiModelProperty(value = "手机号码")
-    @NotBlank(message = "手机号码 必须填写")
-    @Length(min = 0, max = 11, message = "手机号码 最多可以输入11个字符")
-    private String tenementCode;
+    private String expireDate;
+
+    /** 租户电话  */
+    @ApiModelProperty(value = "租户电话")
+    private String tenementPhone;
 
     /**  client_id 第三方应用ID */
     @ApiModelProperty(value = "client_id 第三方应用ID")
@@ -74,5 +74,8 @@ public class TenementInfoDto extends BaseDto {
     @Length(min = 0, max = 65, message = "attributeTwo 最多可以输入65个字符")
     @Pattern(regexp = RegexpUtils.NAME_REGEXP, message = "attributeTwo" + RegexpUtils.NAME_MSG)
     private String attributeTwo;
+
+    /** 文件夹 */
+    private String folder;
 
 }

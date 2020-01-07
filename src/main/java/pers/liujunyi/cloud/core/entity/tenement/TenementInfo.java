@@ -15,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
-import java.util.List;
 
 /***
  * 文件名称: TenementInfo.java
@@ -36,14 +35,14 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @Proxy(lazy = false)
-@Table(appliesTo = "tnement_info", comment = "租户信息表")
+@Table(appliesTo = "tenement_info", comment = "租户信息表")
 public class TenementInfo extends BaseEntity {
 
     private static final long serialVersionUID = 1475322943977844667L;
 
-    /** 手机号码 */
-    @Column(length = 20, nullable = false, columnDefinition="varchar(11) NOT NULL COMMENT '手机号码'")
-    private String tenementCode;
+    /** 租户电话 */
+    @Column(length = 20, nullable = false, columnDefinition="varchar(20) NOT NULL COMMENT '租户电话'")
+    private String tenementPhone;
 
     /** 租户名称 */
     @Column(length = 32, nullable = false, columnDefinition="varchar(32) NOT NULL COMMENT '租户名称'")
@@ -90,6 +89,10 @@ public class TenementInfo extends BaseEntity {
     @Column(columnDefinition="varchar(65) DEFAULT NULL  COMMENT '预留字段2'")
     private String attributeTwo;
 
+    /** 文件夹 */
+    @Column(columnDefinition="varchar(32) DEFAULT NULL  COMMENT '文件夹'")
+    private String folder;
+
     /** 租户数据源配置 */
-    List<CientDataSourceConfigure> cientDataSource;
+    /*List<CientDataSourceConfigure> cientDataSource;*/
 }

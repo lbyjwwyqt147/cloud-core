@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.core.repository.jpa.tenement;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.core.entity.tenement.TenementInfo;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @author ljy
  */
-public interface TenementInfoRepository extends BaseRepository<TenementInfo, Long> {
+public interface TenementInfoRepository extends BaseJpaRepository<TenementInfo, Long> {
 
     /**
      * 修改状态
@@ -34,9 +34,9 @@ public interface TenementInfoRepository extends BaseRepository<TenementInfo, Lon
 
     /**
      *
-     * @param tenementCode
+     * @param tenementPhone
      * @return
      */
-    TenementInfo findFirstByTenementCode(String tenementCode);
+    TenementInfo findFirstByTenementPhone(String tenementPhone);
 
 }

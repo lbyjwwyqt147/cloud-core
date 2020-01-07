@@ -3,9 +3,9 @@ package pers.liujunyi.cloud.core.service.tenement.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.liujunyi.cloud.common.redis.RedisTemplateUtils;
-import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.repository.jpa.BaseJpaRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
-import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
+import pers.liujunyi.cloud.common.service.impl.BaseJpaServiceImpl;
 import pers.liujunyi.cloud.core.domain.tenement.CientDataSourceConfigureDto;
 import pers.liujunyi.cloud.core.entity.tenement.CientDataSourceConfigure;
 import pers.liujunyi.cloud.core.repository.jpa.tenement.CientDataSourceConfigureRepository;
@@ -25,14 +25,14 @@ import java.util.List;
  * @author ljy
  */
 @Service
-public class CientDataSourceConfigureServiceImpl  extends BaseServiceImpl<CientDataSourceConfigure, Long> implements CientDataSourceConfigureService {
+public class CientDataSourceConfigureServiceImpl  extends BaseJpaServiceImpl<CientDataSourceConfigure, Long> implements CientDataSourceConfigureService {
 
     @Autowired
     private CientDataSourceConfigureRepository cientDataSourceConfigureRepository;
     @Autowired
     private RedisTemplateUtils redisTemplateUtils;
 
-    public CientDataSourceConfigureServiceImpl(BaseRepository<CientDataSourceConfigure, Long> baseRepository) {
+    public CientDataSourceConfigureServiceImpl(BaseJpaRepository<CientDataSourceConfigure, Long> baseRepository) {
         super(baseRepository);
     }
 

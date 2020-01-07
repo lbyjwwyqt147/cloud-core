@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.core.service.arae;
 
 import pers.liujunyi.cloud.common.restful.ResultInfo;
-import pers.liujunyi.cloud.common.service.BaseService;
+import pers.liujunyi.cloud.common.service.BaseJpaElasticsearchService;
 import pers.liujunyi.cloud.core.entity.area.Area;
 
 
@@ -16,7 +16,7 @@ import pers.liujunyi.cloud.core.entity.area.Area;
  * @version 1.0
  * @author ljy
  */
-public interface AreaService extends BaseService<Area, Long> {
+public interface AreaService extends BaseJpaElasticsearchService<Area, Long> {
 
 
     /**
