@@ -15,6 +15,7 @@ import pers.liujunyi.cloud.core.service.oss.AliyunOSSClientUtil;
 import pers.liujunyi.cloud.core.util.FileUtil;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -105,8 +106,10 @@ public class FileManagementServiceImpl extends BaseJpaServiceImpl<FileManagement
         FileManagement record = this.fileManagementRepository.getOne(id);
         // 删除数据库纪录
         this.fileManagementRepository.delete(record);
-        // 删除阿里云oss 上的文件
-        aliyunOSSClientUtil.deleteFile(record.getFileCallAddress());
+        threadPoolExecutor.execute(() -> {
+            // 删除阿里云oss 上的文件
+            aliyunOSSClientUtil.deleteFile(record.getFilePath());
+        });
         return true;
     }
 
@@ -137,11 +140,13 @@ public class FileManagementServiceImpl extends BaseJpaServiceImpl<FileManagement
      * @param records
      */
     private void deleteAliyunFile(List<FileManagement> records) {
-        // 删除阿里云oss 上的文件
+        List<String> keys = new LinkedList<>();
+        for (FileManagement fileRecord : records) {
+            keys.add(fileRecord.getFilePath());
+        }
         threadPoolExecutor.execute(() -> {
-            for (FileManagement fileRecord : records) {
-                aliyunOSSClientUtil.deleteFile(fileRecord.getFileCallAddress());
-            }
+            // 删除阿里云oss 上的文件
+            this.aliyunOSSClientUtil.deleteFile(keys);
         });
     }
 

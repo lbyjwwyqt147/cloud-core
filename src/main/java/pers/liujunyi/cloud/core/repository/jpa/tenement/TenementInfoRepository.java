@@ -39,4 +39,10 @@ public interface TenementInfoRepository extends BaseJpaRepository<TenementInfo, 
      */
     TenementInfo findFirstByTenementPhone(String tenementPhone);
 
+    /**
+     *
+     * @param folder
+     * @return
+     */
+    TenementInfo findFirstByFolder(String folder);
 }

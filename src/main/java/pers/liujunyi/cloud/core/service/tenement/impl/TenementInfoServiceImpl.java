@@ -55,13 +55,18 @@ public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Lo
 
     @Override
     public ResultInfo saveRecord(TenementInfoDto record) {
-        if (this.checkRepetition(record.getTenementPhone(), record.getId())) {
-            return ResultUtil.params("手机号已经被注册,请重新输入!");
-        }
+        TenementInfo tenement = null;
         if (record.getId() == null) {
             record.setCreateTime(new Date());
         } else {
             record.setUpdateTime(new Date());
+            tenement = this.getOne(record.getId());
+        }
+        if (this.checkRepetitionTenementPhone(tenement, record.getTenementPhone(), record.getId())) {
+            return ResultUtil.params("手机号已经被注册,请重新输入!");
+        }
+        if (this.checkRepetitionFolder(tenement, record.getFolder(), record.getId())) {
+            return ResultUtil.params("租户文件夹重复,请重新输入!");
         }
         record.setAppId(String.valueOf(System.currentTimeMillis()));
         record.setAppKey(SystemUtils.uuid());
@@ -76,7 +81,7 @@ public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Lo
         TenementInfo saveObj =  this.tenementInfoRepository.save(tenementInfo);
         if (saveObj != null && saveObj.getId() != null) {
             record.setId(saveObj.getId());
-            this.redisTemplateUtils.hset(BaseRedisKeys.LESSEE, saveObj.getTenementPhone(), JSON.toJSONString(record));
+            this.redisTemplateUtils.hset(BaseRedisKeys.LESSEE, saveObj.getId().toString(), JSON.toJSONString(record));
             return ResultUtil.success();
         }
         return ResultUtil.fail();
@@ -153,7 +158,7 @@ public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Lo
             this.redisTemplateUtils.del(BaseRedisKeys.LESSEE);
             Map<String, Object> map = new ConcurrentHashMap<>();
             list.stream().forEach(item -> {
-                map.put(item.getTenementPhone(), item);
+                map.put(item.getId().toString(), JSON.toJSONString(item));
             });
             this.redisTemplateUtils.hmset(BaseRedisKeys.LESSEE, map);
         } else {
@@ -163,19 +168,35 @@ public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Lo
     }
 
     /**
-     * 检查tenementCode是否重复
-     * @param tenementCode
+     * 检查 tenementCode 是否重复
+     * @param tenementPhone
      * @param id
      * @return
      */
-    private Boolean checkRepetition(String tenementCode, Long id) {
+    private Boolean checkRepetitionTenementPhone(TenementInfo tenementInfo, String tenementPhone, Long id) {
         if (id == null ) {
-           return this.checkTenementCode(tenementCode);
+           return this.checkTenementPhone(tenementPhone);
         }
         boolean result = false;
-        TenementInfo tenementInfo = this.getOne(id);
-        if (tenementInfo != null && !tenementInfo.getTenementPhone().equals(tenementCode)) {
-            result = this.checkTenementCode(tenementCode);
+        if (tenementInfo != null && !tenementInfo.getTenementPhone().equals(tenementPhone)) {
+            result = this.checkTenementPhone(tenementPhone);
+        }
+        return  result;
+    }
+
+    /**
+     * 检查folder是否重复
+     * @param folder
+     * @param id
+     * @return
+     */
+    private Boolean checkRepetitionFolder(TenementInfo tenementInfo, String folder, Long id) {
+        if (id == null ) {
+            return this.checkFolder(folder);
+        }
+        boolean result = false;
+        if (tenementInfo != null && !tenementInfo.getFolder().equals(folder)) {
+            result = this.checkFolder(folder);
         }
         return  result;
     }
@@ -185,8 +206,21 @@ public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Lo
      * @param tenementPhone
      * @return
      */
-    private Boolean checkTenementCode (String tenementPhone) {
+    private Boolean checkTenementPhone (String tenementPhone) {
         TenementInfo tenement = this.tenementInfoRepository.findFirstByTenementPhone(tenementPhone);
+        if (tenement != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查 folder 是否重复
+     * @param folder
+     * @return
+     */
+    private Boolean checkFolder (String folder) {
+        TenementInfo tenement = this.tenementInfoRepository.findFirstByFolder(folder);
         if (tenement != null) {
             return true;
         }

@@ -206,44 +206,6 @@
         <logger name="jdbc.audit" level="WARN"/>
 
 
-        <!-- 根据需要关闭不必要的日志输出 -->
-      <!--  <logger name="jdbc.connection" level="OFF" />
-        <logger name="jdbc.audit" level="OFF" />
-        <logger name="jdbc.resultset" level="OFF" />
-        <logger name="jdbc.sqlonly" level="OFF" />
-        <logger name="jdbc.sqltiming" level="INFO" />
-        <logger name="jdbc.resultsettable" level="INFO"/>-->
-        <!--<logger name="org.springframework.boot.autoconfigure.logging" level="OFF"/>
-        <logger name="org.springframework.context.annotation" level="OFF"/>
-        <logger name="org.springframework.core.env" level="OFF"/>
-        <logger name="org.springframework.data.repository.config" level="OFF"/>
-        <logger name="org.springframework.beans.factory.support" level="OFF"/>
-        <logger name="org.hibernate.jpa.internal.util.LogHelper" level="OFF"/>
-        <logger name="org.hibernate.type.BasicTypeRegistry" level="OFF"/>
-        <logger name="org.hibernate.id.factory.internal" level="OFF"/>
-        <logger name="org.hibernate.engine.jdbc.env.internal" level="OFF"/>
-        <logger name="org.hibernate.cfg" level="OFF"/>
-        <logger name="org.hibernate.validator.internal.xml" level="OFF"/>
-        <logger name="org.hibernate.validator.internal.engine" level="OFF"/>
-        <logger name="org.hibernate.persister.walking.spi" level="OFF"/>
-        <logger name="org.hibernate.loader.plan.build.spi" level="OFF"/>
-        <logger name="org.springframework.core.LocalVariableTableParameterNameDiscoverer" level="OFF"/>
-        <logger name="io.netty.util.internal" level="OFF"/>
-        <logger name="io.netty.buffer" level="OFF"/>
-        <logger name="org.springframework.core.LocalVariableTableParameterNameDiscoverer" level="OFF"/>
-        <logger name="springfox.documentation.spring.web.plugins" level="OFF"/>
-        <logger name="springfox.documentation.schema.property" level="OFF"/>
-        <logger name="springfox.documentation.spring.web.readers" level="OFF"/>
-        <logger name="org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource" level="OFF"/>
-        <logger name="springfox.documentation" level="OFF"/>
-        <logger name="io.lettuce.core.resource" level="OFF"/>
-        <logger name="org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker" level="OFF"/>
-        <logger name="org.hibernate.event.internal.AbstractFlushingEventListener" level="OFF"/>
-        <logger name="org.springframework.web.servlet.mvc.method.annotation" level="OFF"/>
-        <logger name="org.springframework.orm.jpa" level="OFF"/>
-        <logger name="io.netty.util.ResourceLeakDetector" level="OFF"/>-->
-
-
 
     </loggers>
 </configuration>

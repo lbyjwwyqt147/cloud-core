@@ -26,7 +26,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # JDBC 配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.136.225:3306/cloud_saas?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://101.132.136.225:3306/cloud_saas?useUnicode=true&characterEncoding=UTF-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
     username: root
     password: root@163
     druid:
@@ -82,8 +82,11 @@ spring:
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
 
-  # elasticsearch 配置
   data:
+    redis:
+      repositories:
+        enabled: false  # true 会出现 Spring Data Redis - Could not safely identify store assignment for repository candidate interfac
+    # elasticsearch 配置
     elasticsearch:
       #节点的地址 注意api模式下端口号是9300，千万不要写成9200
       cluster-nodes: 101.132.136.225:9300
@@ -97,13 +100,15 @@ spring:
           tcp:
             connect_timeout: 120s  # 连接超时的时间
 
+    # mongodb 配置
     mongodb:
-      host: 101.132.136.225
-      port: 27017
-      username: admin
-      password: admin
-      database: cloud_core
+      uri: mongodb://101.132.136.225:27017,101.132.136.225:27018/cloud-centre?replicaSet=rs
+      #业务数据库
+      database: cloud-core
+      # 副本集
+      replica-set: rs
       always-use-m-beans: false
+      #认证授权的数据库
       authentication-database: admin
       connect-timeout: 10000
       heartbeat-connect-timeout: 20000
@@ -112,17 +117,23 @@ spring:
       local-threshold: 15
       max-connection-idel-time: 0
       max-connection-life-time: 0
+      #每个主机的连接数
       max-connections-per-host: 100
       max-wait-time: 120000
       min-connections-per-host: 10
       min-heartbeat-frequency: 500
-      replica-set: rs0
       server-selection-timeout: 30000
       socket-keep-alive: false
+      #控制是否在一个连接时，系统会自动重试
+      auto-connect-retry: true
       socket-timeout: 0
       ssl-enabled: false
       ssl-invalid-host-name-allowed: false
+      #线程队列数，它以上面connectionsPerHost值相乘的结果就是线程队列最大值
       threads-allowed-to-block-for-connection-multiplier: 5
+      auto-index-creation: false
+      where-id-field: _id
+      field-naming-strategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
 
   # redis 配置
   redis:

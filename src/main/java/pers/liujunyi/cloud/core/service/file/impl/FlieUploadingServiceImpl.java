@@ -53,10 +53,6 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
     @Autowired
     private TenementInfoService tenementInfoService;
 
-    /**  阿里云API的bucket名称 主目录 */
-    @Value("${aliyun.oss.bucketName}")
-    public  String bucketName;
-
     /**
      * 文件保存路径
      */
@@ -174,10 +170,10 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
             FileEnum fileEnum = FileUtil.getFileTypeEnum(suffixName);
             String fileDirectory = this.getFileDirectoryNew(fileEnum.getName(), fileData);
             //文件位置
-            String fliePath = this.getPath(fileDirectory, newFileName);
+            String fliePath = this.getOssPath(fileDirectory, newFileName);
             fileData.setFilePath(fliePath);
             //上传文件到阿里云 OSS
-            AliyunOSSDataVo ossData = aliyunOSSClientUtil.uploadFile(file, bucketName, fileData );
+            AliyunOSSDataVo ossData = aliyunOSSClientUtil.uploadFile(file, fileData );
             if (ossData != null) {
                 // 组织文件数据入库
                 FileManagement fileRecord = DozerBeanMapperUtil.copyProperties(fileData, FileManagement.class);
@@ -187,6 +183,7 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
                 fileRecord.setFilePath(ossData.getFilePath());
                 fileRecord.setFileCallAddress(ossData.getUrl());
                 fileRecord.setFileCategory(fileEnum.getCode());
+                fileRecord.setFileSignature(ossData.getMd5());
                 fileRecord.setFileSize(FileUtil.getFileSize(ossData.getFileSize()));
                 fileRecord.setFileDirectory(fliePath);
                 fileRecord.setFileSuffix(suffixName);
@@ -219,6 +216,20 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
         path.append("/").append(fileName);
         return FileUtil.convertFilePath(path.toString());
     }
+
+    /**
+     * 文件路径
+     *
+     * @param fileDirectory 文件jia夹
+     * @param fileName 文件名
+     * @return
+     */
+    private String getOssPath(String fileDirectory, String fileName) {
+        StringBuffer path = new StringBuffer(fileDirectory);
+        path.append("/").append(fileName);
+        return path.toString();
+    }
+
 
 
     /**
@@ -272,12 +283,11 @@ public class FlieUploadingServiceImpl implements FlieUploadingService {
      * 1： 月份
      * 20: 日
      * 5119bc8336ee4bb2bbc2b523e88db745.jpg  文件名
-     * @return document/images/1/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
+     * @return document/images/10/2019/1/20/5119bc8336ee4bb2bbc2b523e88db745.jpg
      */
     private String getFileDirectoryNew(String prefix, FileDataDto fileData) {
         StringBuffer filePatchBuffer = new StringBuffer("document");
         filePatchBuffer.append("/").append(prefix);
-        filePatchBuffer.append("/").append(fileData.getTenementId());
         if (StringUtils.isNotBlank(fileData.getBusinessCode())) {
             filePatchBuffer.append("/").append(fileData.getBusinessCode());
         }
