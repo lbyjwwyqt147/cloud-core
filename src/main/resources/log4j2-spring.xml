@@ -205,7 +205,7 @@
         <logger name="org.crsh.ssh" level="warn"/>
         <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
         <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
-        <logger name="org.hibernate.SQL" level="DEBUG"
+        <logger name="org.hibernate.SQL" level="DEBUG" />
          <Logger name="org.hibernate.type.descriptor.sql" level="trace"
                  additivity="false">
              <AppenderRef ref="Console" />
