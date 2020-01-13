@@ -261,6 +261,9 @@ public class AliyunOSSClientUtil {
          metadata.setCacheControl("no-cache");
          // 指定该Object下设置Header
          metadata.setHeader("Pragma", "no-cache");
+         metadata.setHeader("Access-Control-Allow-Origin", "*");
+         metadata.setHeader("Access-Control-Max-Age", "3600");
+         metadata.setHeader("Access-Control-Request-Method", "GET");
          // 指定该Object被下载时的内容编码格式
          metadata.setContentEncoding("utf-8");
          // 文件的MIME，定义文件的类型及网页编码，决定浏览器将以什么形式、什么编码读取文件。如果用户没有指定则根据Key或文件名的扩展名生成，
