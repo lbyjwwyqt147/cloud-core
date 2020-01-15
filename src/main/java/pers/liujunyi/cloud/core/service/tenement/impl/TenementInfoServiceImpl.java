@@ -238,8 +238,10 @@ public class TenementInfoServiceImpl extends BaseJpaServiceImpl<TenementInfo, Lo
             JSONObject json = JSONObject.parseObject(object.toString());
             TenementInfo tenement = JSON.toJavaObject(json, TenementInfo.class);
             return tenement;
+        } else {
+            this.syncDataToRedis();
+            return jsonToObject(id);
         }
-        return null;
     }
 
     /**
