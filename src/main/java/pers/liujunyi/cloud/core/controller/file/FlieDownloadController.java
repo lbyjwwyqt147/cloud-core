@@ -43,7 +43,7 @@ public class FlieDownloadController extends BaseController {
      */
     @ApiOperation(value = "下载单个文件")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
     })
     @GetMapping(value = "ignore/file/download/{id}")

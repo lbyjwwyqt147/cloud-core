@@ -51,7 +51,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "行政区划 Combox", notes = "适用于下拉框选择 请求示例：127.0.0.1:18080/api/v1/area/combox")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "pid", value = "pid", required = true),
             @ApiImplicitParam(name = "empty", value = "是否第一项是空",  required = true)
     })
@@ -69,7 +69,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "根据ID获取名称", notes = "适用于根据ID获取名称 请求示例：127.0.0.1:18080/api/v1/area/name")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long")
     })
     @GetMapping(value = "ignore/area/name")
@@ -86,7 +86,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "根据ID获取名称  返回map", notes = "适用于根据ID获取名称 请求示例：127.0.0.1:18080/api/v1/area/map/name")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "String")
     })
     @GetMapping(value = "ignore/area/map/name")
@@ -104,7 +104,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "同步数据", notes = "适用于同步数据 请求示例：127.0.0.1:18080/api/v1/area/sync")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1")
     })
     @PostMapping(value = "verify/area/sync")
     @ApiVersion(1)
@@ -120,7 +120,7 @@ public class AreaController extends BaseController {
      */
     @ApiOperation(value = "获取全部数据", notes = "适用于获取全部数据 请求示例：127.0.0.1:18080/api/v1/area/all")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1")
     })
     @GetMapping(value = "verify/area/all")
     @ApiVersion(1)

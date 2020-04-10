@@ -43,7 +43,7 @@ public class FileManagementController extends BaseController {
      */
     @ApiOperation(value = "单条删除本地磁盘数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
     })
     @DeleteMapping(value = "ignore/file/d/{id}")
@@ -63,7 +63,7 @@ public class FileManagementController extends BaseController {
      */
     @ApiOperation(value = "批量删除本地磁盘数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
     })
     @DeleteMapping(value = "ignore/file/d/b/{id}")
@@ -83,7 +83,7 @@ public class FileManagementController extends BaseController {
      */
     @ApiOperation(value = "单条删除阿里云oss上数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id", paramType = "path", required = true, dataType = "integer")
     })
     @DeleteMapping(value = "ignore/file/oss/d/{id}")
@@ -103,7 +103,7 @@ public class FileManagementController extends BaseController {
      */
     @ApiOperation(value = "删除多条阿里云oss上数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
     })
     @DeleteMapping(value = "ignore/file/oss/d/b/{id}")
@@ -123,7 +123,7 @@ public class FileManagementController extends BaseController {
      */
     @ApiOperation(value = "根据文件id获取信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "文件id,多个id 用,隔开", paramType = "path", required = true, dataType = "string")
     })
     @GetMapping(value = "ignore/file/details/{id}")
