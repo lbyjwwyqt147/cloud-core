@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import pers.liujunyi.cloud.common.configuration.MySQLUpperCaseStrategy;
 import pers.liujunyi.cloud.common.encrypt.annotation.EnableEncrypt;
+import pers.liujunyi.cloud.common.filter.ControllerLogAopAspect;
 
 
 /***
@@ -24,7 +25,7 @@ import pers.liujunyi.cloud.common.encrypt.annotation.EnableEncrypt;
 @EnableEncrypt
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@ComponentScan(basePackages = {"pers.liujunyi.cloud"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))
+@ComponentScan(basePackages = {"pers.liujunyi.cloud"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class, ControllerLogAopAspect.class}))
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,  RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class})
 public class CloudCoreApplication {
 
