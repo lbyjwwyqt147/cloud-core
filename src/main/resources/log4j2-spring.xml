@@ -9,7 +9,7 @@
     <properties>
         <Property name = "LOG_FILE_PATH">./logs</Property>
         <Property name = "FILE_GZ">./logs/gz</Property>
-        <Property name = "LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %class{36} %L %M - %msg%xEx%n</Property>
+        <Property name = "LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} %-5level %C.%M %L - %m%n</Property>
     </properties>
 
 
