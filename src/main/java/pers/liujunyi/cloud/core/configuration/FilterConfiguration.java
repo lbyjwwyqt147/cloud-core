@@ -1,9 +1,12 @@
 package pers.liujunyi.cloud.core.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pers.liujunyi.cloud.common.configuration.SignatureSecurityConfig;
 import pers.liujunyi.cloud.common.encrypt.filter.SignAuthFilter;
+import pers.liujunyi.cloud.common.util.SystemUtils;
 
 /***
  * 过滤器 配置
@@ -12,6 +15,10 @@ import pers.liujunyi.cloud.common.encrypt.filter.SignAuthFilter;
  */
 @Configuration
 public class FilterConfiguration {
+
+    /** 需要签名校验的资源 */
+    @Autowired
+    private SignatureSecurityConfig signatureSecurityConfig;
 
     /**
      *  签名认证过滤器
@@ -30,7 +37,7 @@ public class FilterConfiguration {
     public FilterRegistrationBean signAuthFilterRegistration(
             SignAuthFilter signAuthFilter) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean(signAuthFilter);
-        registrationBean.addUrlPatterns("/api/v1/verify/*");
+        registrationBean.addUrlPatterns(SystemUtils.antMatchers(signatureSecurityConfig.getAntMatchers()));
         //过滤应用程序中所有资源,当前应用程序根下的所有文件包括多级子目录下的所有文件，注意这里*前有“/”
         //registration.addUrlPatterns("/*");
         //过滤指定的类型文件资源, 当前应用程序根目录下的所有html文件，注意：*.html前没有“/”,否则错误

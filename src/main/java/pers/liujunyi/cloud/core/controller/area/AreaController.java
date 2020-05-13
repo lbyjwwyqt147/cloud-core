@@ -106,7 +106,7 @@ public class AreaController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path",  dataType = "String", defaultValue = "v1")
     })
-    @PostMapping(value = "verify/area/sync")
+    @PostMapping(value = "ignore/area/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToElasticsearch() {
         return this.areaService.syncDataToElasticsearch();
