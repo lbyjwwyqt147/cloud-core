@@ -110,9 +110,13 @@ spring:
 
     # mongodb 配置
     mongodb:
-      uri: mongodb://127.0.0.1:27017,127.0.0.1:27018/cloud-centre?replicaSet=rs
+      uri: mongodb://101.132.136.225:27017/${spring.application.name}?replicaSet=rs
+      #host: 101.132.136.225:27017,101.132.136.225:27018
+      #port: 27017
+      #username: root
+      #password: root
       #业务数据库
-      database: cloud-core
+      database: ${spring.application.name}
       # 副本集
       replica-set: rs
       always-use-m-beans: false
