@@ -59,10 +59,10 @@ aliyun:
     #阿里云API的bucket名称
     bucketName: cloud-documents
     # 阿里云API的外网域名
-    endpoint: oss-cn-chengdu.aliyuncs.com
+    endpoint:
     # 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。建议创建并使用RAM账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建RAM账号。
-    accessKeyId: 2LTAI4FqzBwbao35jm6wptPcXG
-    accessKeySecret: lqVOfX727S8RobrS6eS4h2y3hwe3EQran
+    accessKeyId:
+    accessKeySecret:
 
 # es mapper 文件路径
 es:
